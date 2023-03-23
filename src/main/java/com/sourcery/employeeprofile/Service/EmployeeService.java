@@ -20,13 +20,11 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
     @Autowired
     ImageService imageService;
-    @Autowired
-    EmployeeMapper employeeMapper;
+
 
     public EmployeeDto create(Employee employee, MultipartFile file) throws IOException {
         Image newImage = imageService.uploadImage(file);
-        UUID newImageId = newImage.getId();
-        employee.setImage_id(newImageId);
+        employee.setImage_id(newImage.getId());
         UUID newId = UUID.randomUUID();
         employee.setId(newId);
         employeeRepository.create(employee);

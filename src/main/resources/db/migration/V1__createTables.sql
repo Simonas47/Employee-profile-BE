@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS titles
 (
-	id          UUID         DEFAULT uuid_generate_v4()   NOT NULL CONSTRAINT title_pk PRIMARY KEY,
+	id          UUID            DEFAULT uuid_generate_v4()   NOT NULL CONSTRAINT title_pk PRIMARY KEY,
 	title       VARCHAR(200)    NOT NULL
 );
 

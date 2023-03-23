@@ -16,9 +16,9 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(value = EmployeeController.QUIZ_ENDPOINT)
+@RequestMapping(value = EmployeeController.EMPLOYEE_ENDPOINT)
 public class EmployeeController {
-    public static final String QUIZ_ENDPOINT = "/employee";
+    public static final String EMPLOYEE_ENDPOINT = "/employee";
     @Autowired
     EmployeeService employeeService;
     @Autowired
@@ -26,11 +26,10 @@ public class EmployeeController {
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<EmployeeDto> create(@RequestPart("employee") Employee employee,
-                                              @RequestPart("image") MultipartFile picFile) {
+                                              @RequestPart("image") MultipartFile image) {
 
         try {
-            EmployeeDto newEmployee = employeeService.create(employee, picFile);
-            return ResponseEntity.ok(newEmployee);
+            return ResponseEntity.ok(employeeService.create(employee, image));
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
