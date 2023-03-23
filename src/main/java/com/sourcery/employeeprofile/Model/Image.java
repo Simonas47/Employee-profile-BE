@@ -1,5 +1,6 @@
 package com.sourcery.employeeprofile.Model;
 
+import jakarta.validation.Constraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,13 +8,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Title {
-
+@Data
+public class Image {
     private UUID id;
-    private String title;
-
+    private String name;
+    private String type;
+    private byte[] bytes;
 }
