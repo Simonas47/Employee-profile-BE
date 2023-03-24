@@ -4,7 +4,6 @@ import com.sourcery.employeeprofile.Dto.EmployeeDto;
 import com.sourcery.employeeprofile.Model.Employee;
 import com.sourcery.employeeprofile.Model.Image;
 import com.sourcery.employeeprofile.Repository.EmployeeRepository;
-import com.sourcery.employeeprofile.Service.Mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,11 +23,11 @@ public class EmployeeService {
 
     public EmployeeDto create(Employee employee, MultipartFile file) throws IOException {
         Image newImage = imageService.uploadImage(file);
-        employee.setImage_id(newImage.getId());
-        UUID newId = UUID.randomUUID();
-        employee.setId(newId);
+        employee.setImageId(newImage.getId());
+
         employeeRepository.create(employee);
-        return this.findById(newId).orElseThrow(IllegalStateException::new);
+
+        return this.findById(employee.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public Optional<EmployeeDto> findById(UUID id)

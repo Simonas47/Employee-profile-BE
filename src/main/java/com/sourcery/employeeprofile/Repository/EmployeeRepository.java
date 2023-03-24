@@ -11,24 +11,17 @@ import java.util.UUID;
 @Mapper
 public interface EmployeeRepository {
 
-    @Select(" SELECT e.id, e.name, e.surname, e.middle_name,e.hiring_date, e.exit_date, t.title, i.name as image_name, i.type as image_type, i.bytes as image_bytes " +
+    @Select(" SELECT e.id, e.name, e.surname, e.middleName,e.hiringDate, e.exitDate, t.title, i.name as imageName, i.type as imageType, i.bytes as imageBytes " +
             " FROM employees e " +
-            " LEFT JOIN titles t on e.title_id = t.id "+
-            " LEFT JOIN images i on e.image_id = i.id "+
+            " LEFT JOIN titles t on e.titleId = t.id "+
+            " LEFT JOIN images i on e.imageId = i.id "+
             " WHERE e.id=#{id} "
     )
-    @Results( value = {
-            @Result(property = "middle_name", column = "middle_name"),
-            @Result(property = "exit_date", column = "exit_date"),
-            @Result(property = "hiring_date", column = "hiring_date"),
-            @Result(property = "image_name", column = "image_name"),
-            @Result(property = "image_type", column = "image_type"),
-            @Result(property = "image_bytes", column = "image_bytes"),
-    })
     Optional<EmployeeDto> findById(UUID id);
 
 
-    @Insert("INSERT INTO employees (id, name, surname, middle_name, hiring_date, exit_date, title_id, image_id) " +
-            "VALUES (#{id}, #{name}, #{surname}, #{middle_name}, #{hiring_date}, #{exit_date}, #{title_id}, #{image_id});")
+    @Insert("INSERT INTO employees (name, surname, middleName, hiringDate, exitDate, titleId, imageId) " +
+            "VALUES (#{name}, #{surname}, #{middleName}, #{hiringDate}, #{exitDate}, #{titleId}, #{imageId});")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void create(Employee employee);
 }
