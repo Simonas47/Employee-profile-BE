@@ -1,6 +1,6 @@
-package com.sourcery.employeeprofile.Repository;
+package com.sourcery.employeeprofile.repository;
 
-import com.sourcery.employeeprofile.Model.Image;
+import com.sourcery.employeeprofile.model.Image;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

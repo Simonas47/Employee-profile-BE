@@ -1,8 +1,11 @@
-package com.sourcery.employeeprofile.Repository;
+package com.sourcery.employeeprofile.repository;
 
-import com.sourcery.employeeprofile.Dto.EmployeeDto;
-import com.sourcery.employeeprofile.Model.Employee;
-import org.apache.ibatis.annotations.*;
+import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.model.Employee;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,8 +20,7 @@ public interface EmployeeRepository {
             " FROM employees e " +
             " LEFT JOIN titles t on e.titleId = t.id " +
             " LEFT JOIN images i on e.imageId = i.id " +
-            " WHERE e.id=#{id} "
-    )
+            " WHERE e.id=#{id} ")
     Optional<EmployeeDto> findById(UUID id);
 
 
@@ -30,7 +32,6 @@ public interface EmployeeRepository {
     @Select(" SELECT e.id, e.name, e.surname, e.middleName,e.hiringDate, e.exitDate, t.title, i.name as imageName, i.type as imageType, i.bytes as imageBytes " +
             " FROM employees e " +
             " LEFT JOIN titles t on e.titleId = t.id " +
-            " LEFT JOIN images i on e.imageId = i.id "
-    )
+            " LEFT JOIN images i on e.imageId = i.id ")
     List<EmployeeDto> getAll();
 }

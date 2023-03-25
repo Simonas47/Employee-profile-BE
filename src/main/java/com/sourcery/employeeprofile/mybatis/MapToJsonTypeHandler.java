@@ -1,4 +1,4 @@
-package com.sourcery.employeeprofile.Mybatis;
+package com.sourcery.employeeprofile.mybatis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

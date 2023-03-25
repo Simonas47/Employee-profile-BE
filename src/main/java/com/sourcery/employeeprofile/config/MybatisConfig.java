@@ -1,4 +1,4 @@
-package com.sourcery.employeeprofile.Config;
+package com.sourcery.employeeprofile.config;
 
 import com.sourcery.employeeprofile.EmployeeProfileApplication;
 import org.mybatis.spring.annotation.MapperScan;

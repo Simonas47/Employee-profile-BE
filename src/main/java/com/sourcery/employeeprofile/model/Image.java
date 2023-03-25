@@ -1,6 +1,5 @@
-package com.sourcery.employeeprofile.Model;
+package com.sourcery.employeeprofile.model;
 
-import jakarta.validation.Constraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

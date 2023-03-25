@@ -1,17 +1,16 @@
-package com.sourcery.employeeprofile.Service;
+package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.Dto.EmployeeDto;
-import com.sourcery.employeeprofile.Model.Employee;
-import com.sourcery.employeeprofile.Model.Image;
-import com.sourcery.employeeprofile.Repository.EmployeeRepository;
+import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.model.Employee;
+import com.sourcery.employeeprofile.model.Image;
+import com.sourcery.employeeprofile.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
-import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -32,8 +31,7 @@ public class EmployeeService {
         return this.findById(employee.getId()).orElseThrow(IllegalStateException::new);
     }
 
-    public Optional<EmployeeDto> findById(UUID id)
-    {
+    public Optional<EmployeeDto> findById(UUID id) {
         return employeeRepository.findById(id);
     }
 

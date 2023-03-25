@@ -1,8 +1,8 @@
-package com.sourcery.employeeprofile.Controller;
+package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.Dto.EmployeeDto;
-import com.sourcery.employeeprofile.Model.Employee;
-import com.sourcery.employeeprofile.Service.EmployeeService;
+import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.model.Employee;
+import com.sourcery.employeeprofile.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
