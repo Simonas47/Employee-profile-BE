@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
-
 
 @RestController
 @RequestMapping(value = BASE_URL + "/employee")
@@ -46,14 +44,6 @@ public class EmployeeController {
 
     @GetMapping("/search")
     public ResponseEntity<List<EmployeeDto>> searchByEmployeeName(@RequestParam(name = "name") String searchValue) {
-        String nameLike = "%" + searchValue.toLowerCase() + "%";
-        List<EmployeeDto> employees = employeeService.getAllByName(nameLike);
-        if (employees.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-        List<EmployeeDto> sortedEmployeeList = employees.stream()
-                .sorted(Comparator.comparing(EmployeeDto::getName))
-                .toList();
-        return ResponseEntity.status(HttpStatus.OK).body(sortedEmployeeList);
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllByName(searchValue));
     }
 }

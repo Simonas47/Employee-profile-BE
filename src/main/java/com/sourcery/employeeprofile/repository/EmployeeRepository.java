@@ -23,7 +23,6 @@ public interface EmployeeRepository {
             " WHERE e.id=#{id} ")
     Optional<EmployeeDto> findById(UUID id);
 
-
     @Insert("INSERT INTO employees (name, surname, middleName, hiringDate, exitDate, titleId, imageId) " +
             "VALUES (#{name}, #{surname}, #{middleName}, #{hiringDate}, #{exitDate}, #{titleId}, #{imageId});")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
@@ -33,6 +32,7 @@ public interface EmployeeRepository {
             " FROM employees e " +
             " LEFT JOIN titles t on e.titleId = t.id " +
             " LEFT JOIN images i on e.imageId = i.id " +
-            " WHERE LOWER(e.name) LIKE #{searchValue} OR LOWER(e.surname) LIKE #{searchValue} OR LOWER(e.middleName) LIKE #{searchValue}")
+            " WHERE LOWER(e.name) LIKE #{searchValue} OR LOWER(e.surname) LIKE #{searchValue} OR LOWER(e.middleName) LIKE #{searchValue} " +
+            " ORDER BY e.name ASC ")
     List<EmployeeDto> getAllByName(String searchValue);
 }

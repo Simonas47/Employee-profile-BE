@@ -23,5 +23,4 @@ public class EmployeeDto {
     private String imageName;
     private String imageType;
     private byte[] imageBytes;
-
 }

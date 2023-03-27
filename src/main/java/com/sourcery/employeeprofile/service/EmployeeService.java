@@ -36,6 +36,7 @@ public class EmployeeService {
     }
 
     public List<EmployeeDto> getAllByName(String searchValue) {
-        return employeeRepository.getAllByName(searchValue);
+        String nameLike = "%" + searchValue.toLowerCase() + "%";
+        return employeeRepository.getAllByName(nameLike);
     }
 }

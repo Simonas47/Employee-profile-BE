@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
 
-
 @Service
 public class ImageService {
 
@@ -26,12 +25,10 @@ public class ImageService {
         UUID newId = UUID.randomUUID();
         imageModel.setId(newId);
         imageRepository.create(imageModel);
-        Image newImage = imageRepository.findById(newId);
-        return newImage;
+        return imageRepository.findById(newId);
     }
 
     public Image findById(UUID id) {
         return imageRepository.findById(id);
     }
-
 }

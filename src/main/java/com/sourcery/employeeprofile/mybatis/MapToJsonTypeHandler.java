@@ -48,7 +48,6 @@ public class MapToJsonTypeHandler extends BaseTypeHandler<Map<String, ?>> {
         return stringToMap(cs.getString(columnIndex));
     }
 
-
     private Map<String, ?> stringToMap(String str) {
         if (str == null) {
             return null;
