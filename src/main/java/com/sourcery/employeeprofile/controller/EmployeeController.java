@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,22 +46,14 @@ public class EmployeeController {
 
     @GetMapping("/search")
     public ResponseEntity<List<EmployeeDto>> searchByEmployeeName(@RequestParam(name = "name") String searchValue) {
-        List<EmployeeDto> employees = employeeService.getAll();
-        List<EmployeeDto> employeesResult = new ArrayList<>();
-        employees.forEach(employeeDto -> {
-            String fullName;
-            if (employeeDto.getMiddleName() != null) {
-                fullName = employeeDto.getName() + " " + employeeDto.getMiddleName() + " " + employeeDto.getSurname();
-            } else {
-                fullName = employeeDto.getName() + " " + employeeDto.getSurname();
-            }
-            if (fullName.toLowerCase().contains(searchValue.toLowerCase())) {
-                employeesResult.add(employeeDto);
-            }
-        });
-        if (employeesResult.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        String nameLike = "%" + searchValue.toLowerCase() + "%";
+        List<EmployeeDto> employees = employeeService.getAllByName(nameLike);
+        if (employees.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return ResponseEntity.status(HttpStatus.FOUND).body(employeesResult);
+        List<EmployeeDto> sortedEmployeeList = employees.stream()
+                .sorted(Comparator.comparing(EmployeeDto::getName))
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(sortedEmployeeList);
     }
 }

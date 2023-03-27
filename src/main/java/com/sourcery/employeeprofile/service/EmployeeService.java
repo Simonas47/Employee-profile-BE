@@ -35,7 +35,7 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    public List<EmployeeDto> getAll() {
-        return employeeRepository.getAll();
+    public List<EmployeeDto> getAllByName(String searchValue) {
+        return employeeRepository.getAllByName(searchValue);
     }
 }

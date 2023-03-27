@@ -32,6 +32,7 @@ public interface EmployeeRepository {
     @Select(" SELECT e.id, e.name, e.surname, e.middleName,e.hiringDate, e.exitDate, t.title, i.name as imageName, i.type as imageType, i.bytes as imageBytes " +
             " FROM employees e " +
             " LEFT JOIN titles t on e.titleId = t.id " +
-            " LEFT JOIN images i on e.imageId = i.id ")
-    List<EmployeeDto> getAll();
+            " LEFT JOIN images i on e.imageId = i.id " +
+            " WHERE LOWER(e.name) LIKE #{searchValue} OR LOWER(e.surname) LIKE #{searchValue} OR LOWER(e.middleName) LIKE #{searchValue}")
+    List<EmployeeDto> getAllByName(String searchValue);
 }
