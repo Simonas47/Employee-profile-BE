@@ -42,8 +42,10 @@ public class EmployeeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<EmployeeDto>> searchByEmployeeName(@RequestParam(name = "name") String searchValue) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllByName(searchValue));
+    @GetMapping(value = "/search", produces = "application/json")
+    public ResponseEntity<List<EmployeeDto>> getAllByNameLike(@RequestParam(value = "name") String name,
+                                                              @RequestParam(value = "limit",
+                                                                      required = false) Integer limit) {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllByNameLike(name, null));
     }
 }
