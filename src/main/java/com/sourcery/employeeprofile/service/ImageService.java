@@ -11,24 +11,22 @@ import java.util.UUID;
 
 @Service
 public class ImageService {
-
     @Autowired
     ImageRepository imageRepository;
 
-    public Image uploadImage(MultipartFile file) throws IOException {
+    public Image createNewImage(MultipartFile file) throws IOException {
         Image imageModel = Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .bytes(file.getBytes())
                 .build();
-
         UUID newId = UUID.randomUUID();
         imageModel.setId(newId);
-        imageRepository.create(imageModel);
-        return imageRepository.findById(newId);
+        imageRepository.createNewImage(imageModel);
+        return imageRepository.getById(newId);
     }
 
-    public Image findById(UUID id) {
-        return imageRepository.findById(id);
+    public Image getById(UUID id) {
+        return imageRepository.getById(id);
     }
 }

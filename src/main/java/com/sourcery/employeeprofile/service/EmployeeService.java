@@ -21,18 +21,15 @@ public class EmployeeService {
     @Autowired
     ImageService imageService;
 
-
-    public EmployeeDto create(Employee employee, MultipartFile file) throws IOException {
-        Image newImage = imageService.uploadImage(file);
+    public EmployeeDto createNewEmployee(Employee employee, MultipartFile file) throws IOException {
+        Image newImage = imageService.createNewImage(file);
         employee.setImageId(newImage.getId());
-
-        employeeRepository.create(employee);
-
-        return this.findById(employee.getId()).orElseThrow(IllegalStateException::new);
+        employeeRepository.createNewEmployee(employee);
+        return this.getById(employee.getId()).orElseThrow(IllegalStateException::new);
     }
 
-    public Optional<EmployeeDto> findById(UUID id) {
-        return employeeRepository.findById(id);
+    public Optional<EmployeeDto> getById(UUID id) {
+        return employeeRepository.getById(id);
     }
 
     public List<EmployeeDto> getAllByNameLike(String searchValue, Integer limit) {

@@ -13,18 +13,12 @@ import java.util.UUID;
 @Repository
 @Mapper
 public interface EmployeeRepository {
-
-    @Select(" SELECT e.id, e.name, e.surname, e.middleName, e.hiringDate, e.exitDate, t.title, i.name as imageName, i.type as imageType, i.bytes as imageBytes " +
-            " FROM employees e " +
-            " LEFT JOIN titles t on e.titleId = t.id " +
-            " LEFT JOIN images i on e.imageId = i.id " +
-            " WHERE e.id=#{id} ")
-    Optional<EmployeeDto> findById(UUID id);
-
-    @Insert("INSERT INTO employees (name, surname, middleName, hiringDate, exitDate, titleId, imageId) " +
-            "VALUES (#{name}, #{surname}, #{middleName}, #{hiringDate}, #{exitDate}, #{titleId}, #{imageId});")
+    @InsertProvider(type = EmployeeSqlProvider.class, method = "createNewEmployee")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    void create(Employee employee);
+    void createNewEmployee(Employee employee);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getById")
+    Optional<EmployeeDto> getById(@Param("id") UUID id);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getAllByNameLike")
     List<EmployeeDto> getAllByNameLike(@Param("name") String name,

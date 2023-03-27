@@ -1,9 +1,10 @@
 package com.sourcery.employeeprofile.repository;
 
 import com.sourcery.employeeprofile.model.Image;
-import org.apache.ibatis.annotations.Insert;
+import com.sourcery.employeeprofile.repository.sqlprovider.ImageSqlProvider;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -11,10 +12,9 @@ import java.util.UUID;
 @Repository
 @Mapper
 public interface ImageRepository {
-    @Insert("INSERT INTO images (id, name, type, bytes) " +
-            "VALUES (#{id}, #{name}, #{type}, #{bytes});")
-    void create(Image image);
+    @InsertProvider(type = ImageSqlProvider.class, method = "createNewImage")
+    void createNewImage(Image image);
 
-    @Select("SELECT * FROM images WHERE id=#{id};")
-    Image findById(UUID id);
+    @SelectProvider(type = ImageSqlProvider.class, method = "getById")
+    Image getById(UUID id);
 }

@@ -24,20 +24,19 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<EmployeeDto> create(@RequestPart("employee") Employee employee,
-                                              @RequestPart("image") MultipartFile image) {
-
+    public ResponseEntity<EmployeeDto> createNewEmployee(@RequestPart("employee") Employee employee,
+                                                         @RequestPart("image") MultipartFile image) {
         try {
-            return ResponseEntity.ok(employeeService.create(employee, image));
+            return ResponseEntity.ok(employeeService.createNewEmployee(employee, image));
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<EmployeeDto> getById(@PathVariable UUID id) {
-        return employeeService.findById(id)
+        return employeeService.getById(id)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
     }
