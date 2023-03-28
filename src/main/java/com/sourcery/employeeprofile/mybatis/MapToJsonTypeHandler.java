@@ -1,4 +1,4 @@
-package com.sourcery.employeeprofile.Mybatis;
+package com.sourcery.employeeprofile.mybatis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +47,6 @@ public class MapToJsonTypeHandler extends BaseTypeHandler<Map<String, ?>> {
     public Map<String, ?> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return stringToMap(cs.getString(columnIndex));
     }
-
 
     private Map<String, ?> stringToMap(String str) {
         if (str == null) {

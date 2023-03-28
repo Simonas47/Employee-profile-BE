@@ -1,25 +1,24 @@
-package com.sourcery.employeeprofile.Dto;
+package com.sourcery.employeeprofile.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.util.UUID;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-public class EmployeeDto {
+public class Employee {
     private UUID id;
     private String name;
     private String surname;
     private String middleName;
-    private String title;
     private Date hiringDate;
     private Date exitDate;
-    private String imageName;
-    private String imageType;
-    private byte[] imageBytes;
-
+    private UUID imageId;
+    private UUID titleId;
 }
