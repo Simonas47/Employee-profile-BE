@@ -28,10 +28,8 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                         "t.title",
                         "i.name as imageName", "i.type as imageType", "i.bytes as imageBytes")
                 .FROM("employees e")
-                .LEFT_OUTER_JOIN("titles t on e.titleId = t.id", "images i on e.imageId = i.id");
-        if (id != null) {
-            sql.WHERE("e.id = #{id}");
-        }
+                .LEFT_OUTER_JOIN("titles t on e.titleId = t.id", "images i on e.imageId = i.id")
+                .WHERE("e.id = #{id}");
         return sql.toString();
     }
 
@@ -42,13 +40,11 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                         "t.title",
                         "i.name as imageName", "i.type as imageType", "i.bytes as imageBytes")
                 .FROM("employees e")
-                .LEFT_OUTER_JOIN("titles t on e.titleId = t.id", "images i on e.imageId = i.id");
-        if (name != null) {
-            sql.WHERE("LOWER(e.name) LIKE #{name}").OR()
-                    .WHERE("LOWER(e.surname) LIKE #{name}").OR()
-                    .WHERE("LOWER(e.middleName) LIKE #{name}");
-        }
-        sql.ORDER_BY("e.name ASC");
+                .LEFT_OUTER_JOIN("titles t on e.titleId = t.id", "images i on e.imageId = i.id")
+                .WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
+                .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
+                .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})")
+                .ORDER_BY("e.name ASC");
         if (limit != null) {
             sql.LIMIT("#{limit}");
         } else {

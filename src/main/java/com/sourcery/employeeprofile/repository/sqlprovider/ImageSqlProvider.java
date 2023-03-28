@@ -22,10 +22,8 @@ public class ImageSqlProvider implements ProviderMethodResolver {
     public static String getById(@Param("id") UUID id) {
         SQL sql = new SQL()
                 .SELECT("*")
-                .FROM("images");
-        if (id != null) {
-            sql.WHERE("id = #{id}");
-        }
+                .FROM("images")
+                .WHERE("id = #{id}");
         return sql.toString();
     }
 }
