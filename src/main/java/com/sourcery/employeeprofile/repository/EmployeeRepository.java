@@ -20,7 +20,6 @@ public interface EmployeeRepository {
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getById")
     Optional<EmployeeDto> getById(@Param("id") UUID id);
 
-    @SelectProvider(type = EmployeeSqlProvider.class, method = "getAllByNameLike")
-    List<EmployeeDto> getAllByNameLike(@Param("name") String name,
-                                       @Param("limit") Integer limit);
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployees")
+    List<EmployeeDto> getEmployees(@Param("name") String name, @Param("page") Integer page, @Param("size") Integer size);
 }

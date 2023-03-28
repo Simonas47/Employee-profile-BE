@@ -9,7 +9,6 @@ spring:
 mybatis:
   type-handlers-package: com.sourcery.employeeProfile.mybatis
   type-aliases-package: com.sourcery.employeeProfile.mybatis
-  annotationClass: org.springframework.boot.mybatis.autoconfigure.Mapper
   configuration:
     map-underscore-to-camel-case: true
 
