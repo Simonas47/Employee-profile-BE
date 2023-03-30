@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
+import static com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider.DEFAULT_LIMIT;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/employee")
@@ -35,14 +36,17 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping(value = "/search", params = {"name", "page", "size"})
+    @GetMapping(value = "/search", params = {"name", "page", "size"}, produces = "application/json")
     public ResponseEntity<SearchEmployeePageDto> searchByName(@RequestParam(value = "name", required = false) String name,
                                                               @RequestParam(value = "page", required = false) Integer page,
                                                               @RequestParam(value = "size", required = false) Integer size) {
+        page++;
+        if (size == -1) size = DEFAULT_LIMIT;
+        else if (size == null || size < 10) size = 10;
+        if (page == null || page < 1) page = 1;
 
-
-        List<EmployeeDto> employees = employeeService.getEmployees(name, page + 1, size);
-        Integer employeeCount = employeeService.getEmployeeCount(name);
+        List<EmployeeDto> employees = employeeService.getEmployees(name, page, size);
+        Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SearchEmployeePageDto(employeeCount, employees));
