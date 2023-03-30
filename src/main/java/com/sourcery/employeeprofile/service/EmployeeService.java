@@ -36,4 +36,9 @@ public class EmployeeService {
         String nameLike = "%" + searchValue + "%";
         return employeeRepository.getEmployees(nameLike, page, size);
     }
+
+    public Integer getEmployeeCount(String searchValue) {
+        String nameLike = "%" + searchValue + "%";
+        return employeeRepository.getEmployeeCount(nameLike);
+    }
 }

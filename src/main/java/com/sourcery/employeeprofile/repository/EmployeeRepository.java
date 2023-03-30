@@ -22,4 +22,7 @@ public interface EmployeeRepository {
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployees")
     List<EmployeeDto> getEmployees(@Param("name") String name, @Param("page") Integer page, @Param("size") Integer size);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCount")
+    Integer getEmployeeCount(@Param("name") String name);
 }

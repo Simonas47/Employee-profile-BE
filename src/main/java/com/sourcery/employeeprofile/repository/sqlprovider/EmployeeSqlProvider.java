@@ -41,9 +41,21 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .FROM("employees e")
                 .LEFT_OUTER_JOIN("titles t on e.titleId = t.id", "images i on e.imageId = i.id")
                 .ORDER_BY("e.name ASC");
-        if (size != null) sql.LIMIT("#{size}");
+        if (size != null && size > 0) sql.LIMIT("#{size}");
         else sql.LIMIT(DEFAULT_LIMIT);
-        if (page != null) sql.OFFSET("#{page} * #{size} - #{size}");
+        if (page != null && page > 0) sql.OFFSET("#{page} * #{size} - #{size}");
+        if (name != null) {
+            sql.WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
+                    .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
+                    .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})");
+        }
+        return sql.toString();
+    }
+
+    public static String getEmployeeCount(@Param("name") String name) {
+        SQL sql = new SQL()
+                .SELECT("COUNT(1)")
+                .FROM("employees e");
         if (name != null) {
             sql.WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
                     .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
