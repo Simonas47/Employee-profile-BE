@@ -32,8 +32,13 @@ public class EmployeeService {
         return employeeRepository.getById(id);
     }
 
-    public List<EmployeeDto> getAllByNameLike(String searchValue, Integer limit) {
+    public List<EmployeeDto> getEmployees(String searchValue, Integer page, Integer size) {
         String nameLike = "%" + searchValue + "%";
-        return employeeRepository.getAllByNameLike(nameLike, limit);
+        return employeeRepository.getEmployees(nameLike, page, size);
+    }
+
+    public Integer getEmployeeCountByName(String searchValue) {
+        String nameLike = "%" + searchValue + "%";
+        return employeeRepository.getEmployeeCountByName(nameLike);
     }
 }
