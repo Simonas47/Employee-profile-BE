@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
-import static com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider.DEFAULT_LIMIT;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/employee")
@@ -24,6 +23,9 @@ import static com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlPro
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
+
+    public static final int DEFAULT_PAGE_SIZE = 100;
+    public static final int MINIMAL_PAGE_SIZE = 10;
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
     public ResponseEntity<EmployeeDto> createNewEmployee(@RequestPart("employee") Employee employee,
@@ -37,15 +39,15 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/search", params = {"name", "page", "size"}, produces = "application/json")
-    public ResponseEntity<SearchEmployeePageDto> searchByName(@RequestParam(value = "name", required = false) String name,
+    public ResponseEntity<SearchEmployeePageDto> searchByName(@RequestParam(value = "name", required = true) String name,
                                                               @RequestParam(value = "page", required = false) Integer page,
                                                               @RequestParam(value = "size", required = false) Integer size) {
-        page++;
-        if (size == -1) size = DEFAULT_LIMIT;
-        else if (size == null || size < 10) size = 10;
-        if (page == null || page < 1) page = 1;
+        if (size == -1) size = DEFAULT_PAGE_SIZE;
+        else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
+        if (page == null || page < 0) page = 0;
 
-        List<EmployeeDto> employees = employeeService.getEmployees(name, page, size);
+
+        List<EmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
         return ResponseEntity.status(HttpStatus.OK)

@@ -7,7 +7,7 @@ import org.apache.ibatis.jdbc.SQL;
 import java.util.UUID;
 
 public class EmployeeSqlProvider implements ProviderMethodResolver {
-    public static final int DEFAULT_LIMIT = 100;
+
 
     public static String createNewEmployee() {
         SQL sql = new SQL()
