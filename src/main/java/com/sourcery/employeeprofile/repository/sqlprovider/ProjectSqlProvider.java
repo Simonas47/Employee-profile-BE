@@ -32,4 +32,28 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .ORDER_BY("projects.startDate ASC");
         return sql.toString();
     }
+
+    public static String createNewProjectRelationship() {
+        SQL sql = new SQL()
+                .INSERT_INTO("relationships")
+                .VALUES("projectId", "#{projectId}")
+                .VALUES("employeeId", "#{employeeId}");
+        return sql.toString();
+    }
+
+    public static String getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("relationships")
+                .WHERE("relationships.projectId = #{projectId}");
+        return sql.toString();
+    }
+
+    public static String getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("relationships")
+                .WHERE("relationships.employeeId = #{employeeId}");
+        return sql.toString();
+    }
 }
