@@ -1,6 +1,8 @@
 package com.sourcery.employeeprofile.controller;
 
+import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.model.Project;
+import com.sourcery.employeeprofile.model.ProjectRelationship;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,5 +42,25 @@ public class ProjectController {
     @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<List<Project>> getAllProjects() {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getAllProjects());
+    }
+
+    @PostMapping()
+    public ResponseEntity<List<ProjectRelationship>> createNewProjectRelationship(@RequestPart("project") Project project,
+                                                                                  @RequestPart("employee") Employee employee) {
+        return ResponseEntity.ok(projectService.createNewProjectRelationship(project, employee));
+    }
+
+    @GetMapping(value = "/byProject/{projectId}", produces = "application/json")
+    public ResponseEntity<List<ProjectRelationship>> getProjectRelationshipsByProjectId(@PathVariable UUID projectId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(projectService.getProjectRelationshipsByProjectId(projectId));
+    }
+
+    @GetMapping(value = "/byEmployee/{employeeId}", produces = "application/json")
+    public ResponseEntity<List<ProjectRelationship>> getProjectRelationshipsByEmployeeId(@PathVariable UUID employeeId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
     }
 }
