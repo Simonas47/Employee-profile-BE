@@ -19,23 +19,23 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
 
     public static String getProjectById(@Param("id") UUID id) {
         SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("projects")
-                .WHERE("projects.id = #{id}");
+                .SELECT("p.id", "p.title", "p.startDate", "p.endDate", "p.description")
+                .FROM("projects p")
+                .WHERE("p.id = #{id}");
         return sql.toString();
     }
 
     public static String getAllProjects() {
         SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("projects")
-                .ORDER_BY("projects.startDate ASC");
+                .SELECT("p.id", "p.title", "p.startDate", "p.endDate", "p.description")
+                .FROM("projects p")
+                .ORDER_BY("p.startDate ASC");
         return sql.toString();
     }
 
     public static String createNewProjectRelationship() {
         SQL sql = new SQL()
-                .INSERT_INTO("relationships")
+                .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
                 .VALUES("employeeId", "#{employeeId}");
         return sql.toString();
@@ -44,16 +44,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     public static String getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId) {
         SQL sql = new SQL()
                 .SELECT("*")
-                .FROM("relationships")
-                .WHERE("relationships.projectId = #{projectId}");
-        return sql.toString();
-    }
-
-    public static String getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId) {
-        SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("relationships")
-                .WHERE("relationships.employeeId = #{employeeId}");
+                .FROM("projects_employees")
+                .WHERE("projects_employees.projectId = #{projectId}");
         return sql.toString();
     }
 }
