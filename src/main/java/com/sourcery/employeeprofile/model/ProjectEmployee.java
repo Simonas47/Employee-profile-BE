@@ -11,7 +11,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProjectRelationship {
+public class ProjectEmployee {
+    private UUID id;
     private UUID projectId;
     private UUID employeeId;
 }
