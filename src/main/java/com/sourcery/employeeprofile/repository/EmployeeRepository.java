@@ -25,4 +25,7 @@ public interface EmployeeRepository {
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCountByName")
     Integer getEmployeeCountByName(@Param("name") String name);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeesByProjectId")
+    List<EmployeeDto> getEmployeesByProjectId(@Param("projectId") UUID projectId);
 }
