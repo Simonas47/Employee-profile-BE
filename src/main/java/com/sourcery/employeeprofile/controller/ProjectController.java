@@ -1,8 +1,8 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.model.Employee;
+import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.model.Project;
-import com.sourcery.employeeprofile.model.ProjectRelationship;
+import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class ProjectController {
     ProjectService projectService;
 
     @PostMapping()
-    public ResponseEntity<Project> createNewProject(@RequestPart("project") Project project) {
+    public ResponseEntity<ProjectDto> createNewProject(@RequestPart("project") Project project) {
         try {
             return ResponseEntity.ok(projectService.createNewProject(project));
         } catch (IOException e) {
@@ -33,34 +33,27 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Project> getProjectById(@PathVariable UUID id) {
+    public ResponseEntity<ProjectDto> getProjectById(@PathVariable UUID id) {
         return projectService.getProjectById(id)
-                .map(Project -> ResponseEntity.ok(Project))
+                .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "/all", produces = "application/json")
-    public ResponseEntity<List<Project>> getAllProjects() {
+    public ResponseEntity<List<ProjectDto>> getAllProjects() {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getAllProjects());
     }
 
-    @PostMapping()
-    public ResponseEntity<List<ProjectRelationship>> createNewProjectRelationship(@RequestPart("project") Project project,
-                                                                                  @RequestPart("employee") Employee employee) {
-        return ResponseEntity.ok(projectService.createNewProjectRelationship(project, employee));
+    @PostMapping(value = "/addEmployee")
+    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") UUID projectId,
+                                                                              @RequestPart("employeeId") UUID employeeId) {
+        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId));
     }
 
-    @GetMapping(value = "/byProject/{projectId}", produces = "application/json")
-    public ResponseEntity<List<ProjectRelationship>> getProjectRelationshipsByProjectId(@PathVariable UUID projectId) {
+    @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")
+    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable UUID projectId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(projectService.getProjectRelationshipsByProjectId(projectId));
-    }
-
-    @GetMapping(value = "/byEmployee/{employeeId}", produces = "application/json")
-    public ResponseEntity<List<ProjectRelationship>> getProjectRelationshipsByEmployeeId(@PathVariable UUID employeeId) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
     }
 }
