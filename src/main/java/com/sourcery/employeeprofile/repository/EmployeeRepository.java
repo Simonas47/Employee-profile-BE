@@ -23,4 +23,7 @@ public interface EmployeeRepository {
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getAllByNameLike")
     List<EmployeeDto> getAllByNameLike(@Param("name") String name,
                                        @Param("limit") Integer limit);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeesByProjectId")
+    List<EmployeeDto> getEmployeesByProjectId(@Param("projectId") UUID projectId);
 }
