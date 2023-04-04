@@ -7,8 +7,6 @@ import org.apache.ibatis.jdbc.SQL;
 import java.util.UUID;
 
 public class ImageSqlProvider implements ProviderMethodResolver {
-    static final int DEFAULT_LIMIT = 100;
-
     public static String createNewImage() {
         SQL sql = new SQL()
                 .INSERT_INTO("images")

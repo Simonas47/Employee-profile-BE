@@ -32,7 +32,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<ProjectDto> getProjectById(@PathVariable UUID id) {
         return projectService.getProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))

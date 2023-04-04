@@ -33,20 +33,22 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getEmployees(@Param("name") String name, @Param("page") Integer page, @Param("pageSize") Integer pageSize ) {
+    public static String getEmployees(@Param("name") String name,
+                                      @Param("page") Integer page,
+                                      @Param("pageSize") Integer pageSize) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.hiringDate", "e.exitDate", "e.status",
                         "t.title",
-                        "i.name as imageName", "i.type as imageType", "i.bytes as imageBytes")
+                        "i.name AS imageName", "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("employees e")
                 .WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
                 .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
                 .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})")
-                .LEFT_OUTER_JOIN("titles t on e.titleId = t.id", "images i on e.imageId = i.id")
+                .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
+                        "images i ON e.imageId = i.id")
                 .ORDER_BY("e.name ASC")
-                .LIMIT("#{pageSize }")
+                .LIMIT("#{pageSize}")
                 .OFFSET("#{page} * #{pageSize} - #{pageSize}");
-
         return sql.toString();
     }
 
@@ -57,13 +59,12 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
                 .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
                 .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})");
-
         return sql.toString();
     }
 
     public static String getEmployeesByProjectId(@Param("projectId") UUID projectId) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.hiringDate", "e.exitDate",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.hiringDate", "e.exitDate", "e.status",
                         "t.title",
                         "i.name AS imageName", "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("projects_employees pe")
