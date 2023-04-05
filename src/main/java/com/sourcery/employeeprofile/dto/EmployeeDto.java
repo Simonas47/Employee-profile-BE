@@ -20,6 +20,7 @@ public class EmployeeDto {
     private String title;
     private Date hiringDate;
     private Date exitDate;
+    private String status;
     private String imageName;
     private String imageType;
     private byte[] imageBytes;

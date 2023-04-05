@@ -19,6 +19,7 @@ public class Employee {
     private String middleName;
     private Date hiringDate;
     private Date exitDate;
+    private String status;
     private UUID imageId;
     private UUID titleId;
 }
