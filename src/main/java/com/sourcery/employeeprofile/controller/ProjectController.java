@@ -23,7 +23,7 @@ public class ProjectController {
     ProjectService projectService;
 
     @PostMapping()
-    public ResponseEntity<ProjectDto> createNewProject(@RequestPart("project") Project project) {
+    public ResponseEntity<ProjectDto> createNewProject(@RequestBody Project project) {
         try {
             return ResponseEntity.ok(projectService.createNewProject(project));
         } catch (IOException e) {
