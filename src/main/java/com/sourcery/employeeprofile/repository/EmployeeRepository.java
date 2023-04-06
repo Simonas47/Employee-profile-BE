@@ -21,8 +21,13 @@ public interface EmployeeRepository {
     Optional<EmployeeDto> getById(@Param("id") UUID id);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployees")
-    List<EmployeeDto> getEmployees(@Param("name") String name, @Param("page") Integer page, @Param("pageSize") Integer pageSize );
+    List<EmployeeDto> getEmployees(@Param("name") String name,
+                                   @Param("page") Integer page,
+                                   @Param("pageSize") Integer pageSize);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCountByName")
     Integer getEmployeeCountByName(@Param("name") String name);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeesByProjectId")
+    List<EmployeeDto> getEmployeesByProjectId(@Param("projectId") UUID projectId);
 }
