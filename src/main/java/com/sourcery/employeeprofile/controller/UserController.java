@@ -1,6 +1,6 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.UserDto;
+import com.sourcery.employeeprofile.model.User;
 import com.sourcery.employeeprofile.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ public class UserController {
         if (email == null || password == null) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<UserDto> user = userService.getByEmailAndPassword(email, password);
+        Optional<User> user = userService.getByEmailAndPassword(email, password);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("redirectUrl", "http://localhost:3000/some-page");
+        responseBody.put("redirectUrl", "/main");
         return ResponseEntity.ok(responseBody);
     }
 }
