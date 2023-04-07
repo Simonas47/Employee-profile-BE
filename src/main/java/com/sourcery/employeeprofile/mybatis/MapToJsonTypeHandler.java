@@ -14,10 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-
 @Alias("MapToJson")
 public class MapToJsonTypeHandler extends BaseTypeHandler<Map<String, ?>> {
-
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -58,5 +56,4 @@ public class MapToJsonTypeHandler extends BaseTypeHandler<Map<String, ?>> {
             throw new RuntimeException("Failed to parse json", e);
         }
     }
-
 }

@@ -23,7 +23,6 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
-
     public static final int DEFAULT_PAGE_SIZE = 100;
     public static final int MINIMAL_PAGE_SIZE = 10;
 
@@ -46,18 +45,17 @@ public class EmployeeController {
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
         if (page == null || page < 0) page = 0;
 
-
         List<EmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SearchEmployeePageDto(employeeCount, employees));
     }
-        @GetMapping(value = "/get/{id}", produces = "application/json")
-        public ResponseEntity<EmployeeDto> getById (@PathVariable UUID id){
-            return employeeService.getById(id)
-                    .map(employeeDto -> ResponseEntity.ok(employeeDto))
-                    .orElse(ResponseEntity.notFound().build());
-        }
 
+    @GetMapping(value = "/get/{id}", produces = "application/json")
+    public ResponseEntity<EmployeeDto> getById(@PathVariable UUID id) {
+        return employeeService.getById(id)
+                .map(employeeDto -> ResponseEntity.ok(employeeDto))
+                .orElse(ResponseEntity.notFound().build());
     }
+}
