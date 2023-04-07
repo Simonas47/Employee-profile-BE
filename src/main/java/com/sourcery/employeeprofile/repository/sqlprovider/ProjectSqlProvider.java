@@ -13,8 +13,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .VALUES("title", "#{title}")
                 .VALUES("startDate", "#{startDate}")
                 .VALUES("endDate", "#{endDate}")
-                .VALUES("description", "#{description}")
-                .VALUES("deleted", "#{deleted}");
+                .VALUES("description", "#{description}");
         return sql.toString();
     }
 
