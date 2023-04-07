@@ -29,6 +29,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.startDate", "p.endDate", "p.description")
                 .FROM("projects p")
+                .WHERE("p.deleted = false")
                 .ORDER_BY("p.startDate ASC");
         return sql.toString();
     }
@@ -48,4 +49,13 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .WHERE("projects_employees.projectId = #{projectId}");
         return sql.toString();
     }
+
+    // This is a soft delete (the project is not removed from the database)
+    public static String deleteProjectById(@Param("id") UUID id) {
+        SQL sql = new SQL()
+                .UPDATE("projects")
+                .SET("deleted = true")
+                .WHERE("id = #{id}");
+        return sql.toString();
+    }    
 }

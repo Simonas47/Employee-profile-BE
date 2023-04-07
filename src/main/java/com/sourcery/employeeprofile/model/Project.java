@@ -18,4 +18,5 @@ public class Project {
     private Date startDate;
     private Date endDate;
     private String description;
+    private Boolean deleted;
 }

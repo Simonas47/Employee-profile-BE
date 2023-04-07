@@ -61,4 +61,9 @@ public class ProjectService {
     public List<ProjectEmployee> getProjectRelationshipsByProjectId(UUID projectId) {
         return projectRepository.getProjectRelationshipsByProjectId(projectId);
     }
+
+    public Optional<ProjectDto> deleteProjectById(UUID id) {
+        projectRepository.deleteProjectById(id);
+        return this.getProjectById(id);
+    }
 }

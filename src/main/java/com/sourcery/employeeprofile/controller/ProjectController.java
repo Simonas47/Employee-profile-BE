@@ -56,4 +56,11 @@ public class ProjectController {
                 .status(HttpStatus.OK)
                 .body(projectService.getProjectRelationshipsByProjectId(projectId));
     }
+
+    @PatchMapping(value = "/delete/{id}", produces = "application/json")
+    public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable UUID id) {
+        return projectService.deleteProjectById(id)
+            .map(projectDto -> ResponseEntity.ok(projectDto))
+            .orElse(ResponseEntity.notFound().build());
+    }
 }

@@ -27,4 +27,7 @@ public interface ProjectRepository {
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId);
+
+    @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
+    void deleteProjectById(@Param("id") UUID id);
 }
