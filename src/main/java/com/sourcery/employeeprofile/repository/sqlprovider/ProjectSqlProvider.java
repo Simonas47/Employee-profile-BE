@@ -1,12 +1,16 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
+import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.ProjectDto;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ProjectSqlProvider implements ProviderMethodResolver {
+
     public static String createNewProject() {
         SQL sql = new SQL()
                 .INSERT_INTO("projects")
@@ -14,6 +18,34 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .VALUES("startDate", "#{startDate}")
                 .VALUES("endDate", "#{endDate}")
                 .VALUES("description", "#{description}");
+        return sql.toString();
+    }
+    public static String updateProject() {
+        SQL sql = new SQL()
+                .UPDATE("projects")
+                .SET("title = #{title}")
+                .SET("description = #{description}")
+                .SET("startDate = #{startDate}")
+                .SET("endDate = #{endDate}")
+                .WHERE("id = #{id}");
+        return sql.toString();
+    }
+
+    public static String addEmployeesToProject(UUID projectId, List<EmployeeDto> employees) {
+        SQL sql = new SQL()
+                .INSERT_INTO("projects_employees")
+                .INTO_COLUMNS("projectId", "employeeId");
+        for (EmployeeDto employee : employees) {
+            UUID employeeId = employee.getId();
+            sql.VALUES("#{projectId}", "#{employeeId)");
+        }
+        return sql.toString();
+    }
+
+    public static String removeProjectEmployees(UUID projectId) {
+        SQL sql = new SQL()
+                .DELETE_FROM("projects_employees")
+                .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
 

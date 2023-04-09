@@ -27,6 +27,16 @@ public class ProjectService {
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
+    public ProjectDto updateProject(ProjectDto project)  {
+        projectRepository.updateProject(project);
+        projectRepository.removeProjectEmployees(project.getId());
+
+        if (project.getEmployees() != null && project.getEmployees().size() > 0)
+            projectRepository.addEmployeesToProject(project.getId(), project.getEmployees());
+
+        return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
+    }
+
     public Optional<ProjectDto> getProjectById(UUID id) {
         Project project = projectRepository.getProjectById(id);
         List<EmployeeDto> employees = employeeRepository.getEmployeesByProjectId(id);

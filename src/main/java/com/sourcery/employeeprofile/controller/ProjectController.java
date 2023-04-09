@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +31,11 @@ public class ProjectController {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @PutMapping()
+    public ResponseEntity<ProjectDto> updateProject(@RequestBody ProjectDto project) {
+        return ResponseEntity.ok(projectService.updateProject(project));
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
