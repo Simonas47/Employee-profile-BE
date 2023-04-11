@@ -20,6 +20,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .VALUES("description", "#{description}");
         return sql.toString();
     }
+
     public static String updateProject() {
         SQL sql = new SQL()
                 .UPDATE("projects")
@@ -89,5 +90,5 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .SET("deleted = true")
                 .WHERE("id = #{id}");
         return sql.toString();
-    }    
+    }
 }

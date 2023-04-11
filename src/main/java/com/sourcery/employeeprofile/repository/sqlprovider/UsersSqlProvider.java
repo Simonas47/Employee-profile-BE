@@ -14,9 +14,9 @@ public class UsersSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getByEmailAndPassword(@Param("email") String email, @Param("password")String password) {
+    public static String getByEmailAndPassword(@Param("email") String email, @Param("password") String password) {
         SQL sql = new SQL()
-                .SELECT( "u.id", "u.email", "u.password")
+                .SELECT("u.id", "u.email", "u.password")
                 .FROM("users u")
                 .WHERE("u.email = #{email} AND u.password = #{password}");
         return sql.toString();

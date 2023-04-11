@@ -27,7 +27,7 @@ public class ProjectService {
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
-    public ProjectDto updateProject(ProjectDto project)  {
+    public ProjectDto updateProject(ProjectDto project) throws IOException {
         projectRepository.updateProject(project);
         projectRepository.removeProjectEmployees(project.getId());
 
