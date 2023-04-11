@@ -1,8 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.PutReqSkill;
+import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
 import com.sourcery.employeeprofile.dto.SkillDto;
-import com.sourcery.employeeprofile.model.Skill;
 import com.sourcery.employeeprofile.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +23,7 @@ public class SkillController {
     }
 
     @PutMapping("/update")
-    public void updateEmployeeSkill(@RequestBody PutReqSkill request) {
-        System.out.println(request.getSkillLevel());
+    public void updateEmployeeSkill(@RequestBody EmployeeSkillDto request) {
         skillsService.updateEmployeeSkill(request.getSkillId(), request.getEmployeeId(), request.isChecked(), request.getSkillLevel());
-    }
-    @GetMapping("/skill")
-    public List<SkillDto> getAll(@PathVariable UUID employeeId) {
-        return skillsService.getAllByEmployeeId(employeeId);
     }
 }

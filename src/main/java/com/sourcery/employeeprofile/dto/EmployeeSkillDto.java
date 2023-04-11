@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PutReqSkill {
+public class EmployeeSkillDto {
     private boolean checked;
     private String skillLevel;
     private UUID skillId;

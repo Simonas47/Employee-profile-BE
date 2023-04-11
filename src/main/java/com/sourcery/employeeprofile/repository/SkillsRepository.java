@@ -1,9 +1,7 @@
 package com.sourcery.employeeprofile.repository;
 
-import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.model.Skill;
 import com.sourcery.employeeprofile.model.SkillEmployee;
-import com.sourcery.employeeprofile.repository.sqlprovider.ProjectSqlProvider;
 import com.sourcery.employeeprofile.repository.sqlprovider.SkillSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -20,10 +18,9 @@ public interface SkillsRepository {
     @SelectProvider(type = SkillSqlProvider.class, method = "getSkillRelationshipsByEmployeeId")
     List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") UUID employeeId);
 
-    @Delete("DELETE FROM skills_employees WHERE skillId = #{skillId} AND employeeId = #{employeeId}")
-    void deleteSkillEmployeeById(UUID employeeId, UUID skillId);
+    @DeleteProvider(type = SkillSqlProvider.class, method = "deleteSkillEmployeeRelationshipById")
+    void deleteSkillEmployeeRelationshipById(@Param("employeeId")UUID employeeId, @Param("skillId") UUID skillId);
 
-    @Insert("INSERT INTO skills_employees (skillId, skillLevel, employeeId) " +
-            "VALUES (#{skillId}, CAST(#{skillLevel} AS SkillLevels), #{employeeId});")
-    void insertSkillEmployee(UUID skillId, String skillLevel, UUID employeeId);
+    @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
+    void createNewSkillEmployeeRelationship(UUID skillId, String skillLevel, UUID employeeId);
 }

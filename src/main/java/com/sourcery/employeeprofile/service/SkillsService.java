@@ -1,7 +1,6 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.SkillDto;
-import com.sourcery.employeeprofile.model.Skill;
 import com.sourcery.employeeprofile.model.SkillEmployee;
 import com.sourcery.employeeprofile.repository.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,10 @@ public class SkillsService {
 
     public void updateEmployeeSkill(UUID skillId, UUID employeeId, boolean checked, String skillLevel) {
         if (checked) {
-            skillsRepository.deleteSkillEmployeeById(employeeId, skillId);
-            skillsRepository.insertSkillEmployee(skillId, skillLevel, employeeId);
+            skillsRepository.deleteSkillEmployeeRelationshipById(employeeId, skillId);
+            skillsRepository.createNewSkillEmployeeRelationship(skillId, skillLevel, employeeId);
         } else {
-            skillsRepository.deleteSkillEmployeeById(employeeId, skillId);
+            skillsRepository.deleteSkillEmployeeRelationshipById(employeeId, skillId);
         }
     }
 }

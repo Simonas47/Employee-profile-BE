@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 public class SkillDto {
     private UUID id;
-    private String skill;
+    private String skillName;
     private Boolean checked;
     private String skillLevel;
     private boolean subItemsAreSkills;

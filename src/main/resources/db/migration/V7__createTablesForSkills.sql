@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS skills(
     subItemsAreSkills BOOLEAN DEFAULT false
 );
 
-CREATE TYPE SkillLevels AS ENUM ('Basic', 'Intermediate', 'Expert', 'None');
+CREATE TYPE SkillLevels AS ENUM ('Basic', 'Intermediate', 'Expert');
 
 CREATE TABLE IF NOT EXISTS skills_employees
 (
