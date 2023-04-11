@@ -58,4 +58,9 @@ public class EmployeeController {
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping(value = "/get/all", produces = "application/json")
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+        return ResponseEntity.ok(employeeService.getAllEmployees());
+    }
 }

@@ -30,4 +30,7 @@ public interface EmployeeRepository {
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeesByProjectId")
     List<EmployeeDto> getEmployeesByProjectId(@Param("projectId") UUID projectId);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getAllEmployees")
+    List<EmployeeDto> getAllEmployees();
 }
