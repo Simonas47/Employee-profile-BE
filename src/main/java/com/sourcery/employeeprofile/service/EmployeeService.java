@@ -40,4 +40,8 @@ public class EmployeeService {
         String nameLike = "%" + searchValue + "%";
         return employeeRepository.getEmployeeCountByName(nameLike);
     }
+
+    public List<EmployeeDto> getAllEmployees() {
+        return employeeRepository.getAllEmployees();
+    }
 }

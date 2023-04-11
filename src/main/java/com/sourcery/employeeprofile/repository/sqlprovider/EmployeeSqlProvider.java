@@ -75,4 +75,15 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .ORDER_BY("e.name ASC");
         return sql.toString();
     }
+
+    public static String getAllEmployees() {
+        SQL sql = new SQL()
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.hiringDate", "e.exitDate", "e.status",
+                        "t.title",
+                        "i.name AS imageName", "i.type AS imageType", "i.bytes AS imageBytes")
+                .FROM("employees e")
+                .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
+                        "images i ON e.imageId = i.id");
+        return sql.toString();
+    }
 }
