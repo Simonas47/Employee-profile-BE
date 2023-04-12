@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface ProjectRepository {
     @InsertProvider(type = ProjectSqlProvider.class, method = "createNewProject")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    void createNewProject(Project project);
+    void createNewProject(ProjectDto project);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectById")
     Project getProjectById(@Param("id") UUID id);
@@ -27,8 +27,16 @@ public interface ProjectRepository {
     @InsertProvider(type = ProjectSqlProvider.class, method = "createNewProjectRelationship")
     void createNewProjectRelationship(UUID projectId, UUID employeeId);
 
-    @InsertProvider(type = ProjectSqlProvider.class, method = "addEmployeesToProject")
-    void addEmployeesToProject(UUID projectId, List<EmployeeDto> employees);
+    @Insert({
+            "<script>",
+            "INSERT INTO projects_employees",
+            "(projectId, employeeId)",
+            "VALUES" +
+                    "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
+                        "#{projectId}, #{employee.id}",
+                    "</foreach>",
+            "</script>"})
+    void addEmployeesToProject(@Param("projectId") UUID projectId, @Param("employees") List<EmployeeDto> employees);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId);

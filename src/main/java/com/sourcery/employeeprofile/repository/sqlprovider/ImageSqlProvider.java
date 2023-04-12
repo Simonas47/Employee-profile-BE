@@ -10,7 +10,6 @@ public class ImageSqlProvider implements ProviderMethodResolver {
     public static String createNewImage() {
         SQL sql = new SQL()
                 .INSERT_INTO("images")
-                .VALUES("id", "#{id}")
                 .VALUES("name", "#{name}")
                 .VALUES("type", "#{type}")
                 .VALUES("bytes", "#{bytes}");

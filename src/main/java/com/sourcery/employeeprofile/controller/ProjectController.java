@@ -1,7 +1,6 @@
 package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.ProjectDto;
-import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class ProjectController {
     ProjectService projectService;
 
     @PostMapping()
-    public ResponseEntity<ProjectDto> createNewProject(@RequestBody Project project) {
+    public ResponseEntity<ProjectDto> createNewProject(@RequestBody ProjectDto project) {
         try {
             return ResponseEntity.ok(projectService.createNewProject(project));
         } catch (IOException e) {
@@ -38,7 +37,7 @@ public class ProjectController {
             return ResponseEntity.ok(projectService.updateProject(project));
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 
