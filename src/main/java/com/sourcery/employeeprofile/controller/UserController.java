@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -20,7 +22,8 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value = "/get", produces = "application/json")
-    public ResponseEntity<Map<String, String>> getByEmailAndPassword(@RequestBody Map<String, String> payload, HttpServletResponse response) throws IOException {
+    public ResponseEntity<Map<String, String>> getByEmailAndPassword(@RequestBody Map<String, String> payload,
+                                                                     HttpServletResponse response) throws IOException {
         String email = payload.get("email");
         String password = payload.get("password");
         if (email == null || password == null) {
