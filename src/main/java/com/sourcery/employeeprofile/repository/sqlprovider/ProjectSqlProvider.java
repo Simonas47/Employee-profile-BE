@@ -1,9 +1,11 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
+import com.sourcery.employeeprofile.dto.EmployeeDto;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ProjectSqlProvider implements ProviderMethodResolver {
@@ -17,7 +19,16 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .VALUES("description", "#{description}");
         return sql.toString();
     }
-
+    public static String addEmployeesToProject(@Param("projectId") UUID projectId, @Param("employees") List<EmployeeDto> employees) {
+        return "<script>" +
+                "INSERT INTO projects_employees" +
+                "(projectId, employeeId)"+
+                "VALUES" +
+                        "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
+                        "#{projectId}, #{employee.id}"+
+                "</foreach>"+
+                "</script>";
+    }
     public static String updateProject() {
         SQL sql = new SQL()
                 .UPDATE("projects")

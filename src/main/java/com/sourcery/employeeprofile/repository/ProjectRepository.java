@@ -27,15 +27,7 @@ public interface ProjectRepository {
     @InsertProvider(type = ProjectSqlProvider.class, method = "createNewProjectRelationship")
     void createNewProjectRelationship(UUID projectId, UUID employeeId);
 
-    @Insert({
-            "<script>",
-            "INSERT INTO projects_employees",
-            "(projectId, employeeId)",
-            "VALUES" +
-                    "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
-                        "#{projectId}, #{employee.id}",
-                    "</foreach>",
-            "</script>"})
+    @InsertProvider(type = ProjectSqlProvider.class, method = "addEmployeesToProject")
     void addEmployeesToProject(@Param("projectId") UUID projectId, @Param("employees") List<EmployeeDto> employees);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
