@@ -71,7 +71,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
                 .VALUES("employeeId", "#{employeeId}")
-                .VALUES("employeeStatus", "#{employeeStatus}");
+                .VALUES("teamMemberStatus", "#{teamMemberStatus}");
         return sql.toString();
     }
 
