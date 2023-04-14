@@ -1,9 +1,11 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
+import com.sourcery.employeeprofile.dto.EmployeeDto;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ProjectSqlProvider implements ProviderMethodResolver {
@@ -14,6 +16,36 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .VALUES("startDate", "#{startDate}")
                 .VALUES("endDate", "#{endDate}")
                 .VALUES("description", "#{description}");
+        return sql.toString();
+    }
+
+    public static String addEmployeesToProject(@Param("projectId") UUID projectId,
+                                               @Param("employees") List<EmployeeDto> employees) {
+        return "<script>" +
+                "INSERT INTO projects_employees" +
+                "(projectId, employeeId)" +
+                "VALUES" +
+                "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
+                "#{projectId}, #{employee.id}" +
+                "</foreach>" +
+                "</script>";
+    }
+
+    public static String updateProject() {
+        SQL sql = new SQL()
+                .UPDATE("projects")
+                .SET("title = #{title}")
+                .SET("description = #{description}")
+                .SET("startDate = #{startDate}")
+                .SET("endDate = #{endDate}")
+                .WHERE("id = #{id}");
+        return sql.toString();
+    }
+
+    public static String removeProjectEmployees(UUID projectId) {
+        SQL sql = new SQL()
+                .DELETE_FROM("projects_employees")
+                .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
 
@@ -38,7 +70,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
-                .VALUES("employeeId", "#{employeeId}");
+                .VALUES("employeeId", "#{employeeId}")
+                .VALUES("teamMemberStatus", "#{teamMemberStatus}");
         return sql.toString();
     }
 
@@ -57,5 +90,5 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .SET("deleted = true")
                 .WHERE("id = #{id}");
         return sql.toString();
-    }    
+    }
 }

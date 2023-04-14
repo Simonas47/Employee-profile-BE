@@ -22,8 +22,21 @@ public class ProjectService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public ProjectDto createNewProject(Project project) throws IOException {
+    public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
+        if (project.getEmployees() != null && project.getEmployees().size() > 0)
+            projectRepository.addEmployeesToProject(project.getId(), project.getEmployees());
+
+        return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
+    }
+
+    public ProjectDto updateProject(ProjectDto project) throws IOException {
+        projectRepository.updateProject(project);
+        projectRepository.removeProjectEmployees(project.getId());
+
+        if (project.getEmployees() != null && project.getEmployees().size() > 0)
+            projectRepository.addEmployeesToProject(project.getId(), project.getEmployees());
+
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
@@ -53,8 +66,10 @@ public class ProjectService {
         return projectsDto;
     }
 
-    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId, UUID employeeId) {
-        projectRepository.createNewProjectRelationship(projectId, employeeId);
+    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId,
+                                                              UUID employeeId,
+                                                              String teamMemberStatus) {
+        projectRepository.createNewProjectRelationship(projectId, employeeId, teamMemberStatus);
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 

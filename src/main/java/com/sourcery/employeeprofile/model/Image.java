@@ -15,5 +15,5 @@ public class Image {
     private UUID id;
     private String name;
     private String type;
-    private byte[] bytes;
+    private String bytes;
 }
