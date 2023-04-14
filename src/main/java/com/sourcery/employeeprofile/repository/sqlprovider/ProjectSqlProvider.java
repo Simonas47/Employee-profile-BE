@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class ProjectSqlProvider implements ProviderMethodResolver {
-
     public static String createNewProject() {
         SQL sql = new SQL()
                 .INSERT_INTO("projects")
@@ -19,16 +18,19 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .VALUES("description", "#{description}");
         return sql.toString();
     }
-    public static String addEmployeesToProject(@Param("projectId") UUID projectId, @Param("employees") List<EmployeeDto> employees) {
+
+    public static String addEmployeesToProject(@Param("projectId") UUID projectId,
+                                               @Param("employees") List<EmployeeDto> employees) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
-                "(projectId, employeeId)"+
+                "(projectId, employeeId)" +
                 "VALUES" +
-                        "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
-                        "#{projectId}, #{employee.id}"+
-                "</foreach>"+
+                "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
+                "#{projectId}, #{employee.id}" +
+                "</foreach>" +
                 "</script>";
     }
+
     public static String updateProject() {
         SQL sql = new SQL()
                 .UPDATE("projects")
@@ -68,7 +70,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
-                .VALUES("employeeId", "#{employeeId}");
+                .VALUES("employeeId", "#{employeeId}")
+                .VALUES("teamMemberStatus", "#{teamMemberStatus}");
         return sql.toString();
     }
 

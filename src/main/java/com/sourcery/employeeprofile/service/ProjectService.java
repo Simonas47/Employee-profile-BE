@@ -66,8 +66,10 @@ public class ProjectService {
         return projectsDto;
     }
 
-    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId, UUID employeeId) {
-        projectRepository.createNewProjectRelationship(projectId, employeeId);
+    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId,
+                                                              UUID employeeId,
+                                                              String teamMemberStatus) {
+        projectRepository.createNewProjectRelationship(projectId, employeeId, teamMemberStatus);
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 

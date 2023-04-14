@@ -5,7 +5,6 @@ import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
 public class UsersSqlProvider implements ProviderMethodResolver {
-
     public static String createNewUser() {
         SQL sql = new SQL()
                 .INSERT_INTO("users")
@@ -18,7 +17,8 @@ public class UsersSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .SELECT("u.id", "u.email", "u.password")
                 .FROM("users u")
-                .WHERE("u.email = #{email} AND u.password = #{password}");
+                .WHERE("u.email = #{email}").AND()
+                .WHERE("u.password = #{password}");
         return sql.toString();
     }
 }
