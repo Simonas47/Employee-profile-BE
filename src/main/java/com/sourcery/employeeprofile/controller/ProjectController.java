@@ -55,8 +55,9 @@ public class ProjectController {
 
     @PostMapping(value = "/addEmployee")
     public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") UUID projectId,
-                                                                              @RequestPart("employeeId") UUID employeeId) {
-        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId));
+                                                                              @RequestPart("employeeId") UUID employeeId,
+                                                                              @RequestPart("teamMemberStatus") String teamMemberStatus) {
+        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, teamMemberStatus));
     }
 
     @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")

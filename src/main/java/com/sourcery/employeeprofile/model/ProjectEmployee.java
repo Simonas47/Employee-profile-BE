@@ -17,4 +17,5 @@ public class ProjectEmployee {
     private UUID employeeId;
     private String startDate;
     private String endDate;
+    private String teamMemberStatus;
 }
