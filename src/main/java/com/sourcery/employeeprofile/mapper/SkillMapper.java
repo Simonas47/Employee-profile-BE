@@ -19,7 +19,7 @@ public class SkillMapper {
                     getSkillLevel(skill, skillEmployeeList),
                     skill.isSubItemsAreSkills(),
                     getIndent(skill, counter, skillModelList),
-                    skill.getParentId());
+                    skill.getParentId(), skill.isLanguage());
             outputList.add(skillDto);
         }
         return outputList;

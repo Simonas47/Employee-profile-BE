@@ -19,4 +19,5 @@ public class SkillDto {
     private boolean subItemsAreSkills;
     private Integer indent;
     private UUID parentId;
+    private boolean isLanguage;
 }

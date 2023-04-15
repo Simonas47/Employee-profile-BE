@@ -16,4 +16,6 @@ public class Skill {
     private String skillName;
     private UUID parentId;
     private boolean subItemsAreSkills;
+    private String uniqueSkillIdentifier;
+    private boolean isLanguage;
 }

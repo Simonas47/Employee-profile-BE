@@ -3,10 +3,12 @@ CREATE TABLE IF NOT EXISTS skills(
     id          UUID            NOT NULL CONSTRAINT skills_pk PRIMARY KEY DEFAULT uuid_generate_v4(),
     skillName VARCHAR(100) NOT NULL,
     parentId UUID CONSTRAINT skills_parent_id_fk REFERENCES skills,
-    subItemsAreSkills BOOLEAN DEFAULT false
+    subItemsAreSkills BOOLEAN DEFAULT false,
+    uniqueSkillIdentifier VARCHAR(100) DEFAULT 'default',
+    isLanguage BOOLEAN DEFAULT false
 );
 
-CREATE TYPE SkillLevels AS ENUM ('Basic', 'Intermediate', 'Expert');
+CREATE TYPE SkillLevels AS ENUM ('Basic', 'Intermediate', 'Expert', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2','Native');
 
 CREATE TABLE IF NOT EXISTS skills_employees
 (
