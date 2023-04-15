@@ -219,6 +219,20 @@ INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Maltese', (SELECT 
 INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Polish', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
 INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Slovak', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
 INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Slovenian', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Dutch', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Danish', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Greek', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Portuguese', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Finnish', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Czech', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Bulgarian', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Croatian', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Estonian', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('French', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Romanian', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Irish', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Swedish', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
+INSERT INTO skills (skillName, parentId, isLanguage) VALUES ('Spanish', (SELECT id FROM skills WHERE skillName = 'Languages'), true);
 
 
 
