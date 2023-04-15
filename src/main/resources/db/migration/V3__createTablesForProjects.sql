@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS projects
 (
 	id          UUID            NOT NULL CONSTRAINT projects_pk PRIMARY KEY DEFAULT uuid_generate_v4(),
