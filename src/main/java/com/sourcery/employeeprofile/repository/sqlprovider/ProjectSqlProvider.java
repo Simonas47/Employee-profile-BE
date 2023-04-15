@@ -1,6 +1,8 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.TeamMemberDto;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
@@ -19,14 +21,14 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String addEmployeesToProject(@Param("projectId") UUID projectId,
-                                               @Param("employees") List<EmployeeDto> employees) {
+    public static String addTeamMembersToProject(@Param("projectId") UUID projectId,
+                                               @Param("teamMembers") List<TeamMemberDto> teamMembers) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
-                "(projectId, employeeId)" +
+                "(projectId, employeeId, teamMemberStatus, teamMemberStartDate, teamMemberEndDate)" +
                 "VALUES" +
-                "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
-                "#{projectId}, #{employee.id}" +
+                "<foreach item='teamMember' collection='teamMembers' open='(' separator='),(' close=')'>" +
+                "#{projectId}, #{teamMember.id}, #{teamMember.teamMemberStatus}, #{teamMember.teamMemberStartDate}, #{teamMember.teamMemberEndDate}" +
                 "</foreach>" +
                 "</script>";
     }
@@ -42,7 +44,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String removeProjectEmployees(UUID projectId) {
+    public static String removeTeamMembersFromProject(UUID projectId) {
         SQL sql = new SQL()
                 .DELETE_FROM("projects_employees")
                 .WHERE("projectId = #{projectId}");
@@ -71,7 +73,9 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
                 .VALUES("employeeId", "#{employeeId}")
-                .VALUES("teamMemberStatus", "#{teamMemberStatus}");
+                .VALUES("teamMemberStatus", "#{teamMemberStatus}")
+                .VALUES("teamMemberStartDate", "#{teamMemberStartDate}")
+                .VALUES("teamMemberEndDate", "teamMemberEndDate");
         return sql.toString();
     }
 

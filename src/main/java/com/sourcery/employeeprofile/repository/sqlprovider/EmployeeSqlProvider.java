@@ -62,11 +62,12 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getEmployeesByProjectId(@Param("projectId") UUID projectId) {
+    public static String getTeamMembersByProjectId(@Param("projectId") UUID projectId) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.hiringDate", "e.exitDate", "e.status",
                         "t.title",
-                        "i.name AS imageName", "i.type AS imageType", "i.bytes AS imageBytes")
+                        "i.name AS imageName", "i.type AS imageType", "i.bytes AS imageBytes",
+                        "pe.teamMemberStatus", "pe.teamMemberStartDate", "pe.teamMemberEndDate")
                 .FROM("projects_employees pe")
                 .INNER_JOIN("employees e ON pe.employeeId = e.id")
                 .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",

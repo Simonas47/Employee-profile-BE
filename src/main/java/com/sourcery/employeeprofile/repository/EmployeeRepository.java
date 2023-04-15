@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.repository;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.TeamMemberDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider;
 import org.apache.ibatis.annotations.*;
@@ -28,8 +29,8 @@ public interface EmployeeRepository {
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCountByName")
     Integer getEmployeeCountByName(@Param("name") String name);
 
-    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeesByProjectId")
-    List<EmployeeDto> getEmployeesByProjectId(@Param("projectId") UUID projectId);
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getTeamMembersByProjectId")
+    List<TeamMemberDto> getTeamMembersByProjectId(@Param("projectId") UUID projectId);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getAllEmployees")
     List<EmployeeDto> getAllEmployees();
