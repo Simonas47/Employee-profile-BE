@@ -1,11 +1,13 @@
 package com.sourcery.employeeprofile.dto;
 
+import com.sourcery.employeeprofile.model.EmploymentDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -18,10 +20,8 @@ public class EmployeeDto {
     private String surname;
     private String middleName;
     private String title;
-    private Date hiringDate;
-    private Date exitDate;
     private String status;
-    private String imageName;
+    private List<EmploymentDate> employmentDates;
     private String imageType;
     private String imageBytes;
 }
