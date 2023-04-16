@@ -1,6 +1,5 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
-import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.TeamMemberDto;
 
 import org.apache.ibatis.annotations.Param;
