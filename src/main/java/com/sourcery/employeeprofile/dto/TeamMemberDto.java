@@ -18,10 +18,8 @@ public class TeamMemberDto {
     private String surname;
     private String middleName;
     private String title;
-    private Date hiringDate;
     private Date exitDate;
     private String status;
-    private String imageName;
     private String imageType;
     private String imageBytes;
     private String teamMemberStatus;
