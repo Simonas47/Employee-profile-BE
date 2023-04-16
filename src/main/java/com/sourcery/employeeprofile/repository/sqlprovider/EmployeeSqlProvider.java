@@ -60,7 +60,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getTeamMembersByProjectId(@Param("projectId") UUID projectId) {
+    public static String getProjectEmployeesByProjectId(@Param("projectId") UUID projectId) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status",
                         "t.title",

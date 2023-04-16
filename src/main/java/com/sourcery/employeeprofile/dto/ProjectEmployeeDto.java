@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
-public class TeamMemberDto {
+public class ProjectEmployeeDto {
     private UUID id;
     private String name;
     private String surname;
