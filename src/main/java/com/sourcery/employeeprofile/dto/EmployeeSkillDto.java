@@ -5,13 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.UUID;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-public class SearchEmployeePageDto {
-    private Integer count;
-    private List<SearchEmployeeDto> employees;
+public class EmployeeSkillDto {
+    private boolean checked;
+    private String skillLevel;
+    private UUID skillId;
+    private UUID employeeId;
 }

@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeePageDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.service.EmployeeService;
@@ -45,7 +46,7 @@ public class EmployeeController {
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
         if (page == null || page < 0) page = 0;
 
-        List<EmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
+        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
         return ResponseEntity.status(HttpStatus.OK)
