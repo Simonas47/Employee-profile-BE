@@ -17,7 +17,8 @@ public class EmploymentDateSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String setEmploymentDates(@Param("employeeId") UUID employeeId, @Param("employmentDates") List<EmploymentDate> employmentDates) {
+    public static String setEmploymentDates(@Param("employeeId") UUID employeeId,
+                                            @Param("employmentDates") List<EmploymentDate> employmentDates) {
         return "<script>" +
                 "INSERT INTO employment_dates" +
                 "(employeeId, hiringDate, exitDate)" +
@@ -27,6 +28,5 @@ public class EmploymentDateSqlProvider implements ProviderMethodResolver {
                 "</foreach>" +
                 "</script>";
     }
-
 }
 

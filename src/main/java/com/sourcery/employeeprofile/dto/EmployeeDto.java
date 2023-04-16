@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,4 +23,5 @@ public class EmployeeDto {
     private List<EmploymentDate> employmentDates;
     private String imageType;
     private String imageBytes;
+    private boolean isManager;
 }

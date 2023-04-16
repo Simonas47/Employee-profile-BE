@@ -6,7 +6,8 @@ import com.sourcery.employeeprofile.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -23,7 +24,12 @@ public class SkillController {
     }
 
     @PutMapping("/update")
-    public void updateEmployeeSkill(@RequestBody EmployeeSkillDto request) {
-        skillsService.updateEmployeeSkill(request.getSkillId(), request.getEmployeeId(), request.isChecked(), request.getSkillLevel());
+    public void updateEmployeeSkill(@RequestBody EmployeeSkillDto employeeSkillDto) {
+        skillsService.updateEmployeeSkill(
+                employeeSkillDto.getSkillId(),
+                employeeSkillDto.getEmployeeId(),
+                employeeSkillDto.isChecked(),
+                employeeSkillDto.getSkillLevel()
+        );
     }
 }
