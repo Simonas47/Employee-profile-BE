@@ -22,11 +22,9 @@ public class SkillsService {
     }
 
     public void updateEmployeeSkill(UUID skillId, UUID employeeId, boolean checked, String skillLevel) {
+        skillsRepository.deleteSkillEmployeeRelationshipById(employeeId, skillId);
         if (checked) {
-            skillsRepository.deleteSkillEmployeeRelationshipById(employeeId, skillId);
             skillsRepository.createNewSkillEmployeeRelationship(skillId, skillLevel, employeeId);
-        } else {
-            skillsRepository.deleteSkillEmployeeRelationshipById(employeeId, skillId);
         }
     }
 }
