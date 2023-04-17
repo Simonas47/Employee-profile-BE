@@ -49,13 +49,15 @@ public class EmployeeController {
         List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(new SearchEmployeePageDto(employeeCount, employees));
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<EmployeeDto> getById(@PathVariable UUID id) {
-        return employeeService.getById(id)
+        return employeeService
+                .getById(id)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
     }
