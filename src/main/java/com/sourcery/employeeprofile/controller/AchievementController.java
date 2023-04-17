@@ -24,6 +24,7 @@ public class AchievementController {
 
     @PutMapping("/update")
     public void updateEmployeeAchievement(@RequestBody EmployeeAchievementDto request) {
-        achievementsService.updateEmployeeAchievement(request.getAchievementId(), request.getEmployeeId(), request.isChecked(), request.getStartDate(), request.getEndDate());
+        achievementsService.updateEmployeeAchievement(request.getAchievementId(), request.getEmployeeId(), request.isChecked(), request.getAchievementStartDate(), request.getAchievementEndDate());
+        System.out.println(request);
     }
 }

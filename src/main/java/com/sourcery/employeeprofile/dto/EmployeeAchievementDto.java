@@ -14,8 +14,8 @@ import java.util.UUID;
 @Builder
 public class EmployeeAchievementDto {
     private boolean checked;
-    private Date startDate;
-    private Date endDate;
+    private Date achievementStartDate;
+    private Date achievementEndDate;
     private UUID achievementId;
     private UUID employeeId;
 }
