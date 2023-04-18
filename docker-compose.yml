@@ -7,8 +7,8 @@ services:
     ports:
       - 5455:5432
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=db
+      - POSTGRES_USER=employee-profile
+      - POSTGRES_PASSWORD=6PsA9e6JunuHdQ2vrWE7
+      - POSTGRES_DB=employee-profile
 volumes:
   pgdata:
