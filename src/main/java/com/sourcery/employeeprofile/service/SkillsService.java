@@ -1,7 +1,6 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.SkillDto;
-import com.sourcery.employeeprofile.model.SkillEmployee;
 import com.sourcery.employeeprofile.repository.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import static com.sourcery.employeeprofile.mapper.SkillMapper.mapModelsToDtos;
 
 @Service
 public class SkillsService {
-
     @Autowired
     SkillsRepository skillsRepository;
 

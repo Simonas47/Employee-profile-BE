@@ -41,6 +41,4 @@ public interface ProjectRepository {
 
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
     void removeProjectEmployees(UUID id);
-
-
 }

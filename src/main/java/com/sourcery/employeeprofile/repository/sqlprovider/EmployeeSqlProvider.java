@@ -15,13 +15,14 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .VALUES("middleName", "#{middleName}")
                 .VALUES("titleId", "#{titleId}")
                 .VALUES("imageId", "#{imageId}")
-                .VALUES("status", "#{status}");
+                .VALUES("status", "#{status}")
+                .VALUES("isManager", "#{isManager}");
         return sql.toString();
     }
 
     public static String getById(@Param("id") UUID id) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("employees e")
@@ -35,7 +36,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                                       @Param("page") Integer page,
                                       @Param("pageSize") Integer pageSize) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("employees e")
@@ -62,7 +63,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
 
     public static String getEmployeesByProjectId(@Param("projectId") UUID projectId) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("projects_employees pe")
