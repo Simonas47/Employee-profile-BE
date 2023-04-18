@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5455/employee-profile
+    url: jdbc:postgresql://pg-admin-service.pg-admin:5432/employee-profile
     username: employee-profile
     password: 6PsA9e6JunuHdQ2vrWE7
     driver-class-name: org.postgresql.Driver
