@@ -13,7 +13,3 @@ mybatis:
   type-aliases-package: com.sourcery.employeeProfile.mybatis
   configuration:
     map-underscore-to-camel-case: true
-
-
-
-
