@@ -1,11 +1,8 @@
 variables:
-    # Change
     TEAM_NAME: "employee-profile"
-    HOST: "employee-profile.devbstaging.com"
+    HOST: "employee-profile-api.devbstaging.com"
     DEPLOYMENT_BRANCH: "master"
-    
-    # TODO: add DB_PASSWORD variable to pipeline
-    # Currently available databases [postgresql, mssql]
+
     DB_TYPE: "postgresql"
     
     # DO NOT CHANGE
@@ -43,10 +40,10 @@ clone:
 
 build_app:
     stage: build_app
-    image: openjdk:16-alpine
+    image: gradle:8.0.2-jdk17-alpine
     script:
         - cd git-clone
-        - ./gradlew clean build
+        - gradle clean build
     artifacts:
         paths:
             - git-clone/build/libs/*
@@ -61,7 +58,7 @@ build:
         - cd git-clone
         - docker build -t $IMAGE_NAME .
         - docker push $IMAGE_NAME
- 
+
 deploy:
     stage: deploy
     image: $ACR_URL/gitlab/packages:latest
@@ -73,9 +70,9 @@ deploy:
         - if [[ ! "$PR_STATUS" == "MERGED" && "$TARGET_BRANCH_NAME" == "$DEPLOYMENT_BRANCH" ]]; then exit 0;fi
         - cd git-clone
         - create_db $TEAM_NAME $DB_PASSWORD
-        - helm upgrade 
-            --install backend ./helm/backend 
-            -f ./helm/backend/values.yaml 
+        - helm upgrade
+            --install backend ./helm/backend
+            -f ./helm/backend/values.yaml
             --namespace $TEAM_NAME
             --create-namespace
             --set backend.container.image=$IMAGE_NAME
