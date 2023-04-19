@@ -41,12 +41,13 @@ public class EmployeeController {
     @GetMapping(value = "/search", params = {"name", "page", "size"}, produces = "application/json")
     public ResponseEntity<SearchEmployeePageDto> searchByName(@RequestParam(value = "name", required = true) String name,
                                                               @RequestParam(value = "page", required = false) Integer page,
-                                                              @RequestParam(value = "size", required = false) Integer size) {
+                                                              @RequestParam(value = "size", required = false) Integer size,
+                                                              @RequestParam(value = "isLimited", required = true) Boolean isLimited) {
         if (size == -1) size = DEFAULT_PAGE_SIZE;
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
         if (page == null || page < 0) page = 0;
 
-        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
+        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size, isLimited);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -58,10 +59,5 @@ public class EmployeeController {
         return employeeService.getById(id)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping(value = "/get/all", produces = "application/json")
-    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
-        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 }
