@@ -23,4 +23,5 @@ public class EmployeeDto {
     private List<EmploymentDate> employmentDates;
     private String imageType;
     private String imageBytes;
+    private Boolean isManager;
 }

@@ -21,4 +21,5 @@ public class Employee {
     private List<EmploymentDate> employmentDates;
     private UUID imageId;
     private UUID titleId;
+    private Boolean isManager;
 }

@@ -43,7 +43,8 @@ public class ProjectService {
     public Optional<ProjectDto> getProjectById(UUID id) {
         Project project = projectRepository.getProjectById(id);
         List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(id);
-        return Optional.of(new ProjectDto(project.getId(),
+        return Optional.of(new ProjectDto(
+                project.getId(),
                 project.getTitle(),
                 project.getStartDate(),
                 project.getEndDate(),
@@ -56,7 +57,8 @@ public class ProjectService {
         List<ProjectDto> projectsDto = new ArrayList<>();
         projects.forEach(project -> {
             List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
-            projectsDto.add(new ProjectDto(project.getId(),
+            projectsDto.add(new ProjectDto(
+                    project.getId(),
                     project.getTitle(),
                     project.getStartDate(),
                     project.getEndDate(),

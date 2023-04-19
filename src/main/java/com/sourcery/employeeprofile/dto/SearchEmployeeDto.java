@@ -20,4 +20,5 @@ public class SearchEmployeeDto {
     private String status;
     private String imageType;
     private String imageBytes;
+    private Boolean isManager;
 }

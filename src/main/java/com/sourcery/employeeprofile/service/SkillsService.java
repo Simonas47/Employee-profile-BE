@@ -12,7 +12,6 @@ import static com.sourcery.employeeprofile.mapper.SkillMapper.mapModelsToDtos;
 
 @Service
 public class SkillsService {
-
     @Autowired
     SkillsRepository skillsRepository;
 

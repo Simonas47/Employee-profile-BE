@@ -14,10 +14,12 @@ public class SkillSqlProvider {
         return sql.toString();
     }
 
-    public static String deleteSkillEmployeeRelationshipById(@Param("employeeId")UUID employeeId, @Param("skillId") UUID skillId) {
+    public static String deleteSkillEmployeeRelationshipById(@Param("employeeId") UUID employeeId,
+                                                             @Param("skillId") UUID skillId) {
         SQL sql = new SQL()
                 .DELETE_FROM("skills_employees")
-                .WHERE("skills_employees.skillId = #{skillId}", "skills_employees.employeeId = #{employeeId}");
+                .WHERE("skills_employees.skillId = #{skillId}").AND()
+                .WHERE("skills_employees.employeeId = #{employeeId}");
         return sql.toString();
     }
 
@@ -27,6 +29,13 @@ public class SkillSqlProvider {
                 .VALUES("skillId", "#{skillId}")
                 .VALUES("skillLevel", "CAST(#{skillLevel} AS SkillLevels)")
                 .VALUES("employeeId", "#{employeeId}");
+        return sql.toString();
+    }
+
+    public static String getAll() {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills");
         return sql.toString();
     }
 }
