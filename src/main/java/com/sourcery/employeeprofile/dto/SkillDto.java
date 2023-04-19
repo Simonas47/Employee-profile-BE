@@ -12,12 +12,13 @@ import java.util.UUID;
 @Builder
 @Data
 public class SkillDto {
-    private UUID id;
+    private UUID skillId;
     private String skillName;
     private Boolean checked;
     private String skillLevel;
     private boolean subItemsAreSkills;
     private Integer indent;
-    private UUID parentId;
+    private UUID parentSkillId;
     private boolean isLanguage;
+    private boolean isCategory;
 }

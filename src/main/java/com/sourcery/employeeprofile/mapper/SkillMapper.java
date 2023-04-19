@@ -19,10 +19,17 @@ public class SkillMapper {
                     getSkillLevel(skill, skillEmployeeList),
                     skill.isSubItemsAreSkills(),
                     getIndent(skill, counter, skillModelList),
-                    skill.getParentId(), skill.isLanguage());
+                    skill.getParentId(), skill.isLanguage(), isCategory(skill, skillModelList));
             outputList.add(skillDto);
         }
         return outputList;
+    }
+
+    private static boolean isCategory(Skill skill, List<Skill> skillModelList) {
+        for (Skill childSkill : skillModelList) {
+            if (skill.getId().equals(childSkill.getParentId())) return true;
+        }
+        return false;
     }
 
     private static Boolean isChecked(Skill skill, List<SkillEmployee> skillEmployeeList) {
