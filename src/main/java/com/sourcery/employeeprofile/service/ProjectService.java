@@ -1,6 +1,6 @@
 package com.sourcery.employeeprofile.service;
 import com.sourcery.employeeprofile.dto.ProjectDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.TeamMemberDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -24,46 +24,46 @@ public class ProjectService {
 
     public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
-        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
-            projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
+        if (project.getTeamMembers() != null && project.getTeamMembers().size() > 0)
+            projectRepository.addTeamMembersToProject(project.getId(), project.getTeamMembers());
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public ProjectDto updateProject(ProjectDto project) throws IOException {
         projectRepository.updateProject(project);
-        projectRepository.removeEmployeesFromProject(project.getId());
+        projectRepository.removeTeamMembersFromProject(project.getId());
 
-        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
-            projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
+        if (project.getTeamMembers() != null && project.getTeamMembers().size() > 0)
+            projectRepository.addTeamMembersToProject(project.getId(), project.getTeamMembers());
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public Optional<ProjectDto> getProjectById(UUID id) {
         Project project = projectRepository.getProjectById(id);
-        List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(id);
+        List<TeamMemberDto> teamMembers = employeeRepository.getTeamMembersByProjectId(id);
         return Optional.of(new ProjectDto(
                 project.getId(),
                 project.getTitle(),
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getDescription(),
-                projectEmployees));
+                teamMembers));
     }
 
     public List<ProjectDto> getAllProjects() {
         List<Project> projects = projectRepository.getAllProjects();
         List<ProjectDto> projectsDto = new ArrayList<>();
         projects.forEach(project -> {
-            List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
+            List<TeamMemberDto> teamMembers = employeeRepository.getTeamMembersByProjectId(project.getId());
             projectsDto.add(new ProjectDto(
                     project.getId(),
                     project.getTitle(),
                     project.getStartDate(),
                     project.getEndDate(),
                     project.getDescription(),
-                    projectEmployees));
+                    teamMembers));
         });
         return projectsDto;
     }

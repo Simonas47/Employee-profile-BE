@@ -1,7 +1,7 @@
 package com.sourcery.employeeprofile.repository;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.TeamMemberDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider;
@@ -31,6 +31,6 @@ public interface EmployeeRepository {
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCountByName")
     Integer getEmployeeCountByName(@Param("name") String name);
 
-    @SelectProvider(type = EmployeeSqlProvider.class, method = "getProjectEmployeesByProjectId")
-    List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") UUID projectId);
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getTeamMembersByProjectId")
+    List<TeamMemberDto> getTeamMembersByProjectId(@Param("projectId") UUID projectId);
 }

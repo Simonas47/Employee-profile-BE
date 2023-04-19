@@ -1,6 +1,6 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
-import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.TeamMemberDto;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
@@ -20,14 +20,14 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String addEmployeesToProject(@Param("projectId") UUID projectId,
-                                               @Param("employees") List<ProjectEmployeeDto> employees) {
+    public static String addTeamMembersToProject(@Param("projectId") UUID projectId,
+                                                 @Param("teamMembers") List<TeamMemberDto> teamMembers) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
                 "(projectId, employeeId, teamMemberStatus, teamMemberStartDate, teamMemberEndDate)" +
                 "VALUES" +
-                "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
-                "#{projectId}, #{employee.id}, #{employee.teamMemberStatus}, #{employee.teamMemberStartDate}, #{employee.teamMemberEndDate}" +
+                "<foreach item='teamMember' collection='teamMembers' open='(' separator='),(' close=')'>" +
+                "#{projectId}, #{teamMember.id}, #{teamMember.status}, #{teamMember.startDate}, #{teamMember.endDate}" +
                 "</foreach>" +
                 "</script>";
     }
@@ -43,7 +43,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String removeEmployeesFromProject(UUID projectId) {
+    public static String removeTeamMembersFromProject(UUID projectId) {
         SQL sql = new SQL()
                 .DELETE_FROM("projects_employees")
                 .WHERE("projectId = #{projectId}");
