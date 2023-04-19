@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -17,9 +17,9 @@ public class Employee {
     private String name;
     private String surname;
     private String middleName;
-    private Date hiringDate;
-    private Date exitDate;
     private String status;
+    private List<EmploymentDate> employmentDates;
     private UUID imageId;
     private UUID titleId;
+    private Boolean isManager;
 }

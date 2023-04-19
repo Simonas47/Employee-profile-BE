@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeePageDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.service.EmployeeService;
@@ -19,7 +20,7 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/employee")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
@@ -45,16 +46,18 @@ public class EmployeeController {
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
         if (page == null || page < 0) page = 0;
 
-        List<EmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
+        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(new SearchEmployeePageDto(employeeCount, employees));
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<EmployeeDto> getById(@PathVariable UUID id) {
-        return employeeService.getById(id)
+        return employeeService
+                .getById(id)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
     }

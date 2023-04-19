@@ -13,5 +13,5 @@ import java.util.List;
 @Data
 public class SearchEmployeePageDto {
     private Integer count;
-    private List<EmployeeDto> employees;
+    private List<SearchEmployeeDto> employees;
 }

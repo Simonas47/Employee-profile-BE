@@ -16,7 +16,7 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/project")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class ProjectController {
     @Autowired
     ProjectService projectService;
@@ -43,7 +43,8 @@ public class ProjectController {
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<ProjectDto> getProjectById(@PathVariable UUID id) {
-        return projectService.getProjectById(id)
+        return projectService
+                .getProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -69,7 +70,8 @@ public class ProjectController {
 
     @PatchMapping(value = "/delete/{id}", produces = "application/json")
     public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable UUID id) {
-        return projectService.deleteProjectById(id)
+        return projectService
+                .deleteProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
     }
