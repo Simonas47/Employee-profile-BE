@@ -33,12 +33,12 @@ public class AchievementMapper {
 
     private static Date getAchievementStartDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
         AchievementEmployee achievementEmployee = getAchievementEmployee(achievement, achievementEmployeeList);
-        if (achievementEmployee != null) return achievementEmployee.getStartDate();
+        if (achievementEmployee != null) return achievementEmployee.getAchievementStartDate();
         return null;
     }
     private static Date getAchievementEndDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
         AchievementEmployee achievementEmployee = getAchievementEmployee(achievement, achievementEmployeeList);
-        if (achievementEmployee != null) return achievementEmployee.getEndDate();
+        if (achievementEmployee != null) return achievementEmployee.getAchievementEndDate();
         return null;
     }
 
