@@ -24,7 +24,7 @@ public class SkillController {
     }
 
     @PutMapping("/update")
-    public void updateEmployeeSkill(@RequestBody ChangedSkillsDto request) {
-        skillsService.updateEmployeeSkill(request);
+    public void updateEmployeeSkill(@RequestBody ChangedSkillsDto changedSkills) {
+        skillsService.updateEmployeeSkills(changedSkills);
     }
 }

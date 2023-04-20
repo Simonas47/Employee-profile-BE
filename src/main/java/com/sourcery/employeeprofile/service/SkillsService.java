@@ -21,8 +21,8 @@ public class SkillsService {
         return mapModelsToDtos(skillsRepository.getAll(), skillsRepository.getSkillsByEmployeeId(employeeId));
     }
 
-    public void updateEmployeeSkill(ChangedSkillsDto request) {
-        for (EmployeeSkillDto employeeSkill : request.getChangedSkills())  {
+    public void updateEmployeeSkills(ChangedSkillsDto changedSkills) {
+        for (EmployeeSkillDto employeeSkill : changedSkills.getChangedSkills())  {
             skillsRepository.deleteSkillEmployeeRelationshipById(
                     employeeSkill.getEmployeeId(),
                     employeeSkill.getSkillId()
