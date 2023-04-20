@@ -23,9 +23,8 @@ public class SkillController {
         return skillsService.getAllByEmployeeId(employeeId);
     }
 
-    @PutMapping("/newUpdate")
+    @PutMapping("/update")
     public void updateEmployeeSkill(@RequestBody ChangedSkillsDto request) {
         skillsService.updateEmployeeSkill(request);
-        System.out.println(request);
     }
 }

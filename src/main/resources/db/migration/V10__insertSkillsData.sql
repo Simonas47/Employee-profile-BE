@@ -33,7 +33,7 @@ INSERT INTO skills (skillName, parentId) VALUES ('ReportPortal', (SELECT id FROM
 
 INSERT INTO skills (skillName, parentId) VALUES ('Non-functional testing', (SELECT id FROM skills WHERE skillName = 'Testing'));
 
-INSERT INTO skills (skillName, parentId, uniqueSkillIdentifier, subItemsAreSkills) VALUES ('Others', (SELECT id FROM skills WHERE skillName = 'Non-functional testing'), 'Non-functional testingOthers', true);
+INSERT INTO skills (skillName, parentId, uniqueSkillIdentifier) VALUES ('Others', (SELECT id FROM skills WHERE skillName = 'Non-functional testing'), 'Non-functional testingOthers');
 INSERT INTO skills (skillName, parentId) VALUES ('Compatibility testing', (SELECT id FROM skills WHERE uniqueSkillIdentifier = 'Non-functional testingOthers'));
 INSERT INTO skills (skillName, parentId) VALUES ('Usability testing', (SELECT id FROM skills WHERE uniqueSkillIdentifier = 'Non-functional testingOthers'));
 INSERT INTO skills (skillName, parentId) VALUES ('Maintainability testing', (SELECT id FROM skills WHERE uniqueSkillIdentifier = 'Non-functional testingOthers'));
