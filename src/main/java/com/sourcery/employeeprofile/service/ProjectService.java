@@ -44,14 +44,7 @@ public class ProjectService {
     public Optional<ProjectDto> getProjectById(UUID id) {
         Project project = projectRepository.getProjectById(id);
         List<EmployeeDto> employees = employeeRepository.getEmployeesByProjectId(id);
-        return Optional.of(new ProjectDto(
-                project.getId(),
-                project.getTitle(),
-                project.getStartDate(),
-                project.getEndDate(),
-                project.getDescription(),
-                employees)
-        );
+        return Optional.of(new ProjectDto(project.getId(), project.getTitle(), project.getStartDate(), project.getEndDate(), project.getDescription(), employees));
     }
 
     public List<ProjectDto> getAllProjects() {
@@ -59,21 +52,12 @@ public class ProjectService {
         List<ProjectDto> projectsDto = new ArrayList<>();
         projects.forEach(project -> {
             List<EmployeeDto> employees = employeeRepository.getEmployeesByProjectId(project.getId());
-            projectsDto.add(new ProjectDto(
-                    project.getId(),
-                    project.getTitle(),
-                    project.getStartDate(),
-                    project.getEndDate(),
-                    project.getDescription(),
-                    employees)
-            );
+            projectsDto.add(new ProjectDto(project.getId(), project.getTitle(), project.getStartDate(), project.getEndDate(), project.getDescription(), employees));
         });
         return projectsDto;
     }
 
-    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId,
-                                                              UUID employeeId,
-                                                              String teamMemberStatus) {
+    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId, UUID employeeId, String teamMemberStatus) {
         projectRepository.createNewProjectRelationship(projectId, employeeId, teamMemberStatus);
         return this.getProjectRelationshipsByProjectId(projectId);
     }
@@ -86,4 +70,12 @@ public class ProjectService {
         projectRepository.deleteProjectById(id);
         return this.getProjectById(id);
     }
+
+    public int addProjectEmployeesTitle(UUID projectId, UUID employeeId, UUID titleId, String teamMemberStatus ) {
+        return projectRepository.addProjectEmployeesTitle(projectId, employeeId, titleId, teamMemberStatus);
+    }
+    public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(UUID employeeId) {
+        return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
+    }
+
 }

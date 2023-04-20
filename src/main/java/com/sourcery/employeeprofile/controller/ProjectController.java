@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
@@ -75,4 +76,35 @@ public class ProjectController {
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+
+    @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
+    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId(@PathVariable UUID employeeId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
+    }
+
+    @PostMapping("/projects-employees")
+    public ResponseEntity<String> addTitleToProjectEmployee(@RequestBody Map<String, Object> requestBody) {
+        UUID projectId = UUID.fromString((String) requestBody.get("projectId"));
+        UUID employeeId = UUID.fromString((String) requestBody.get("employeeId"));
+        UUID titleId = UUID.fromString((String) requestBody.get("titleId"));
+        String teamMemberStatus = String.valueOf(requestBody.get("teamMemberStatus"));
+        int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId, teamMemberStatus);
+        if (rowsAffected == 1) {
+            return ResponseEntity.ok("Title added successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Unable to add title");
+        }
+    }
+
+//
+//        @Autowired
+//        private EmployeeProjectTitleService employeeProjectTitleService;
+//        @PostMapping("/{projectId}/employees/{employeeId}")
+//        public ResponseEntity<?> addResponsibility(@PathVariable Long projectId, @PathVariable Long employeeId, @RequestBody String ) {
+//            employeeProjectTitleService.addResponsibility(projectId, employeeId, responsibility);
+//            return ResponseEntity.ok().build();
+//        }
 }

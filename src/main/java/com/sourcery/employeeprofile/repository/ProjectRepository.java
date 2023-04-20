@@ -33,12 +33,21 @@ public interface ProjectRepository {
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId);
 
+    @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByEmployeeId")
+    List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId);
+
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") UUID id);
+
+    @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesTitle")
+    int addProjectEmployeesTitle(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("titleId") UUID titleId ,@Param("teamMemberStatus") String teamMemberStatus);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "updateProject")
     void updateProject(ProjectDto project);
 
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
     void removeProjectEmployees(UUID id);
+
+
+
 }
