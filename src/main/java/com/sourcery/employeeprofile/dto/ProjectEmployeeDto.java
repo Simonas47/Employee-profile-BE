@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
-public class TeamMemberDto {
+public class ProjectEmployeeDto {
     private UUID id;
     private String name;
     private String surname;
@@ -21,6 +21,7 @@ public class TeamMemberDto {
     private String status;
     private String imageType;
     private String imageBytes;
-    private Date startDate;
-    private Date endDate;
+    private String teamMemberStatus;
+    private Date teamMemberStartDate;
+    private Date teamMemberEndDate;
 }
