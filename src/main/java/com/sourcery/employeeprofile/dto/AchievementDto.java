@@ -16,8 +16,8 @@ public class AchievementDto {
     private UUID id;
     private String achievementName;
     private Boolean checked;
-    private Date achievementStartDate;
-    private Date achievementEndDate;
+    private Date issueDate;
+    private Date expiringDate;
     private boolean subItemsAreAchievements;
     private Integer indent;
     private UUID parentId;

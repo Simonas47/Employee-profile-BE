@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 @Mapper
 public interface AchievementsRepository {
-    @Select("SELECT * FROM achievements")
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getAll")
     List<Achievement> getAll();
 
     @SelectProvider(type = AchievementSqlProvider.class, method = "getAchievementRelationshipsByEmployeeId")
@@ -23,5 +23,5 @@ public interface AchievementsRepository {
     void deleteAchievementEmployeeRelationshipById(@Param("employeeId")UUID employeeId, @Param("achievementId") UUID achievementId);
 
     @InsertProvider(type = AchievementSqlProvider.class, method = "createNewAchievementEmployeeRelationship")
-    void createNewAchievementEmployeeRelationship(UUID achievementId, Date achievementStartDate, Date achievementEndDate, UUID employeeId);
+    void createNewAchievementEmployeeRelationship(UUID achievementId, Date issueDate, Date expiringDate, UUID employeeId);
 }

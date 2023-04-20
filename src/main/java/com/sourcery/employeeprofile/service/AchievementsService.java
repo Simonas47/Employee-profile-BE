@@ -22,12 +22,23 @@ public class AchievementsService {
         return mapModelsToDtos(achievementsRepository.getAll(), achievementsRepository.getAchievementsByEmployeeId(employeeId));
     }
 
-    public void updateEmployeeAchievement(UUID achievementId, UUID employeeId, boolean checked, Date achievementStartDate, Date achievementEndDate) {
+    public void updateEmployeeAchievement(UUID achievementId, UUID employeeId, boolean checked, Date issueDate, Date expiringDate) {
         if (checked) {
-            achievementsRepository.deleteAchievementEmployeeRelationshipById(employeeId, achievementId);
-            achievementsRepository.createNewAchievementEmployeeRelationship(achievementId, achievementStartDate, achievementEndDate, employeeId);
+            achievementsRepository.deleteAchievementEmployeeRelationshipById(
+                    employeeId,
+                    achievementId
+            );
+            achievementsRepository.createNewAchievementEmployeeRelationship(
+                    achievementId,
+                    issueDate,
+                    expiringDate,
+                    employeeId
+            );
         } else {
-            achievementsRepository.deleteAchievementEmployeeRelationshipById(employeeId, achievementId);
+            achievementsRepository.deleteAchievementEmployeeRelationshipById(
+                    employeeId,
+                    achievementId
+            );
         }
     }
 }

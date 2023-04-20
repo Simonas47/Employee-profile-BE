@@ -12,7 +12,7 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/achievements")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class AchievementController {
     @Autowired
     AchievementsService achievementsService;
@@ -24,7 +24,10 @@ public class AchievementController {
 
     @PutMapping("/update")
     public void updateEmployeeAchievement(@RequestBody EmployeeAchievementDto request) {
-        achievementsService.updateEmployeeAchievement(request.getAchievementId(), request.getEmployeeId(), request.isChecked(), request.getAchievementStartDate(), request.getAchievementEndDate());
-        System.out.println(request);
+        achievementsService.updateEmployeeAchievement(request.getAchievementId(),
+                request.getEmployeeId(),
+                request.isChecked(),
+                request.getIssueDate(),
+                request.getExpiringDate());
     }
 }

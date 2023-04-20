@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 public class AchievementMapper {
-    public static List<AchievementDto> mapModelsToDtos(List<Achievement> achievementModelList, List<AchievementEmployee> achievementEmployeeList) {
+    public static List<AchievementDto> mapModelsToDtos(List<Achievement> achievementModelList,
+                                                       List<AchievementEmployee> achievementEmployeeList) {
         Integer counter = 0;
         List<AchievementDto> outputList = new ArrayList<>();
         for (Achievement achievement : achievementModelList) {
@@ -17,8 +18,8 @@ public class AchievementMapper {
                     AchievementDto(achievement.getId(),
                     achievement.getAchievementName(),
                     isChecked(achievement, achievementEmployeeList),
-                    getAchievementStartDate(achievement, achievementEmployeeList),
-                    getAchievementEndDate(achievement, achievementEmployeeList),
+                    getIssueDate(achievement, achievementEmployeeList),
+                    getExpiringDate(achievement, achievementEmployeeList),
                     achievement.isSubItemsAreAchievements(),
                     getIndent(achievement, counter, achievementModelList),
                     achievement.getParentId());
@@ -31,14 +32,14 @@ public class AchievementMapper {
         return getAchievementEmployee(achievement, achievementEmployeeList) != null;
     }
 
-    private static Date getAchievementStartDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
+    private static Date getIssueDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
         AchievementEmployee achievementEmployee = getAchievementEmployee(achievement, achievementEmployeeList);
-        if (achievementEmployee != null) return achievementEmployee.getAchievementStartDate();
+        if (achievementEmployee != null) return achievementEmployee.getIssueDate();
         return null;
     }
-    private static Date getAchievementEndDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
+    private static Date getExpiringDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
         AchievementEmployee achievementEmployee = getAchievementEmployee(achievement, achievementEmployeeList);
-        if (achievementEmployee != null) return achievementEmployee.getAchievementEndDate();
+        if (achievementEmployee != null) return achievementEmployee.getExpiringDate();
         return null;
     }
 
@@ -51,14 +52,13 @@ public class AchievementMapper {
         return null;
     }
 
-    private static Integer getIndent(Achievement iterateFrom, Integer counter, List<Achievement> achievementModelList) {
-        for (Achievement achievement : achievementModelList) {
-            if (iterateFrom.getParentId() == null) {
-                Integer tempCounter = counter;
-                return tempCounter;
-            } else if (achievement.getId().equals(iterateFrom.getParentId())) {
+    private static Integer getIndent(Achievement achievement, Integer counter, List<Achievement> achievementModelList) {
+        for (Achievement achievementModel : achievementModelList) {
+            if (achievement.getParentId() == null) {
+                return counter;
+            } else if (achievementModel.getId().equals(achievement.getParentId())) {
                 counter++;
-                return getIndent(achievement, counter, achievementModelList);
+                return getIndent(achievementModel, counter, achievementModelList);
             }
         }
         throw new RuntimeException("no values in DB!");

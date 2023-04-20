@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AchievementEmployee {
     private UUID id;
     private UUID achievementId;
-    private Date achievementStartDate;
-    private Date achievementEndDate;
+    private Date issueDate;
+    private Date expiringDate;
     private UUID employeeId;
 }
