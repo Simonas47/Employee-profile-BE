@@ -18,10 +18,9 @@ public class ProjectEmployeeDto {
     private String surname;
     private String middleName;
     private String title;
-    private String status;
     private String imageType;
     private String imageBytes;
-    private String teamMemberStatus;
-    private Date teamMemberStartDate;
-    private Date teamMemberEndDate;
+    private String projectEmployeeStatus;
+    private Date projectEmployeeStartDate;
+    private Date projectEmployeeEndDate;
 }

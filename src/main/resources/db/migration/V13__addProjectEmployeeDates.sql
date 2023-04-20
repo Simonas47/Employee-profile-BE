@@ -1,3 +1,6 @@
 ALTER TABLE projects_employees
-ADD COLUMN teamMemberStartDate DATE NOT NULL DEFAULT CURRENT_DATE,
-ADD COLUMN teamMemberEndDate DATE;
+ADD COLUMN projectEmployeeStartDate DATE NOT NULL DEFAULT CURRENT_DATE,
+ADD COLUMN projectEmployeeEndDate DATE;
+
+ALTER TABLE projects_employees
+RENAME COLUMN teamMemberStatus TO projectEmployeeStatus;

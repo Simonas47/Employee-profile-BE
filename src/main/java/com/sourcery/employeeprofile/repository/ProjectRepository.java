@@ -26,10 +26,10 @@ public interface ProjectRepository {
     List<Project> getAllProjects();
 
     @InsertProvider(type = ProjectSqlProvider.class, method = "createNewProjectRelationship")
-    void createNewProjectRelationship(UUID projectId, UUID employeeId, String teamMemberStatus, Date teamMemberStartDate, Date teamMemberEndDate);
+    void createNewProjectRelationship(UUID projectId, UUID employeeId, String projectEmployeeStatus, Date projectEmployeeStartDate, Date projectEmployeeEndDate);
 
     @InsertProvider(type = ProjectSqlProvider.class, method = "addEmployeesToProject")
-    void addEmployeesToProject(@Param("projectId") UUID projectId, @Param("employees") List<ProjectEmployeeDto> employees);
+    void addEmployeesToProject(@Param("projectId") UUID projectId, @Param("projectEmployees") List<ProjectEmployeeDto> projectEmployees);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId);

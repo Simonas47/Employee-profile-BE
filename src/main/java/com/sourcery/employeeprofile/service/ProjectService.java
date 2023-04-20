@@ -70,10 +70,10 @@ public class ProjectService {
 
     public List<ProjectEmployee> createNewProjectRelationship(UUID projectId,
                                                               UUID employeeId,
-                                                              String teamMemberStatus,
-                                                              Date teamMemberStartDate,
-                                                              Date teamMemberEndDate) {
-        projectRepository.createNewProjectRelationship(projectId, employeeId, teamMemberStatus, teamMemberStartDate, teamMemberEndDate);
+                                                              String projectEmployeeStatus,
+                                                              Date projectEmployeeStartDate,
+                                                              Date projectEmployeeEndDate) {
+        projectRepository.createNewProjectRelationship(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate);
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 

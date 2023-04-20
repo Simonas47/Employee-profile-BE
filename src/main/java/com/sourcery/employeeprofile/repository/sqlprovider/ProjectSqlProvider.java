@@ -21,13 +21,13 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
     public static String addEmployeesToProject(@Param("projectId") UUID projectId,
-                                               @Param("employees") List<ProjectEmployeeDto> employees) {
+                                               @Param("projectEmployees") List<ProjectEmployeeDto> projectEmployees) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
-                "(projectId, employeeId, teamMemberStatus, teamMemberStartDate, teamMemberEndDate)" +
+                "(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate)" +
                 "VALUES" +
-                "<foreach item='employee' collection='employees' open='(' separator='),(' close=')'>" +
-                "#{projectId}, #{employee.id}, #{employee.teamMemberStatus}, #{employee.teamMemberStartDate}, #{employee.teamMemberEndDate}" +
+                "<foreach item='projectEmployee' collection='projectEmployees' open='(' separator='),(' close=')'>" +
+                "#{projectId}, #{projectEmployee.id}, #{projectEmployee.projectEmployeeStatus}, #{projectEmployee.projectEmployeeStartDate}, #{projectEmployee.projectEmployeeEndDate}" +
                 "</foreach>" +
                 "</script>";
     }
@@ -72,9 +72,9 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
                 .VALUES("employeeId", "#{employeeId}")
-                .VALUES("teamMemberStatus", "#{teamMemberStatus}")
-                .VALUES("teamMemberStartDate", "#{teamMemberStartDate}")
-                .VALUES("teamMemberEndDate", "teamMemberEndDate");
+                .VALUES("projectEmployeeStatus", "#{projectEmployeeStatus}")
+                .VALUES("projectEmployeeStartDate", "#{projectEmployeeStartDate}")
+                .VALUES("projectEmployeeEndDate", "projectEmployeeEndDate");
         return sql.toString();
     }
 
