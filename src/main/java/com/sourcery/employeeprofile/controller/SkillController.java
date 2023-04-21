@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
+import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.dto.SkillDto;
 import com.sourcery.employeeprofile.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class SkillController {
                 employeeSkillDto.isChecked(),
                 employeeSkillDto.getSkillLevel()
         );
+    }
+
+    @GetMapping("/getSkillsCategories")
+    public List<SearchSkillDto> getSkillsCategories() {
+        return skillsService.getSkillsCategories();
     }
 }
