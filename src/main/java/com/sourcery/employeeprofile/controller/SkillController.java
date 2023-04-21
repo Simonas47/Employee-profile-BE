@@ -1,6 +1,6 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
+import com.sourcery.employeeprofile.dto.ChangedSkillsDto;
 import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.dto.SkillDto;
 import com.sourcery.employeeprofile.dto.ChangedSkillsDto;
