@@ -23,4 +23,13 @@ public interface SkillsRepository {
 
     @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
     void createNewSkillEmployeeRelationship(UUID skillId, String skillLevel, UUID employeeId);
+
+    @SelectProvider(type = SkillSqlProvider.class, method = "getBottomCategories")
+    List<Skill> getBottomCategories();
+
+    @SelectProvider(type = SkillSqlProvider.class, method = "getBottomSkills")
+    List<Skill> getBottomSkills(@Param("parentId") UUID parentId);
+
+    @SelectProvider(type = SkillSqlProvider.class, method = "getTopCategory")
+    Skill getTopCategory(@Param("parentId") UUID parentId);
 }

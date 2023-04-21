@@ -38,4 +38,29 @@ public class SkillSqlProvider {
                 .FROM("skills");
         return sql.toString();
     }
+
+    public static String getBottomCategories() {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills")
+                .WHERE("skills.subItemsAreSkills = true");
+        return sql.toString();
+    }
+
+    public static String getBottomSkills(@Param("parentId") UUID parentId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills")
+                .WHERE("skills.parentId = #{parentId}")
+                .ORDER_BY("skillName ASC");
+        return sql.toString();
+    }
+
+    public static String getTopCategory(@Param("parentId") UUID parentId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills")
+                .WHERE("skills.id = #{parentId}");
+        return sql.toString();
+    }
 }
