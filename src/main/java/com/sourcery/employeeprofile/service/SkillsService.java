@@ -1,8 +1,8 @@
 package com.sourcery.employeeprofile.service;
 
+import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.dto.ChangedSkillsDto;
 import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
-import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.dto.SkillDto;
 import com.sourcery.employeeprofile.model.Skill;
 import com.sourcery.employeeprofile.repository.SkillsRepository;
