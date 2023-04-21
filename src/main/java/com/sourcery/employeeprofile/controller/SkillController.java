@@ -1,6 +1,5 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.dto.ChangedSkillsDto;
 import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.dto.SkillDto;
@@ -28,11 +27,6 @@ public class SkillController {
     @PutMapping("/update")
     public void updateEmployeeSkill(@RequestBody ChangedSkillsDto changedSkills) {
         skillsService.updateEmployeeSkills(changedSkills);
-    }
-
-    @GetMapping("/getSkillsCategories")
-    public List<SearchSkillDto> getSkillsCategories() {
-        return skillsService.getSkillsCategories();
     }
 
     @GetMapping("/getSkillsCategories")
