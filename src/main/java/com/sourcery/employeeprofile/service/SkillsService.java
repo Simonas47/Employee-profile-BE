@@ -1,9 +1,9 @@
 package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.dto.SearchSkillDto;
-import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
-import com.sourcery.employeeprofile.dto.SkillDto;
 import com.sourcery.employeeprofile.dto.ChangedSkillsDto;
+import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
+import com.sourcery.employeeprofile.dto.SearchSkillDto;
+import com.sourcery.employeeprofile.dto.SkillDto;
 import com.sourcery.employeeprofile.model.Skill;
 import com.sourcery.employeeprofile.repository.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class SkillsService {
     }
 
     public void updateEmployeeSkills(ChangedSkillsDto changedSkills) {
-        for (EmployeeSkillDto employeeSkill : changedSkills.getChangedSkills())  {
+        for (EmployeeSkillDto employeeSkill : changedSkills.getChangedSkills()) {
             skillsRepository.deleteSkillEmployeeRelationshipById(
                     employeeSkill.getEmployeeId(),
                     employeeSkill.getSkillId()
