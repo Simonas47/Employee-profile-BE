@@ -44,10 +44,17 @@ public class ProjectController {
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<ProjectDto> getProjectById(@PathVariable UUID id) {
+        System.out.println("Received request to get project with ID: " + id);
         return projectService
                 .getProjectById(id)
-                .map(projectDto -> ResponseEntity.ok(projectDto))
-                .orElse(ResponseEntity.notFound().build());
+                .map(projectDto -> {
+                    System.out.println("Returning project details for project with ID: " + id);
+                    return ResponseEntity.ok(projectDto);
+                })
+                .orElseGet(() -> {
+                    System.out.println("Project with ID " + id + " not found");
+                    return ResponseEntity.notFound().build();
+                });
     }
 
     @GetMapping(value = "/all", produces = "application/json")
