@@ -31,9 +31,4 @@ public class SkillController {
     public List<SearchSkillDto> getSkillsCategories() {
         return skillsService.getSkillsCategories();
     }
-
-    @GetMapping("/getSkillsCategories")
-    public List<SearchSkillDto> getSkillsCategories() {
-        return skillsService.getSkillsCategories();
-    }
 }
