@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,8 +58,10 @@ public class ProjectController {
     @PostMapping(value = "/addEmployee")
     public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") UUID projectId,
                                                                               @RequestPart("employeeId") UUID employeeId,
-                                                                              @RequestPart("teamMemberStatus") String teamMemberStatus) {
-        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, teamMemberStatus));
+                                                                              @RequestPart("projectEmployeeStatus") String projectEmployeeStatus,
+                                                                              @RequestPart("projectEmployeeStartDate") Date projectEmployeeStartDate,
+                                                                              @RequestPart("projectEmployeeEndDate") Date projectEmployeeEndDate) {
+        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate));
     }
 
     @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")

@@ -1,7 +1,6 @@
 package com.sourcery.employeeprofile.service;
-
-import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,57 +24,56 @@ public class ProjectService {
 
     public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
-
-        if (project.getEmployees() != null && project.getEmployees().size() > 0)
-            projectRepository.addEmployeesToProject(project.getId(), project.getEmployees());
+        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
+            projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public ProjectDto updateProject(ProjectDto project) throws IOException {
         projectRepository.updateProject(project);
-        projectRepository.removeProjectEmployees(project.getId());
+        projectRepository.removeEmployeesFromProject(project.getId());
 
-        if (project.getEmployees() != null && project.getEmployees().size() > 0)
-            projectRepository.addEmployeesToProject(project.getId(), project.getEmployees());
+        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
+            projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public Optional<ProjectDto> getProjectById(UUID id) {
         Project project = projectRepository.getProjectById(id);
-        List<EmployeeDto> employees = employeeRepository.getEmployeesByProjectId(id);
+        List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(id);
         return Optional.of(new ProjectDto(
                 project.getId(),
                 project.getTitle(),
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getDescription(),
-                employees)
-        );
+                projectEmployees));
     }
 
     public List<ProjectDto> getAllProjects() {
         List<Project> projects = projectRepository.getAllProjects();
         List<ProjectDto> projectsDto = new ArrayList<>();
         projects.forEach(project -> {
-            List<EmployeeDto> employees = employeeRepository.getEmployeesByProjectId(project.getId());
+            List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
             projectsDto.add(new ProjectDto(
                     project.getId(),
                     project.getTitle(),
                     project.getStartDate(),
                     project.getEndDate(),
                     project.getDescription(),
-                    employees)
-            );
+                    projectEmployees));
         });
         return projectsDto;
     }
 
     public List<ProjectEmployee> createNewProjectRelationship(UUID projectId,
                                                               UUID employeeId,
-                                                              String teamMemberStatus) {
-        projectRepository.createNewProjectRelationship(projectId, employeeId, teamMemberStatus);
+                                                              String projectEmployeeStatus,
+                                                              Date projectEmployeeStartDate,
+                                                              Date projectEmployeeEndDate) {
+        projectRepository.createNewProjectRelationship(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate);
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 

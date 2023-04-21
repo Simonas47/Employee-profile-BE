@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -15,5 +16,7 @@ public class ProjectEmployee {
     private UUID id;
     private UUID projectId;
     private UUID employeeId;
-    private String teamMemberStatus;
+    private String projectEmployeeStatus;
+    private Date projectEmployeeStartDate;
+    private Date projectEmployeeEndDate;
 }

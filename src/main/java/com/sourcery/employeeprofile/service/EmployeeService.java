@@ -43,9 +43,9 @@ public class EmployeeService {
         return employee;
     }
 
-    public List<SearchEmployeeDto> getEmployees(String searchValue, Integer page, Integer size) {
+    public List<SearchEmployeeDto> getEmployees(String searchValue, Integer page, Integer size, Boolean isLimited) {
         String nameLike = "%" + searchValue + "%";
-        return employeeRepository.getEmployees(nameLike, page, size);
+        return employeeRepository.getEmployees(nameLike, page, size, isLimited);
     }
 
     public Integer getEmployeeCountByName(String searchValue) {

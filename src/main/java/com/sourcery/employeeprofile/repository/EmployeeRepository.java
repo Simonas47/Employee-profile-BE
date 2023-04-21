@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.repository;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider;
@@ -24,11 +25,12 @@ public interface EmployeeRepository {
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployees")
     List<SearchEmployeeDto> getEmployees(@Param("name") String name,
                                          @Param("page") Integer page,
-                                         @Param("pageSize") Integer pageSize);
+                                         @Param("pageSize") Integer pageSize,
+                                         @Param("isLimited") Boolean isLimited);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCountByName")
     Integer getEmployeeCountByName(@Param("name") String name);
 
-    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeesByProjectId")
-    List<EmployeeDto> getEmployeesByProjectId(@Param("projectId") UUID projectId);
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getProjectEmployeesByProjectId")
+    List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") UUID projectId);
 }
