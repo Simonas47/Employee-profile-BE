@@ -70,7 +70,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName",
                         "t.title",
-                        "i.name AS imageName", "i.type AS imageType", "i.bytes AS imageBytes",
+                        "i.type AS imageType", "i.bytes AS imageBytes",
                         "pe.projectEmployeeStatus", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("projects_employees pe")
