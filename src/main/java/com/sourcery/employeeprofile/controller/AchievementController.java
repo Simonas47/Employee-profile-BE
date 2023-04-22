@@ -25,7 +25,6 @@ public class AchievementController {
 
     @PutMapping("/update")
     public void updateEmployeeAchievement(@RequestBody ChangedAchievementsDto changedAchievements) {
-        System.out.println(changedAchievements);
         achievementsService.updateEmployeeAchievements(changedAchievements);
     }
 }

@@ -28,7 +28,6 @@ public class AchievementsService {
                     employeeAchievement.getAchievementId()
             );
             if (employeeAchievement.isChecked()) {
-                System.out.println(employeeAchievement);
                 achievementsRepository.createNewAchievementEmployeeRelationship(
                         employeeAchievement.getAchievementId(),
                         employeeAchievement.getIssueDate(),
