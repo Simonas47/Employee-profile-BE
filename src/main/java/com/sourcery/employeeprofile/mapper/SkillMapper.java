@@ -19,10 +19,17 @@ public class SkillMapper {
                     getSkillLevel(skill, skillEmployeeList),
                     skill.isSubItemsAreSkills(),
                     getIndent(skill, counter, skillModelList),
-                    skill.getParentId(), skill.isLanguage());
+                    skill.getParentId(), skill.isLanguage(), isCategory(skill, skillModelList));
             outputList.add(skillDto);
         }
         return outputList;
+    }
+
+    private static boolean isCategory(Skill skill, List<Skill> skillModelList) {
+        for (Skill childSkill : skillModelList) {
+            if (skill.getId().equals(childSkill.getParentId())) return true;
+        }
+        return false;
     }
 
     private static Boolean isChecked(Skill skill, List<SkillEmployee> skillEmployeeList) {
@@ -36,7 +43,7 @@ public class SkillMapper {
     }
 
     private static SkillEmployee getSkillEmployee(Skill skill, List<SkillEmployee> skillEmployeeList) {
-        for (SkillEmployee skillEmployee: skillEmployeeList) {
+        for (SkillEmployee skillEmployee : skillEmployeeList) {
             if (skillEmployee.getSkillId().equals(skill.getId())) {
                 return skillEmployee;
             }
@@ -44,17 +51,15 @@ public class SkillMapper {
         return null;
     }
 
-    private static Integer getIndent(Skill iterateFrom, Integer counter, List<Skill> skillModelList) {
-        for (Skill skill : skillModelList) {
-            if (iterateFrom.getParentId() == null) {
-                Integer tempCounter = counter;
-                return tempCounter;
-            } else if (skill.getId().equals(iterateFrom.getParentId())) {
+    private static Integer getIndent(Skill skill, Integer counter, List<Skill> skillModelList) {
+        for (Skill skillModel : skillModelList) {
+            if (skill.getParentId() == null) {
+                return counter;
+            } else if (skillModel.getId().equals(skill.getParentId())) {
                 counter++;
-                return getIndent(skill, counter, skillModelList);
+                return getIndent(skillModel, counter, skillModelList);
             }
         }
         throw new RuntimeException("no values in DB!");
     }
-
 }

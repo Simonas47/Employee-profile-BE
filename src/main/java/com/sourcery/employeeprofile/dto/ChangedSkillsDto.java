@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-public class SearchEmployeePageDto {
-    private Integer count;
-    private List<SearchEmployeeDto> employees;
+public class ChangedSkillsDto {
+    private List<EmployeeSkillDto> changedSkills;
 }

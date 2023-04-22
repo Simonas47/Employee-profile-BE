@@ -12,14 +12,14 @@ import java.util.UUID;
 @Repository
 @Mapper
 public interface SkillsRepository {
-    @Select("SELECT * FROM skills")
+    @SelectProvider(type = SkillSqlProvider.class, method = "getAll")
     List<Skill> getAll();
 
     @SelectProvider(type = SkillSqlProvider.class, method = "getSkillRelationshipsByEmployeeId")
     List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") UUID employeeId);
 
     @DeleteProvider(type = SkillSqlProvider.class, method = "deleteSkillEmployeeRelationshipById")
-    void deleteSkillEmployeeRelationshipById(@Param("employeeId")UUID employeeId, @Param("skillId") UUID skillId);
+    void deleteSkillEmployeeRelationshipById(@Param("employeeId") UUID employeeId, @Param("skillId") UUID skillId);
 
     @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
     void createNewSkillEmployeeRelationship(UUID skillId, String skillLevel, UUID employeeId);

@@ -19,5 +19,5 @@ public class ProjectDto {
     private Date startDate;
     private Date endDate;
     private String description;
-    private List<EmployeeDto> employees;
+    private List<ProjectEmployeeDto> projectEmployees;
 }
