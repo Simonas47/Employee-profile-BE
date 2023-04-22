@@ -27,8 +27,8 @@ public class AchievementSqlProvider {
         SQL sql = new SQL()
                 .INSERT_INTO("achievements_employees")
                 .VALUES("achievementId", "#{achievementId}")
-                .VALUES("issueDate", "(#{issueDate}")
-                .VALUES("expiringDate", "(#{expiringDate}")
+                .VALUES("issueDate", "#{issueDate}")
+                .VALUES("expiringDate", "#{expiringDate}")
                 .VALUES("employeeId", "#{employeeId}");
         return sql.toString();
     }

@@ -20,6 +20,6 @@ public class AchievementDto {
     private Date expiringDate;
     private boolean subItemsAreAchievements;
     private Integer indent;
-    private UUID parentId;
+    private UUID parentAchievementId;
     private boolean isCategory;
 }
