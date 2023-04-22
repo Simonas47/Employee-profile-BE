@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @Data
 public class AchievementDto {
-    private UUID id;
+    private UUID achievementId;
     private String achievementName;
     private Boolean checked;
     private Date issueDate;
@@ -21,4 +21,5 @@ public class AchievementDto {
     private boolean subItemsAreAchievements;
     private Integer indent;
     private UUID parentId;
+    private boolean isCategory;
 }

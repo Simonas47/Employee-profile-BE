@@ -20,7 +20,7 @@ public interface AchievementsRepository {
     List<AchievementEmployee> getAchievementsByEmployeeId(@Param("employeeId") UUID employeeId);
 
     @DeleteProvider(type = AchievementSqlProvider.class, method = "deleteAchievementEmployeeRelationshipById")
-    void deleteAchievementEmployeeRelationshipById(@Param("employeeId")UUID employeeId, @Param("achievementId") UUID achievementId);
+    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") UUID employeeId, @Param("achievementId") UUID achievementId);
 
     @InsertProvider(type = AchievementSqlProvider.class, method = "createNewAchievementEmployeeRelationship")
     void createNewAchievementEmployeeRelationship(UUID achievementId, Date issueDate, Date expiringDate, UUID employeeId);

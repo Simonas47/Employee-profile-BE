@@ -1,12 +1,12 @@
 package com.sourcery.employeeprofile.service;
 
+import com.sourcery.employeeprofile.dto.EmployeeAchievementDto;
 import com.sourcery.employeeprofile.dto.AchievementDto;
-import com.sourcery.employeeprofile.model.AchievementEmployee;
+import com.sourcery.employeeprofile.dto.ChangedAchievementsDto;
 import com.sourcery.employeeprofile.repository.AchievementsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +14,6 @@ import static com.sourcery.employeeprofile.mapper.AchievementMapper.mapModelsToD
 
 @Service
 public class AchievementsService {
-
     @Autowired
     AchievementsRepository achievementsRepository;
 
@@ -22,23 +21,21 @@ public class AchievementsService {
         return mapModelsToDtos(achievementsRepository.getAll(), achievementsRepository.getAchievementsByEmployeeId(employeeId));
     }
 
-    public void updateEmployeeAchievement(UUID achievementId, UUID employeeId, boolean checked, Date issueDate, Date expiringDate) {
-        if (checked) {
+    public void updateEmployeeAchievements(ChangedAchievementsDto changedAchievements) {
+        for (EmployeeAchievementDto employeeAchievement : changedAchievements.getChangedAchievements())  {
             achievementsRepository.deleteAchievementEmployeeRelationshipById(
-                    employeeId,
-                    achievementId
+                    employeeAchievement.getEmployeeId(),
+                    employeeAchievement.getAchievementId()
             );
-            achievementsRepository.createNewAchievementEmployeeRelationship(
-                    achievementId,
-                    issueDate,
-                    expiringDate,
-                    employeeId
-            );
-        } else {
-            achievementsRepository.deleteAchievementEmployeeRelationshipById(
-                    employeeId,
-                    achievementId
-            );
+            if (employeeAchievement.isChecked()) {
+                achievementsRepository.createNewAchievementEmployeeRelationship(
+                        employeeAchievement.getAchievementId(),
+                        employeeAchievement.getIssueDate(),
+                        employeeAchievement.getExpiringDate(),
+                        employeeAchievement.getEmployeeId()
+                );
+            }
         }
     }
+
 }

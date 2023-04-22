@@ -9,8 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AchievementMapper {
-    public static List<AchievementDto> mapModelsToDtos(List<Achievement> achievementModelList,
-                                                       List<AchievementEmployee> achievementEmployeeList) {
+    public static List<AchievementDto> mapModelsToDtos(List<Achievement> achievementModelList, List<AchievementEmployee> achievementEmployeeList) {
         Integer counter = 0;
         List<AchievementDto> outputList = new ArrayList<>();
         for (Achievement achievement : achievementModelList) {
@@ -22,10 +21,18 @@ public class AchievementMapper {
                     getExpiringDate(achievement, achievementEmployeeList),
                     achievement.isSubItemsAreAchievements(),
                     getIndent(achievement, counter, achievementModelList),
-                    achievement.getParentId());
+                    achievement.getParentId(),
+                    isCategory(achievement, achievementModelList));
             outputList.add(achievementDto);
         }
         return outputList;
+    }
+
+    private static boolean isCategory(Achievement achievement, List<Achievement> achievementModelList) {
+        for (Achievement childAchievement : achievementModelList) {
+            if (achievement.getId().equals(childAchievement.getParentId())) return true;
+        }
+        return false;
     }
 
     private static Boolean isChecked(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
@@ -37,6 +44,7 @@ public class AchievementMapper {
         if (achievementEmployee != null) return achievementEmployee.getIssueDate();
         return null;
     }
+
     private static Date getExpiringDate(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
         AchievementEmployee achievementEmployee = getAchievementEmployee(achievement, achievementEmployeeList);
         if (achievementEmployee != null) return achievementEmployee.getExpiringDate();
@@ -44,7 +52,7 @@ public class AchievementMapper {
     }
 
     private static AchievementEmployee getAchievementEmployee(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
-        for (AchievementEmployee achievementEmployee: achievementEmployeeList) {
+        for (AchievementEmployee achievementEmployee : achievementEmployeeList) {
             if (achievementEmployee.getAchievementId().equals(achievement.getId())) {
                 return achievementEmployee;
             }
@@ -63,5 +71,4 @@ public class AchievementMapper {
         }
         throw new RuntimeException("no values in DB!");
     }
-
 }

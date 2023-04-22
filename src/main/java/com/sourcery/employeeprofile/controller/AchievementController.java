@@ -1,12 +1,13 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.EmployeeAchievementDto;
 import com.sourcery.employeeprofile.dto.AchievementDto;
+import com.sourcery.employeeprofile.dto.ChangedAchievementsDto;
 import com.sourcery.employeeprofile.service.AchievementsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -23,11 +24,7 @@ public class AchievementController {
     }
 
     @PutMapping("/update")
-    public void updateEmployeeAchievement(@RequestBody EmployeeAchievementDto request) {
-        achievementsService.updateEmployeeAchievement(request.getAchievementId(),
-                request.getEmployeeId(),
-                request.isChecked(),
-                request.getIssueDate(),
-                request.getExpiringDate());
+    public void updateEmployeeAchievement(@RequestBody ChangedAchievementsDto changedAchievements) {
+        achievementsService.updateEmployeeAchievements(changedAchievements);
     }
 }

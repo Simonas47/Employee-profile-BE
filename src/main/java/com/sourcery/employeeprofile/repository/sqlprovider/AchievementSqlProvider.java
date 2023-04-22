@@ -1,7 +1,5 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -16,8 +14,8 @@ public class AchievementSqlProvider {
         return sql.toString();
     }
 
-    public static String deleteAchievementEmployeeRelationshipById(@Param("employeeId")UUID employeeId,
-                                                                   @Param("achievementId") UUID achievementId) {
+    public static String deleteAchievementEmployeeRelationshipById(@Param("employeeId") UUID employeeId,
+                                                             @Param("achievementId") UUID achievementId) {
         SQL sql = new SQL()
                 .DELETE_FROM("achievements_employees")
                 .WHERE("achievements_employees.achievementId = #{achievementId}").AND()
@@ -29,8 +27,8 @@ public class AchievementSqlProvider {
         SQL sql = new SQL()
                 .INSERT_INTO("achievements_employees")
                 .VALUES("achievementId", "#{achievementId}")
-                .VALUES("issueDate", "#{issueDate}")
-                .VALUES("expiringDate", "#{expiringDate}")
+                .VALUES("issueDate", "(#{issueDate}")
+                .VALUES("expiringDate", "(#{expiringDate}")
                 .VALUES("employeeId", "#{employeeId}");
         return sql.toString();
     }
