@@ -1,9 +1,6 @@
 package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.dto.ChangedSkillsDto;
-import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
-import com.sourcery.employeeprofile.dto.SearchSkillDto;
-import com.sourcery.employeeprofile.dto.SkillDto;
+import com.sourcery.employeeprofile.dto.*;
 import com.sourcery.employeeprofile.model.Skill;
 import com.sourcery.employeeprofile.repository.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +45,9 @@ public class SkillsService {
         skillBottomCategories.forEach(skillCategory -> {
             String category = getFullCategoryName(skillCategory);
             List<Skill> skills = skillsRepository.getBottomSkills(skillCategory.getId());
-            List<String> skillsNames = new ArrayList<>();
-            skills.forEach(skill -> skillsNames.add(skill.getSkillName()));
-            categoriesAndSkills.add(new SearchSkillDto(category, skillsNames));
+            List<DropdownSkillDto> dropdownSkills = new ArrayList<>();
+            skills.forEach(skill -> dropdownSkills.add(new DropdownSkillDto(skill.getId(), skill.getSkillName())));
+            categoriesAndSkills.add(new SearchSkillDto(category, dropdownSkills));
         });
         return categoriesAndSkills
                 .stream()
