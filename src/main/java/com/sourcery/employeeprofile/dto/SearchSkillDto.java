@@ -13,5 +13,5 @@ import java.util.List;
 @Data
 public class SearchSkillDto {
     private String categories;
-    private List<String> bottomSkills;
+    private List<DropdownSkillDto> bottomSkills;
 }
