@@ -7,7 +7,6 @@ import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ProjectSqlProvider implements ProviderMethodResolver {
     public static String createNewProject() {
@@ -20,7 +19,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String addEmployeesToProject(@Param("projectId") UUID projectId,
+    public static String addEmployeesToProject(@Param("projectId") int projectId,
                                                @Param("projectEmployees") List<ProjectEmployeeDto> projectEmployees) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
@@ -43,14 +42,14 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String removeEmployeesFromProject(UUID projectId) {
+    public static String removeEmployeesFromProject(int projectId) {
         SQL sql = new SQL()
                 .DELETE_FROM("projects_employees")
                 .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
 
-    public static String getProjectById(@Param("id") UUID id) {
+    public static String getProjectById(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.startDate", "p.endDate", "p.description")
                 .FROM("projects p")
@@ -78,7 +77,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId) {
+    public static String getProjectRelationshipsByProjectId(@Param("projectId") int projectId) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("projects_employees")
@@ -87,7 +86,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
     // This is a soft delete (the project is not removed from the database)
-    public static String deleteProjectById(@Param("id") UUID id) {
+    public static String deleteProjectById(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .UPDATE("projects")
                 .SET("deleted = true")

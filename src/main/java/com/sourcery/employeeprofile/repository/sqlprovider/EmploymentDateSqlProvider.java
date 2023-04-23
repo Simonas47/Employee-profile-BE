@@ -6,10 +6,9 @@ import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
-import java.util.UUID;
 
 public class EmploymentDateSqlProvider implements ProviderMethodResolver {
-    public static String getEmploymentDates(@Param("employeeId") UUID employeeId) {
+    public static String getEmploymentDates(@Param("employeeId") int employeeId) {
         SQL sql = new SQL()
                 .SELECT("hiringDate", "exitDate")
                 .FROM("employment_dates")
@@ -17,7 +16,7 @@ public class EmploymentDateSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String setEmploymentDates(@Param("employeeId") UUID employeeId,
+    public static String setEmploymentDates(@Param("employeeId") int employeeId,
                                             @Param("employmentDates") List<EmploymentDate> employmentDates) {
         return "<script>" +
                 "INSERT INTO employment_dates" +

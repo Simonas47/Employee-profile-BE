@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +13,6 @@ import java.util.UUID;
 public class EmployeeSkillDto {
     private boolean checked;
     private String skillLevel;
-    private UUID skillId;
-    private UUID employeeId;
+    private int skillId;
+    private int employeeId;
 }

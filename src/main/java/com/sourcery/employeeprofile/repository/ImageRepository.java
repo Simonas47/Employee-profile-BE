@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
 
 @Repository
 @Mapper
@@ -18,5 +17,5 @@ public interface ImageRepository {
     void createNewImage(Image image);
 
     @SelectProvider(type = ImageSqlProvider.class, method = "getById")
-    Image getById(UUID id);
+    Image getById(Integer id);
 }

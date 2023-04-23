@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 @Mapper
@@ -16,11 +15,11 @@ public interface SkillsRepository {
     List<Skill> getAll();
 
     @SelectProvider(type = SkillSqlProvider.class, method = "getSkillRelationshipsByEmployeeId")
-    List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") UUID employeeId);
+    List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") int employeeId);
 
     @DeleteProvider(type = SkillSqlProvider.class, method = "deleteSkillEmployeeRelationshipById")
-    void deleteSkillEmployeeRelationshipById(@Param("employeeId") UUID employeeId, @Param("skillId") UUID skillId);
+    void deleteSkillEmployeeRelationshipById(@Param("employeeId") int employeeId, @Param("skillId") int skillId);
 
     @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
-    void createNewSkillEmployeeRelationship(UUID skillId, String skillLevel, UUID employeeId);
+    void createNewSkillEmployeeRelationship(int skillId, String skillLevel, int employeeId);
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -43,7 +42,7 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<ProjectDto> getProjectById(@PathVariable UUID id) {
+    public ResponseEntity<ProjectDto> getProjectById(@PathVariable Integer id) {
         return projectService
                 .getProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))
@@ -56,8 +55,8 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/addEmployee")
-    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") UUID projectId,
-                                                                              @RequestPart("employeeId") UUID employeeId,
+    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") int projectId,
+                                                                              @RequestPart("employeeId") int employeeId,
                                                                               @RequestPart("projectEmployeeStatus") String projectEmployeeStatus,
                                                                               @RequestPart("projectEmployeeStartDate") Date projectEmployeeStartDate,
                                                                               @RequestPart("projectEmployeeEndDate") Date projectEmployeeEndDate) {
@@ -65,14 +64,14 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable UUID projectId) {
+    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable int projectId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(projectService.getProjectRelationshipsByProjectId(projectId));
     }
 
     @PatchMapping(value = "/delete/{id}", produces = "application/json")
-    public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable UUID id) {
+    public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable Integer id) {
         return projectService
                 .deleteProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))

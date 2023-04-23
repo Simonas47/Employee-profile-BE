@@ -9,15 +9,14 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 @Mapper
 public interface EmploymentDateRepository {
     @SelectProvider(type = EmploymentDateSqlProvider.class, method = "getEmploymentDates")
-    List<EmploymentDate> getEmploymentDates(@Param("employeeId") UUID employeeId);
+    List<EmploymentDate> getEmploymentDates(@Param("employeeId") int employeeId);
 
     @InsertProvider(type = EmploymentDateSqlProvider.class, method = "setEmploymentDates")
-    void setEmploymentDates(@Param("employeeId") UUID employeeId,
+    void setEmploymentDates(@Param("employeeId") int employeeId,
                             @Param("employmentDates") List<EmploymentDate> employmentDates);
 }

@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class ProjectDto {
-    private UUID id;
+    private Integer id;
     private String title;
     private Date startDate;
     private Date endDate;

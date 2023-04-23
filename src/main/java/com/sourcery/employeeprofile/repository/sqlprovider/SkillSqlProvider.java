@@ -3,10 +3,9 @@ package com.sourcery.employeeprofile.repository.sqlprovider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.UUID;
 
 public class SkillSqlProvider {
-    public static String getSkillRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId) {
+    public static String getSkillRelationshipsByEmployeeId(@Param("employeeId") int employeeId) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("skills_employees")
@@ -14,8 +13,8 @@ public class SkillSqlProvider {
         return sql.toString();
     }
 
-    public static String deleteSkillEmployeeRelationshipById(@Param("employeeId") UUID employeeId,
-                                                             @Param("skillId") UUID skillId) {
+    public static String deleteSkillEmployeeRelationshipById(@Param("employeeId") int employeeId,
+                                                             @Param("skillId") int skillId) {
         SQL sql = new SQL()
                 .DELETE_FROM("skills_employees")
                 .WHERE("skills_employees.skillId = #{skillId}").AND()

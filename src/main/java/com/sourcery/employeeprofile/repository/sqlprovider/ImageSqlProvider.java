@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.UUID;
 
 public class ImageSqlProvider implements ProviderMethodResolver {
     public static String createNewImage() {
@@ -16,7 +15,7 @@ public class ImageSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getById(@Param("id") UUID id) {
+    public static String getById(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("images")
