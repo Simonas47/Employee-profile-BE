@@ -5,7 +5,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 
 public class SkillSqlProvider {
-    public static String getSkillRelationshipsByEmployeeId(@Param("employeeId") int employeeId) {
+    public static String getSkillRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("skills_employees")
@@ -13,8 +13,8 @@ public class SkillSqlProvider {
         return sql.toString();
     }
 
-    public static String deleteSkillEmployeeRelationshipById(@Param("employeeId") int employeeId,
-                                                             @Param("skillId") int skillId) {
+    public static String deleteSkillEmployeeRelationshipById(@Param("employeeId") Integer employeeId,
+                                                             @Param("skillId") Integer skillId) {
         SQL sql = new SQL()
                 .DELETE_FROM("skills_employees")
                 .WHERE("skills_employees.skillId = #{skillId}").AND()

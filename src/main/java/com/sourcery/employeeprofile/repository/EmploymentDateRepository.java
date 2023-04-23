@@ -14,9 +14,9 @@ import java.util.List;
 @Mapper
 public interface EmploymentDateRepository {
     @SelectProvider(type = EmploymentDateSqlProvider.class, method = "getEmploymentDates")
-    List<EmploymentDate> getEmploymentDates(@Param("employeeId") int employeeId);
+    List<EmploymentDate> getEmploymentDates(@Param("employeeId") Integer employeeId);
 
     @InsertProvider(type = EmploymentDateSqlProvider.class, method = "setEmploymentDates")
-    void setEmploymentDates(@Param("employeeId") int employeeId,
+    void setEmploymentDates(@Param("employeeId") Integer employeeId,
                             @Param("employmentDates") List<EmploymentDate> employmentDates);
 }

@@ -19,7 +19,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String addEmployeesToProject(@Param("projectId") int projectId,
+    public static String addEmployeesToProject(@Param("projectId") Integer projectId,
                                                @Param("projectEmployees") List<ProjectEmployeeDto> projectEmployees) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
@@ -77,7 +77,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getProjectRelationshipsByProjectId(@Param("projectId") int projectId) {
+    public static String getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("projects_employees")

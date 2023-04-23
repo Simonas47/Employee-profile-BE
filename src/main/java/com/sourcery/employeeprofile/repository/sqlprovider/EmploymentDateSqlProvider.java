@@ -8,7 +8,7 @@ import org.apache.ibatis.jdbc.SQL;
 import java.util.List;
 
 public class EmploymentDateSqlProvider implements ProviderMethodResolver {
-    public static String getEmploymentDates(@Param("employeeId") int employeeId) {
+    public static String getEmploymentDates(@Param("employeeId") Integer employeeId) {
         SQL sql = new SQL()
                 .SELECT("hiringDate", "exitDate")
                 .FROM("employment_dates")
@@ -16,7 +16,7 @@ public class EmploymentDateSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String setEmploymentDates(@Param("employeeId") int employeeId,
+    public static String setEmploymentDates(@Param("employeeId") Integer employeeId,
                                             @Param("employmentDates") List<EmploymentDate> employmentDates) {
         return "<script>" +
                 "INSERT INTO employment_dates" +

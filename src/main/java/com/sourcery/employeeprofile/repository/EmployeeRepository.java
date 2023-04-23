@@ -31,5 +31,5 @@ public interface EmployeeRepository {
     Integer getEmployeeCountByName(@Param("name") String name);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getProjectEmployeesByProjectId")
-    List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") int projectId);
+    List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") Integer projectId);
 }

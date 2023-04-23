@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class EmployeeSkillDto {
     private boolean checked;
     private String skillLevel;
-    private int skillId;
-    private int employeeId;
+    private Integer skillId;
+    private Integer employeeId;
 }

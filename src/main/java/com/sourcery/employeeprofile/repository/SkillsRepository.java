@@ -15,11 +15,11 @@ public interface SkillsRepository {
     List<Skill> getAll();
 
     @SelectProvider(type = SkillSqlProvider.class, method = "getSkillRelationshipsByEmployeeId")
-    List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") int employeeId);
+    List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @DeleteProvider(type = SkillSqlProvider.class, method = "deleteSkillEmployeeRelationshipById")
-    void deleteSkillEmployeeRelationshipById(@Param("employeeId") int employeeId, @Param("skillId") int skillId);
+    void deleteSkillEmployeeRelationshipById(@Param("employeeId") Integer employeeId, @Param("skillId") Integer skillId);
 
     @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
-    void createNewSkillEmployeeRelationship(int skillId, String skillLevel, int employeeId);
+    void createNewSkillEmployeeRelationship(int skillId, String skillLevel, Integer employeeId);
 }

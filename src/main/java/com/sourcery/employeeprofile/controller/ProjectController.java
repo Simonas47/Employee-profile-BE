@@ -55,8 +55,8 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/addEmployee")
-    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") int projectId,
-                                                                              @RequestPart("employeeId") int employeeId,
+    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") Integer projectId,
+                                                                              @RequestPart("employeeId") Integer employeeId,
                                                                               @RequestPart("projectEmployeeStatus") String projectEmployeeStatus,
                                                                               @RequestPart("projectEmployeeStartDate") Date projectEmployeeStartDate,
                                                                               @RequestPart("projectEmployeeEndDate") Date projectEmployeeEndDate) {
@@ -64,7 +64,7 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable int projectId) {
+    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable Integer projectId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(projectService.getProjectRelationshipsByProjectId(projectId));

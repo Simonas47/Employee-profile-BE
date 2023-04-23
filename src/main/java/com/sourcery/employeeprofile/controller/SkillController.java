@@ -18,7 +18,7 @@ public class SkillController {
     SkillsService skillsService;
 
     @GetMapping("/getAllByEmployeeId/{employeeId}")
-    public List<SkillDto> getAllByEmployeeId(@PathVariable int employeeId) {
+    public List<SkillDto> getAllByEmployeeId(@PathVariable Integer employeeId) {
         return skillsService.getAllByEmployeeId(employeeId);
     }
 

@@ -69,7 +69,7 @@ public class ProjectService {
     }
 
     public List<ProjectEmployee> createNewProjectRelationship(int projectId,
-                                                              int employeeId,
+                                                              Integer employeeId,
                                                               String projectEmployeeStatus,
                                                               Date projectEmployeeStartDate,
                                                               Date projectEmployeeEndDate) {
