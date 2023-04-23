@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -19,7 +18,7 @@ public class AchievementController {
     AchievementsService achievementsService;
 
     @GetMapping("/getAllByEmployeeId/{employeeId}")
-    public List<AchievementDto> getAllByEmployeeId(@PathVariable UUID employeeId) {
+    public List<AchievementDto> getAllByEmployeeId(@PathVariable Integer employeeId) {
         return achievementsService.getAllByEmployeeId(employeeId);
     }
 

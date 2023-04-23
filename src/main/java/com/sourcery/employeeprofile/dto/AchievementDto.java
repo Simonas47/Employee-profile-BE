@@ -6,20 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class AchievementDto {
-    private UUID achievementId;
+    private Integer achievementId;
     private String achievementName;
     private Boolean checked;
     private Date issueDate;
     private Date expiringDate;
     private boolean subItemsAreAchievements;
     private Integer indent;
-    private UUID parentAchievementId;
+    private Integer parentAchievementId;
     private boolean isCategory;
 }

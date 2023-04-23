@@ -7,6 +7,8 @@ DROP TABLE skills_employees;
 DROP TABLE skills CASCADE;
 DROP TABLE employment_dates;
 DROP TABLE projects_employees;
+DROP TABLE achievements_employees;
+DROP TABLE achievements;
 
 
 CREATE TABLE IF NOT EXISTS titles
@@ -82,6 +84,24 @@ CREATE TABLE IF NOT EXISTS employment_dates(
 	employeeId      INTEGER     CONSTRAINT employment_dates_employee_id_fk REFERENCES employees,
 	hiringDate      DATE        NOT NULL,
 	exitDate        DATE
+);
+
+CREATE TABLE IF NOT EXISTS achievements(
+    id                          INTEGER     GENERATED ALWAYS AS IDENTITY NOT NULL CONSTRAINT achievements_pk PRIMARY KEY,
+    achievementName             VARCHAR(100) NOT NULL,
+    parentId                    INTEGER               CONSTRAINT achievements_parent_id_fk REFERENCES achievements,
+    subItemsAreAchievements     BOOLEAN DEFAULT false,
+    uniqueAchievementIdentifier VARCHAR(100) DEFAULT 'default'
+);
+
+CREATE TABLE IF NOT EXISTS achievements_employees
+(
+    id              INTEGER     GENERATED ALWAYS AS IDENTITY NOT NULL CONSTRAINT achievements_employees_pk PRIMARY KEY,
+    achievementId   INTEGER    NOT NULL CONSTRAINT achievements_relationships_id_fk REFERENCES achievements ON DELETE CASCADE,
+    issueDate       DATE,
+    expiringDate    DATE,
+    employeeId      INTEGER    NOT NULL CONSTRAINT employees_relationships_id_fk REFERENCES employees ON DELETE CASCADE,
+    UNIQUE (achievementId, employeeId)
 );
 
 

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.mapper.AchievementMapper.mapModelsToDtos;
 
@@ -17,7 +16,7 @@ public class AchievementsService {
     @Autowired
     AchievementsRepository achievementsRepository;
 
-    public List<AchievementDto> getAllByEmployeeId(UUID employeeId) {
+    public List<AchievementDto> getAllByEmployeeId(Integer employeeId) {
         return mapModelsToDtos(achievementsRepository.getAll(), achievementsRepository.getAchievementsByEmployeeId(employeeId));
     }
 

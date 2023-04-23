@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Achievement {
-    private UUID id;
+    private Integer id;
     private String achievementName;
-    private UUID parentId;
+    private Integer parentId;
     private boolean subItemsAreAchievements;
     private String uniqueAchievementIdentifier;
 }

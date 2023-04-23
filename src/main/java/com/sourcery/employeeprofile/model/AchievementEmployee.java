@@ -6,16 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class AchievementEmployee {
-    private UUID id;
-    private UUID achievementId;
+    private Integer id;
+    private Integer achievementId;
     private Date issueDate;
     private Date expiringDate;
-    private UUID employeeId;
+    private Integer employeeId;
 }

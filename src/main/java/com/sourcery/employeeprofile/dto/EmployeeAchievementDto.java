@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +15,6 @@ public class EmployeeAchievementDto {
     private boolean checked;
     private Date issueDate;
     private Date expiringDate;
-    private UUID achievementId;
-    private UUID employeeId;
+    private Integer achievementId;
+    private Integer employeeId;
 }
