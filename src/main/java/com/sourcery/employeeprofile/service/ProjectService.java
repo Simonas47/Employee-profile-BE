@@ -1,4 +1,5 @@
 package com.sourcery.employeeprofile.service;
+
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.model.Project;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProjectService {
@@ -40,7 +40,7 @@ public class ProjectService {
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
-    public Optional<ProjectDto> getProjectById(UUID id) {
+    public Optional<ProjectDto> getProjectById(Integer id) {
         Project project = projectRepository.getProjectById(id);
         List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(id);
         return Optional.of(new ProjectDto(
@@ -68,8 +68,8 @@ public class ProjectService {
         return projectsDto;
     }
 
-    public List<ProjectEmployee> createNewProjectRelationship(UUID projectId,
-                                                              UUID employeeId,
+    public List<ProjectEmployee> createNewProjectRelationship(Integer projectId,
+                                                              Integer employeeId,
                                                               String projectEmployeeStatus,
                                                               Date projectEmployeeStartDate,
                                                               Date projectEmployeeEndDate) {
@@ -77,11 +77,11 @@ public class ProjectService {
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 
-    public List<ProjectEmployee> getProjectRelationshipsByProjectId(UUID projectId) {
+    public List<ProjectEmployee> getProjectRelationshipsByProjectId(Integer projectId) {
         return projectRepository.getProjectRelationshipsByProjectId(projectId);
     }
 
-    public Optional<ProjectDto> deleteProjectById(UUID id) {
+    public Optional<ProjectDto> deleteProjectById(Integer id) {
         projectRepository.deleteProjectById(id);
         return this.getProjectById(id);
     }

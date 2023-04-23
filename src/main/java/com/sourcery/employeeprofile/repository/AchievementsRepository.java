@@ -17,11 +17,11 @@ public interface AchievementsRepository {
     List<Achievement> getAll();
 
     @SelectProvider(type = AchievementSqlProvider.class, method = "getAchievementRelationshipsByEmployeeId")
-    List<AchievementEmployee> getAchievementsByEmployeeId(@Param("employeeId") UUID employeeId);
+    List<AchievementEmployee> getAchievementsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @DeleteProvider(type = AchievementSqlProvider.class, method = "deleteAchievementEmployeeRelationshipById")
-    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") UUID employeeId, @Param("achievementId") UUID achievementId);
+    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId, @Param("achievementId") Integer achievementId);
 
     @InsertProvider(type = AchievementSqlProvider.class, method = "createNewAchievementEmployeeRelationship")
-    void createNewAchievementEmployeeRelationship(UUID achievementId, Date issueDate, Date expiringDate, UUID employeeId);
+    void createNewAchievementEmployeeRelationship(Integer achievementId, Date issueDate, Date expiringDate, Integer employeeId);
 }

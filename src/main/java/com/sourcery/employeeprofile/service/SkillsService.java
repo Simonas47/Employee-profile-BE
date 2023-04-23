@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.mapper.SkillMapper.mapModelsToDtos;
 
@@ -17,12 +16,12 @@ public class SkillsService {
     @Autowired
     SkillsRepository skillsRepository;
 
-    public List<SkillDto> getAllByEmployeeId(UUID employeeId) {
+    public List<SkillDto> getAllByEmployeeId(Integer employeeId) {
         return mapModelsToDtos(skillsRepository.getAll(), skillsRepository.getSkillsByEmployeeId(employeeId));
     }
 
     public void updateEmployeeSkills(ChangedSkillsDto changedSkills) {
-        for (EmployeeSkillDto employeeSkill : changedSkills.getChangedSkills())  {
+        for (EmployeeSkillDto employeeSkill : changedSkills.getChangedSkills()) {
             skillsRepository.deleteSkillEmployeeRelationshipById(
                     employeeSkill.getEmployeeId(),
                     employeeSkill.getSkillId()

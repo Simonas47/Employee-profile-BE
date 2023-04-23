@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -57,7 +56,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<EmployeeDto> getById(@PathVariable UUID id) {
+    public ResponseEntity<EmployeeDto> getById(@PathVariable Integer id) {
         return employeeService
                 .getById(id)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))

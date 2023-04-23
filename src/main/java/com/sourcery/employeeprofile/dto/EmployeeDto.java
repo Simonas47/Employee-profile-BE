@@ -7,14 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class EmployeeDto {
-    private UUID id;
+    private Integer id;
     private String name;
     private String surname;
     private String middleName;

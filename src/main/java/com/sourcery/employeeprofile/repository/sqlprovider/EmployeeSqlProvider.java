@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.UUID;
 
 public class EmployeeSqlProvider implements ProviderMethodResolver {
     public static String createNewEmployee() {
@@ -20,7 +19,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getById(@Param("id") UUID id) {
+    public static String getById(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
                         "t.title",
@@ -48,11 +47,11 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                         "images i ON e.imageId = i.id")
                 .ORDER_BY("e.name ASC");
 
-                if (isLimited) {
-                        sql
-                        .LIMIT("#{pageSize}")
-                        .OFFSET("#{page} * #{pageSize} - #{pageSize}");
-                }
+        if (isLimited) {
+            sql
+                    .LIMIT("#{pageSize}")
+                    .OFFSET("#{page} * #{pageSize} - #{pageSize}");
+        }
         return sql.toString();
     }
 
@@ -66,7 +65,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getProjectEmployeesByProjectId(@Param("projectId") UUID projectId) {
+    public static String getProjectEmployeesByProjectId(@Param("projectId") Integer projectId) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName",
                         "t.title",
