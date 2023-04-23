@@ -42,7 +42,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String removeEmployeesFromProject(int projectId) {
+    public static String removeEmployeesFromProject(Integer projectId) {
         SQL sql = new SQL()
                 .DELETE_FROM("projects_employees")
                 .WHERE("projectId = #{projectId}");

@@ -68,7 +68,7 @@ public class ProjectService {
         return projectsDto;
     }
 
-    public List<ProjectEmployee> createNewProjectRelationship(int projectId,
+    public List<ProjectEmployee> createNewProjectRelationship(Integer projectId,
                                                               Integer employeeId,
                                                               String projectEmployeeStatus,
                                                               Date projectEmployeeStartDate,
@@ -77,7 +77,7 @@ public class ProjectService {
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 
-    public List<ProjectEmployee> getProjectRelationshipsByProjectId(int projectId) {
+    public List<ProjectEmployee> getProjectRelationshipsByProjectId(Integer projectId) {
         return projectRepository.getProjectRelationshipsByProjectId(projectId);
     }
 

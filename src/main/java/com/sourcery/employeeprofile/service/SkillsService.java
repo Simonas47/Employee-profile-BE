@@ -16,7 +16,7 @@ public class SkillsService {
     @Autowired
     SkillsRepository skillsRepository;
 
-    public List<SkillDto> getAllByEmployeeId(int employeeId) {
+    public List<SkillDto> getAllByEmployeeId(Integer employeeId) {
         return mapModelsToDtos(skillsRepository.getAll(), skillsRepository.getSkillsByEmployeeId(employeeId));
     }
 

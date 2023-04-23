@@ -21,5 +21,5 @@ public interface SkillsRepository {
     void deleteSkillEmployeeRelationshipById(@Param("employeeId") Integer employeeId, @Param("skillId") Integer skillId);
 
     @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
-    void createNewSkillEmployeeRelationship(int skillId, String skillLevel, Integer employeeId);
+    void createNewSkillEmployeeRelationship(Integer skillId, String skillLevel, Integer employeeId);
 }
