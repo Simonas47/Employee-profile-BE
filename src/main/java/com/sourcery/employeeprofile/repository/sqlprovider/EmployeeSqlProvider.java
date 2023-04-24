@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
-
 public class EmployeeSqlProvider implements ProviderMethodResolver {
     public static String createNewEmployee() {
         SQL sql = new SQL()
@@ -46,7 +45,6 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
                         "images i ON e.imageId = i.id")
                 .ORDER_BY("e.name ASC");
-
         if (isLimited) {
             sql
                     .LIMIT("#{pageSize}")

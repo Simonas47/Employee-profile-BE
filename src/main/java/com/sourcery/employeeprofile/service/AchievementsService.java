@@ -1,8 +1,8 @@
 package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.dto.EmployeeAchievementDto;
 import com.sourcery.employeeprofile.dto.AchievementDto;
 import com.sourcery.employeeprofile.dto.ChangedAchievementsDto;
+import com.sourcery.employeeprofile.dto.EmployeeAchievementDto;
 import com.sourcery.employeeprofile.repository.AchievementsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,14 @@ public class AchievementsService {
     AchievementsRepository achievementsRepository;
 
     public List<AchievementDto> getAllByEmployeeId(Integer employeeId) {
-        return mapModelsToDtos(achievementsRepository.getAll(), achievementsRepository.getAchievementsByEmployeeId(employeeId));
+        return mapModelsToDtos(
+                achievementsRepository.getAll(),
+                achievementsRepository.getAchievementsByEmployeeId(employeeId)
+        );
     }
 
     public void updateEmployeeAchievements(ChangedAchievementsDto changedAchievements) {
-        for (EmployeeAchievementDto employeeAchievement : changedAchievements.getChangedAchievements())  {
+        for (EmployeeAchievementDto employeeAchievement : changedAchievements.getChangedAchievements()) {
             achievementsRepository.deleteAchievementEmployeeRelationshipById(
                     employeeAchievement.getEmployeeId(),
                     employeeAchievement.getAchievementId()
@@ -36,5 +39,4 @@ public class AchievementsService {
             }
         }
     }
-
 }

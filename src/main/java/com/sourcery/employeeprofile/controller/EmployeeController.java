@@ -49,7 +49,6 @@ public class EmployeeController {
 
         List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size, isLimited);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new SearchEmployeePageDto(employeeCount, employees));

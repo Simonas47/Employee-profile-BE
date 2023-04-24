@@ -3,7 +3,6 @@ package com.sourcery.employeeprofile.repository.sqlprovider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
-
 public class AchievementSqlProvider {
     public static String getAchievementRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId) {
         SQL sql = new SQL()
@@ -14,7 +13,7 @@ public class AchievementSqlProvider {
     }
 
     public static String deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId,
-                                                             @Param("achievementId") Integer achievementId) {
+                                                                   @Param("achievementId") Integer achievementId) {
         SQL sql = new SQL()
                 .DELETE_FROM("achievements_employees")
                 .WHERE("achievements_employees.achievementId = #{achievementId}").AND()

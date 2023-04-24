@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
-
 public class ImageSqlProvider implements ProviderMethodResolver {
     public static String createNewImage() {
         SQL sql = new SQL()
