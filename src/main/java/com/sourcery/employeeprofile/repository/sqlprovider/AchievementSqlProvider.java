@@ -37,4 +37,28 @@ public class AchievementSqlProvider {
                 .FROM("achievements");
         return sql.toString();
     }
+
+    public static String getBottomCategories() {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("achievements")
+                .WHERE("achievements.subItemsAreAchievements = true");
+        return sql.toString();
+    }
+
+    public static String getBottomAchievements(@Param("parentId") Integer parentId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("achievements")
+                .WHERE("achievements.parentId = #{parentId}");
+        return sql.toString();
+    }
+
+    public static String getTopCategory(@Param("parentId") Integer parentId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("achievements")
+                .WHERE("achievements.id = #{parentId}");
+        return sql.toString();
+    }
 }
