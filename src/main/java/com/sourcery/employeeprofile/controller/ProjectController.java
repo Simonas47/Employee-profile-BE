@@ -3,6 +3,7 @@ package com.sourcery.employeeprofile.controller;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,17 +94,19 @@ public class ProjectController {
     }
 
     @PostMapping("/projects-employees")
-    public ResponseEntity<String> addTitleToProjectEmployee(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<String> addTitleToProjectEmployee(@RequestBody @NotNull Map<String, Object> requestBody) {
         UUID projectId = UUID.fromString((String) requestBody.get("projectId"));
         UUID employeeId = UUID.fromString((String) requestBody.get("employeeId"));
         UUID titleId = UUID.fromString((String) requestBody.get("titleId"));
-        String teamMemberStatus = String.valueOf(requestBody.get("teamMemberStatus"));
-        int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId, teamMemberStatus);
+
+        int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId);
+`
         if (rowsAffected == 1) {
             return ResponseEntity.ok("Title added successfully");
         } else {
             return ResponseEntity.badRequest().body("Unable to add title");
         }
+    }
     }
 
 //
@@ -114,4 +117,3 @@ public class ProjectController {
 //            employeeProjectTitleService.addResponsibility(projectId, employeeId, responsibility);
 //            return ResponseEntity.ok().build();
 //        }
-}

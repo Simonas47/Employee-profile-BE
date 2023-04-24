@@ -44,13 +44,12 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
 
     public static String addProjectEmployeesTitle(@Param("projectId") UUID projectId,
                                                   @Param("employeeId") UUID employeeId,
-                                                  @Param("titleId") UUID titleId,
-                                                  @Param("teamMemberStatus") String teamMemberStatus) {
+                                                  @Param("titleId") UUID titleId
+                                                  ) {
 
         SQL sql = new SQL()
                 .UPDATE("projects_employees")
                 .SET("titleId = #{titleId}")
-                .SET("teamMemberStatus = #{teamMemberStatus}")
                 .WHERE("employeeId = #{employeeId}")
                 .AND()
                 .WHERE("projectId = #{projectId}");

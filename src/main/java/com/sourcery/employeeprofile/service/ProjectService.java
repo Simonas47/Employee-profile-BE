@@ -71,8 +71,8 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-    public int addProjectEmployeesTitle(UUID projectId, UUID employeeId, UUID titleId, String teamMemberStatus ) {
-        return projectRepository.addProjectEmployeesTitle(projectId, employeeId, titleId, teamMemberStatus);
+    public int addProjectEmployeesTitle(UUID projectId, UUID employeeId, UUID titleId ) {
+        return projectRepository.addProjectEmployeesTitle(projectId, employeeId, titleId);
     }
     public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(UUID employeeId) {
         return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);

@@ -40,7 +40,7 @@ public interface ProjectRepository {
     void deleteProjectById(@Param("id") UUID id);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesTitle")
-    int addProjectEmployeesTitle(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("titleId") UUID titleId ,@Param("teamMemberStatus") String teamMemberStatus);
+    int addProjectEmployeesTitle(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("titleId") UUID titleId);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "updateProject")
     void updateProject(ProjectDto project);
