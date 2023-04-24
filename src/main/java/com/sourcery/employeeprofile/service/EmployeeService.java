@@ -28,8 +28,10 @@ public class EmployeeService {
         Image newImage = imageService.createNewImage(file);
         employee.setImageId(newImage.getId());
         employeeRepository.createNewEmployee(employee);
+
         if (employee.getEmploymentDates() != null && employee.getEmploymentDates().size() > 0)
             employmentDateRepository.setEmploymentDates(employee.getId(), employee.getEmploymentDates());
+
         return this.getById(employee.getId()).orElseThrow(IllegalStateException::new);
     }
 

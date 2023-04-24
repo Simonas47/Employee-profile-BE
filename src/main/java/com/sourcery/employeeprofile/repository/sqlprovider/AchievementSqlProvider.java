@@ -3,7 +3,6 @@ package com.sourcery.employeeprofile.repository.sqlprovider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
-
 public class AchievementSqlProvider {
     public static String getAchievementRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId) {
         SQL sql = new SQL()
