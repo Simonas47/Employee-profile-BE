@@ -58,7 +58,7 @@ public class ProjectService {
                 if (projectEmployeeStartDate.compareTo(hiringDate) >= 0) {
                     return true;
                 }
-            } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 && 
+            } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 &&
                        projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
                        projectEmployeeEndDate != null &&
                        projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
@@ -71,7 +71,7 @@ public class ProjectService {
 
     public List<ProjectEmployeeErrorDto> validateProjectEmployees(ProjectDto project) {
         List<ProjectEmployeeErrorDto> projectEmployeeErrors = new ArrayList<>();
-        
+
         for (ProjectEmployeeDto projectEmployee : project.getProjectEmployees()) {
             List<EmploymentDate> employmentDates = employmentDateRepository.getEmploymentDates(projectEmployee.getId());
             String name = projectEmployee.getName() + " " + projectEmployee.getSurname();
@@ -81,7 +81,7 @@ public class ProjectService {
                 if (employmentDates.size() == 1) {
                     message = "Date should be within the employment period:";
                 } else {
-                    message = String.format("Date should be within the %s employment period:", name);          
+                    message = String.format("Date should be within the %s employment period:", name);
                 }
                 projectEmployeeErrors.add(new ProjectEmployeeErrorDto(projectEmployee.getId(), message, employmentDates));
             }
