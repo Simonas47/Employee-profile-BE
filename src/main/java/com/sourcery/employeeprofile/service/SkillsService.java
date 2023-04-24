@@ -39,7 +39,7 @@ public class SkillsService {
     }
 
     public List<SearchSkillDto> getSkillsCategories() {
-        List<SearchSkillDto> categoriesAndSkills = new ArrayList<>();
+        Map<String, List<DropdownSkillDto>> categoriesAndSkillsMap = new TreeMap<>();
         List<Skill> skillBottomCategories = skillsRepository.getBottomCategories();
         skillBottomCategories.forEach(skillSubcategory -> {
             String category = getTopCategoryName(skillSubcategory);
