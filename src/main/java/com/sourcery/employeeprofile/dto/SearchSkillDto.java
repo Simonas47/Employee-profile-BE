@@ -12,6 +12,6 @@ import java.util.List;
 @Builder
 @Data
 public class SearchSkillDto {
-    private String categories;
-    private List<DropdownSkillDto> bottomSkills;
+    private String category;
+    private List<DropdownSkillDto> skills;
 }

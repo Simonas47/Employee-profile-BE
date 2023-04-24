@@ -6,10 +6,7 @@ import com.sourcery.employeeprofile.repository.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.sourcery.employeeprofile.mapper.SkillMapper.mapModelsToDtos;
@@ -40,28 +37,40 @@ public class SkillsService {
     }
 
     public List<SearchSkillDto> getSkillsCategories() {
-        List<SearchSkillDto> categoriesAndSkills = new ArrayList<>();
+        Map<String, List<DropdownSkillDto>> categoriesAndSkillsMap = new TreeMap<>();
         List<Skill> skillBottomCategories = skillsRepository.getBottomCategories();
-        skillBottomCategories.forEach(skillCategory -> {
-            String category = getFullCategoryName(skillCategory);
-            List<Skill> skills = skillsRepository.getBottomSkills(skillCategory.getId());
+        skillBottomCategories.forEach(skillSubcategory -> {
+            String category = getTopCategoryName(skillSubcategory);
+            List<Skill> skills = skillsRepository.getBottomSkills(skillSubcategory.getId());
             List<DropdownSkillDto> dropdownSkills = new ArrayList<>();
             skills.forEach(skill -> dropdownSkills.add(new DropdownSkillDto(skill.getId(), skill.getSkillName())));
-            categoriesAndSkills.add(new SearchSkillDto(category, dropdownSkills));
+            if (categoriesAndSkillsMap.containsKey(category)) {
+                dropdownSkills.addAll(categoriesAndSkillsMap.get(category));
+                categoriesAndSkillsMap.put(category, sortSkillsList(dropdownSkills));
+            } else {
+                categoriesAndSkillsMap.put(category, sortSkillsList(dropdownSkills));
+            }
         });
-        return categoriesAndSkills
-                .stream()
-                .sorted(Comparator.comparing(SearchSkillDto::getCategories))
-                .collect(Collectors.toList());
+        List<SearchSkillDto> categoriesAndSkills = new ArrayList<>();
+        categoriesAndSkillsMap.forEach((category, skills) -> {
+            categoriesAndSkills.add(new SearchSkillDto(category, skills));
+        });
+        return categoriesAndSkills;
     }
 
-    private String getFullCategoryName(Skill skillCategory) {
-        StringBuilder category = new StringBuilder(skillCategory.getSkillName());
+    private String getTopCategoryName(Skill skillCategory) {
+        String category = skillCategory.getSkillName();
         while (skillCategory.getParentId() != null) {
             skillCategory = skillsRepository.getTopCategory(skillCategory.getParentId());
-            category.insert(0, "/");
-            category.insert(0, skillCategory.getSkillName());
+            category = skillCategory.getSkillName();
         }
-        return category.toString();
+        return category;
+    }
+
+    private List<DropdownSkillDto> sortSkillsList(List<DropdownSkillDto> unsortedSkills) {
+        return unsortedSkills
+                .stream()
+                .sorted(Comparator.comparing(DropdownSkillDto::getSkillName))
+                .collect(Collectors.toList());
     }
 }

@@ -51,8 +51,7 @@ public class SkillSqlProvider {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("skills")
-                .WHERE("skills.parentId = #{parentId}")
-                .ORDER_BY("skillName ASC");
+                .WHERE("skills.parentId = #{parentId}");
         return sql.toString();
     }
 
