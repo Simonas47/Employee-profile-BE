@@ -27,4 +27,13 @@ public interface AchievementsRepository {
                                                   Date issueDate,
                                                   Date expiringDate,
                                                   Integer employeeId);
+
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getBottomCategories")
+    List<Achievement> getBottomCategories();
+
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getBottomAchievements")
+    List<Achievement> getBottomAchievements(@Param("parentId") Integer parentId);
+
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getTopCategory")
+    Achievement getTopCategory(@Param("parentId") Integer parentId);
 }
