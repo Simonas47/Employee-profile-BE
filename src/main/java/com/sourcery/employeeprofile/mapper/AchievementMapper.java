@@ -9,12 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 public class AchievementMapper {
-    public static List<AchievementDto> mapModelsToDtos(List<Achievement> achievementModelList, List<AchievementEmployee> achievementEmployeeList) {
+    public static List<AchievementDto> mapModelsToDtos(List<Achievement> achievementModelList,
+                                                       List<AchievementEmployee> achievementEmployeeList) {
         Integer counter = 0;
         List<AchievementDto> outputList = new ArrayList<>();
         for (Achievement achievement : achievementModelList) {
-            AchievementDto achievementDto = new
-                    AchievementDto(achievement.getId(),
+            AchievementDto achievementDto = new AchievementDto(
+                    achievement.getId(),
                     achievement.getAchievementName(),
                     isChecked(achievement, achievementEmployeeList),
                     getIssueDate(achievement, achievementEmployeeList),
@@ -22,7 +23,8 @@ public class AchievementMapper {
                     achievement.isSubItemsAreAchievements(),
                     getIndent(achievement, counter, achievementModelList),
                     achievement.getParentId(),
-                    isCategory(achievement, achievementModelList));
+                    isCategory(achievement, achievementModelList)
+            );
             outputList.add(achievementDto);
         }
         return outputList;
@@ -51,7 +53,8 @@ public class AchievementMapper {
         return null;
     }
 
-    private static AchievementEmployee getAchievementEmployee(Achievement achievement, List<AchievementEmployee> achievementEmployeeList) {
+    private static AchievementEmployee getAchievementEmployee(Achievement achievement,
+                                                              List<AchievementEmployee> achievementEmployeeList) {
         for (AchievementEmployee achievementEmployee : achievementEmployeeList) {
             if (achievementEmployee.getAchievementId().equals(achievement.getId())) {
                 return achievementEmployee;

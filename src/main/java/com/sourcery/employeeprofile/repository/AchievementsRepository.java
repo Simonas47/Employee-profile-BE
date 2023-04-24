@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 @Mapper
@@ -20,8 +19,12 @@ public interface AchievementsRepository {
     List<AchievementEmployee> getAchievementsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @DeleteProvider(type = AchievementSqlProvider.class, method = "deleteAchievementEmployeeRelationshipById")
-    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId, @Param("achievementId") Integer achievementId);
+    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId,
+                                                   @Param("achievementId") Integer achievementId);
 
     @InsertProvider(type = AchievementSqlProvider.class, method = "createNewAchievementEmployeeRelationship")
-    void createNewAchievementEmployeeRelationship(Integer achievementId, Date issueDate, Date expiringDate, Integer employeeId);
+    void createNewAchievementEmployeeRelationship(Integer achievementId,
+                                                  Date issueDate,
+                                                  Date expiringDate,
+                                                  Integer employeeId);
 }

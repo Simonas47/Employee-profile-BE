@@ -24,6 +24,7 @@ public class ProjectService {
 
     public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
+
         if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
 
@@ -49,21 +50,25 @@ public class ProjectService {
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getDescription(),
-                projectEmployees));
+                projectEmployees)
+        );
     }
 
     public List<ProjectDto> getAllProjects() {
         List<Project> projects = projectRepository.getAllProjects();
         List<ProjectDto> projectsDto = new ArrayList<>();
         projects.forEach(project -> {
-            List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
+            List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(
+                    project.getId()
+            );
             projectsDto.add(new ProjectDto(
                     project.getId(),
                     project.getTitle(),
                     project.getStartDate(),
                     project.getEndDate(),
                     project.getDescription(),
-                    projectEmployees));
+                    projectEmployees)
+            );
         });
         return projectsDto;
     }

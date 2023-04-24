@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 @Mapper
@@ -19,7 +18,8 @@ public interface SkillsRepository {
     List<SkillEmployee> getSkillsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @DeleteProvider(type = SkillSqlProvider.class, method = "deleteSkillEmployeeRelationshipById")
-    void deleteSkillEmployeeRelationshipById(@Param("employeeId") Integer employeeId, @Param("skillId") Integer skillId);
+    void deleteSkillEmployeeRelationshipById(@Param("employeeId") Integer employeeId,
+                                             @Param("skillId") Integer skillId);
 
     @InsertProvider(type = SkillSqlProvider.class, method = "createNewSkillEmployeeRelationship")
     void createNewSkillEmployeeRelationship(Integer skillId, String skillLevel, Integer employeeId);
@@ -28,8 +28,8 @@ public interface SkillsRepository {
     List<Skill> getBottomCategories();
 
     @SelectProvider(type = SkillSqlProvider.class, method = "getBottomSkills")
-    List<Skill> getBottomSkills(@Param("parentId") UUID parentId);
+    List<Skill> getBottomSkills(@Param("parentId") Integer parentId);
 
     @SelectProvider(type = SkillSqlProvider.class, method = "getTopCategory")
-    Skill getTopCategory(@Param("parentId") UUID parentId);
+    Skill getTopCategory(@Param("parentId") Integer parentId);
 }
