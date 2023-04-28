@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.UUID;
 
 public class EmployeeSqlProvider implements ProviderMethodResolver {
     public static String createNewEmployee() {
@@ -20,7 +19,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getById(@Param("id") UUID id) {
+    public static String getById(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
                         "t.title",
@@ -34,7 +33,8 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
 
     public static String getEmployees(@Param("name") String name,
                                       @Param("page") Integer page,
-                                      @Param("pageSize") Integer pageSize) {
+                                      @Param("pageSize") Integer pageSize,
+                                      @Param("isLimited") Boolean isLimited) {
         SQL sql = new SQL()
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
                         "t.title",
@@ -45,9 +45,13 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})")
                 .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
                         "images i ON e.imageId = i.id")
-                .ORDER_BY("e.name ASC")
-                .LIMIT("#{pageSize}")
-                .OFFSET("#{page} * #{pageSize} - #{pageSize}");
+                .ORDER_BY("e.name ASC");
+
+        if (isLimited) {
+            sql
+                    .LIMIT("#{pageSize}")
+                    .OFFSET("#{page} * #{pageSize} - #{pageSize}");
+        }
         return sql.toString();
     }
 
@@ -61,10 +65,12 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getEmployeesByProjectId(@Param("projectId") UUID projectId) {
+    public static String getProjectEmployeesByProjectId(@Param("projectId") Integer projectId) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName",
                         "t.title",
+                        "i.type AS imageType", "i.bytes AS imageBytes",
+                        "pe.projectEmployeeStatus", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("projects_employees pe")
                 .INNER_JOIN("employees e ON pe.employeeId = e.id")

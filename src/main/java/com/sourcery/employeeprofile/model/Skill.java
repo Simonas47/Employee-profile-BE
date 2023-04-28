@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Skill {
-    private UUID id;
+    private Integer id;
     private String skillName;
-    private UUID parentId;
+    private Integer parentId;
     private boolean subItemsAreSkills;
     private String uniqueSkillIdentifier;
     private boolean isLanguage;

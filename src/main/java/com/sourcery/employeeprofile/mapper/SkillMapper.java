@@ -6,23 +6,31 @@ import com.sourcery.employeeprofile.model.SkillEmployee;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SkillMapper {
     public static List<SkillDto> mapModelsToDtos(List<Skill> skillModelList, List<SkillEmployee> skillEmployeeList) {
         Integer counter = 0;
         List<SkillDto> outputList = new ArrayList<>();
-        for (Skill skillModel : skillModelList) {
-            SkillDto skillDto = new SkillDto(
-                    skillModel.getId(),
-                    skillModel.getSkillName(),
-                    isChecked(skillModel, skillEmployeeList),
-                    getSkillLevel(skillModel, skillEmployeeList),
-                    skillModel.isSubItemsAreSkills(),
-                    getIndent(skillModel, counter, skillModelList),
-                    skillModel.getParentId(), skillModel.isLanguage());
+        for (Skill skill : skillModelList) {
+            SkillDto skillDto = new
+                    SkillDto(skill.getId(),
+                    skill.getSkillName(),
+                    isChecked(skill, skillEmployeeList),
+                    getSkillLevel(skill, skillEmployeeList),
+                    skill.isSubItemsAreSkills(),
+                    getIndent(skill, counter, skillModelList),
+                    skill.getParentId(), skill.isLanguage(), isCategory(skill, skillModelList));
             outputList.add(skillDto);
         }
         return outputList;
+    }
+
+    private static boolean isCategory(Skill skill, List<Skill> skillModelList) {
+        for (Skill childSkill : skillModelList) {
+            if (skill.getId().equals(childSkill.getParentId())) return true;
+        }
+        return false;
     }
 
     private static Boolean isChecked(Skill skill, List<SkillEmployee> skillEmployeeList) {
@@ -48,7 +56,7 @@ public class SkillMapper {
         for (Skill skillModel : skillModelList) {
             if (skill.getParentId() == null) {
                 return counter;
-            } else if (skillModel.getId().equals(skill.getParentId())) {
+            } else if (Objects.equals(skillModel.getId(), skill.getParentId())) {
                 counter++;
                 return getIndent(skillModel, counter, skillModelList);
             }

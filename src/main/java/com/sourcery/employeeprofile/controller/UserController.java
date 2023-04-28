@@ -16,7 +16,7 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/user")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class UserController {
     @Autowired
     UserService userService;

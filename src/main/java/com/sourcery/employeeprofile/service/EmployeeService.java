@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class EmployeeService {
@@ -34,7 +33,7 @@ public class EmployeeService {
         return this.getById(employee.getId()).orElseThrow(IllegalStateException::new);
     }
 
-    public Optional<EmployeeDto> getById(UUID id) {
+    public Optional<EmployeeDto> getById(Integer id) {
         Optional<EmployeeDto> employee = employeeRepository.getById(id);
         if (employee.isPresent()) {
             List<EmploymentDate> employmentDates = employmentDateRepository.getEmploymentDates(id);
@@ -43,9 +42,9 @@ public class EmployeeService {
         return employee;
     }
 
-    public List<SearchEmployeeDto> getEmployees(String searchValue, Integer page, Integer size) {
+    public List<SearchEmployeeDto> getEmployees(String searchValue, Integer page, Integer size, Boolean isLimited) {
         String nameLike = "%" + searchValue + "%";
-        return employeeRepository.getEmployees(nameLike, page, size);
+        return employeeRepository.getEmployees(nameLike, page, size, isLimited);
     }
 
     public Integer getEmployeeCountByName(String searchValue) {

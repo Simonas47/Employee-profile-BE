@@ -1,26 +1,25 @@
 package com.sourcery.employeeprofile.dto;
 
-import com.sourcery.employeeprofile.model.EmploymentDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class EmployeeDto {
+public class ProjectEmployeeDto {
     private Integer id;
     private String name;
     private String surname;
     private String middleName;
     private String title;
-    private String status;
-    private List<EmploymentDate> employmentDates;
     private String imageType;
     private String imageBytes;
-    private Boolean isManager;
+    private String projectEmployeeStatus;
+    private Date projectEmployeeStartDate;
+    private Date projectEmployeeEndDate;
 }

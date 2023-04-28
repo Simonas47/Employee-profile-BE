@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SkillEmployee {
-    private UUID id;
-    private UUID skillId;
+    private Integer id;
+    private Integer skillId;
     private String skillLevel;
-    private UUID employeeId;
+    private Integer employeeId;
 }

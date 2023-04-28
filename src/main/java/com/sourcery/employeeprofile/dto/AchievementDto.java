@@ -5,18 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class SkillDto {
-    private Integer skillId;
-    private String skillName;
+public class AchievementDto {
+    private Integer achievementId;
+    private String achievementName;
     private Boolean checked;
-    private String skillLevel;
-    private boolean subItemsAreSkills;
+    private Date issueDate;
+    private Date expiringDate;
+    private boolean subItemsAreAchievements;
     private Integer indent;
-    private Integer parentSkillId;
-    private boolean isLanguage;
+    private Integer parentAchievementId;
     private boolean isCategory;
 }

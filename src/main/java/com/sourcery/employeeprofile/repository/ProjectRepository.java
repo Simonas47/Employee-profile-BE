@@ -1,15 +1,15 @@
 package com.sourcery.employeeprofile.repository;
 
-import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.sqlprovider.ProjectSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 @Mapper
@@ -19,19 +19,19 @@ public interface ProjectRepository {
     void createNewProject(ProjectDto project);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectById")
-    Project getProjectById(@Param("id") UUID id);
+    Project getProjectById(@Param("id") Integer id);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getAllProjects")
     List<Project> getAllProjects();
 
     @InsertProvider(type = ProjectSqlProvider.class, method = "createNewProjectRelationship")
-    void createNewProjectRelationship(UUID projectId, UUID employeeId, String teamMemberStatus);
+    void createNewProjectRelationship(Integer projectId, Integer employeeId, String projectEmployeeStatus, Date projectEmployeeStartDate, Date projectEmployeeEndDate);
 
     @InsertProvider(type = ProjectSqlProvider.class, method = "addEmployeesToProject")
-    void addEmployeesToProject(@Param("projectId") UUID projectId, @Param("employees") List<EmployeeDto> employees);
+    void addEmployeesToProject(@Param("projectId") Integer projectId, @Param("projectEmployees") List<ProjectEmployeeDto> projectEmployees);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
-    List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") UUID projectId);
+    List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByEmployeeId")
     List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId);
@@ -43,7 +43,7 @@ public interface ProjectRepository {
 
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
-    void deleteProjectById(@Param("id") UUID id);
+    void deleteProjectById(@Param("id") Integer id);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesTitle")
     int addProjectEmployeesTitle(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("titleId") UUID titleId);
@@ -51,6 +51,8 @@ public interface ProjectRepository {
     @UpdateProvider(type = ProjectSqlProvider.class, method = "updateProject")
     void updateProject(ProjectDto project);
 
+    @DeleteProvider(type = ProjectSqlProvider.class, method = "removeEmployeesFromProject")
+    void removeEmployeesFromProject(Integer id);
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
     void removeProjectEmployees(UUID id);
 

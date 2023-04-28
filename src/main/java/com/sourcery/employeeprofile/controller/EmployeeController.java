@@ -14,13 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/employee")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
@@ -41,12 +40,14 @@ public class EmployeeController {
     @GetMapping(value = "/search", params = {"name", "page", "size"}, produces = "application/json")
     public ResponseEntity<SearchEmployeePageDto> searchByName(@RequestParam(value = "name", required = true) String name,
                                                               @RequestParam(value = "page", required = false) Integer page,
-                                                              @RequestParam(value = "size", required = false) Integer size) {
+                                                              @RequestParam(value = "size", required = false) Integer size,
+                                                              @RequestParam(value = "isLimited", required = false) Boolean isLimited) {
         if (size == -1) size = DEFAULT_PAGE_SIZE;
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
         if (page == null || page < 0) page = 0;
+        if (isLimited == null) isLimited = true;
 
-        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size);
+        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size, isLimited);
         Integer employeeCount = employeeService.getEmployeeCountByName(name);
 
         return ResponseEntity
@@ -55,7 +56,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<EmployeeDto> getById(@PathVariable UUID id) {
+    public ResponseEntity<EmployeeDto> getById(@PathVariable Integer id) {
         return employeeService
                 .getById(id)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))

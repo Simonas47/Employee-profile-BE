@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +22,7 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/project")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class ProjectController {
     @Autowired
     ProjectService projectService;
@@ -47,15 +48,11 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<ProjectDto> getProjectById(@PathVariable UUID id) {
-        System.out.println("Received request to get project with ID: " + id);
-        return projectService.getProjectById(id).map(projectDto -> {
-            System.out.println("Returning project details for project with ID: " + id);
-            return ResponseEntity.ok(projectDto);
-        }).orElseGet(() -> {
-            System.out.println("Project with ID " + id + " not found");
-            return ResponseEntity.notFound().build();
-        });
+    public ResponseEntity<ProjectDto> getProjectById(@PathVariable Integer id) {
+        return projectService
+                .getProjectById(id)
+                .map(projectDto -> ResponseEntity.ok(projectDto))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "/all", produces = "application/json")
@@ -64,16 +61,27 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/addEmployee")
-    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") UUID projectId, @RequestPart("employeeId") UUID employeeId, @RequestPart("teamMemberStatus") String teamMemberStatus) {
-        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, teamMemberStatus));
+    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") Integer projectId,
+                                                                              @RequestPart("employeeId") Integer employeeId,
+                                                                              @RequestPart("projectEmployeeStatus") String projectEmployeeStatus,
+                                                                              @RequestPart("projectEmployeeStartDate") Date projectEmployeeStartDate,
+                                                                              @RequestPart("projectEmployeeEndDate") Date projectEmployeeEndDate) {
+        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate));
     }
 
     @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable UUID projectId) {
-        return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByProjectId(projectId));
+    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable Integer projectId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(projectService.getProjectRelationshipsByProjectId(projectId));
     }
 
     @PatchMapping(value = "/delete/{id}", produces = "application/json")
+    public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable Integer id) {
+        return projectService
+                .deleteProjectById(id)
+                .map(projectDto -> ResponseEntity.ok(projectDto))
+                .orElse(ResponseEntity.notFound().build());
     public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable UUID id) {
         return projectService.deleteProjectById(id).map(projectDto -> ResponseEntity.ok(projectDto)).orElse(ResponseEntity.notFound().build());
     }
@@ -98,31 +106,4 @@ public class ProjectController {
             return ResponseEntity.badRequest().body("Unable to add title");
         }
     }
-    @PostMapping("/projects-employee-responsibilities")
-    public ResponseEntity<String> addResponsibilitiesToProjectEmployee(@RequestBody @NotNull Map<String, Object> requestBody) {
-        UUID projectId = UUID.fromString((String) requestBody.get("projectId"));
-        UUID employeeId = UUID.fromString((String) requestBody.get("employeeId"));
-        String responsibilities = String.valueOf((String) requestBody.get("responsibilities"));
-
-        int rowsAffected = projectService.addProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
-
-        if (rowsAffected == 1) {
-            return ResponseEntity.ok("Responsibilities added successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Unable to add responsibilities");
-        }
-    }
-    @GetMapping(value = "/responsibilities/{projectId}/{employeeId}", produces = "text/plain")
-    public ResponseEntity<String> getResponsibilitiesByProjectAndEmployee(
-            @PathVariable UUID projectId,
-            @PathVariable UUID employeeId) {
-        String responsibilities = projectService.getProjectResponsibilitiesByProjectAndEmployee(projectId, employeeId);
-        if (responsibilities == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(responsibilities);
-    }
-
-
 }
-

@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.UUID;
 
 @Service
 public class ImageService {
@@ -26,7 +25,7 @@ public class ImageService {
         return imageRepository.getById(imageModel.getId());
     }
 
-    public Image getById(UUID id) {
+    public Image getById(Integer id) {
         return imageRepository.getById(id);
     }
 }
