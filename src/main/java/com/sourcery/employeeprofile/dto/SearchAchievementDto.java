@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class SearchAchievementDto {
     private String category;
-    private List<DropdownAchievementDto> achievements;
+    private Integer achievementId;
+    private String achievementName;
 }
