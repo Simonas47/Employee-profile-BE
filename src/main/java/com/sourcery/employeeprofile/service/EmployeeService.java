@@ -49,13 +49,50 @@ public class EmployeeService {
         return employee;
     }
 
-    public List<SearchEmployeeDto> getEmployees(String searchValue, Integer page, Integer size, Boolean isLimited) {
+    public List<SearchEmployeeDto> getEmployees(String searchValue,
+                                                List<Integer> selectedSkillsIds,
+                                                List<Integer> selectedAchievementsIds,
+                                                Integer page,
+                                                Integer size,
+                                                Boolean isLimited) {
         String nameLike = "%" + searchValue + "%";
-        return employeeRepository.getEmployees(nameLike, page, size, isLimited);
+        String searchBySkillIdSqlCode = getSearchBySkillIdSqlCode(selectedSkillsIds);
+        String searchByAchievementIdSqlCode = getSearchByAchievementIdSqlCode(selectedAchievementsIds);
+        return employeeRepository.getEmployees(
+                nameLike,
+                searchBySkillIdSqlCode,
+                searchByAchievementIdSqlCode,
+                page,
+                size,
+                isLimited
+        );
     }
 
-    public Integer getEmployeeCountByName(String searchValue) {
-        String nameLike = "%" + searchValue + "%";
-        return employeeRepository.getEmployeeCountByName(nameLike);
+    private String getSearchBySkillIdSqlCode(List<Integer> selectedSkillsIds) {
+        StringBuilder sqlCode = new StringBuilder();
+        for (int i = 0; i < selectedSkillsIds.size(); i++) {
+            if (i > 0) {
+                sqlCode.append(" AND");
+            }
+            sqlCode.append(" e1.id IN (SELECT se2.employeeId FROM skills_employees se2 " +
+                    "WHERE se2.employeeId = e1.id AND se2.skillId = ");
+            sqlCode.append(selectedSkillsIds.get(i));
+            sqlCode.append(")");
+        }
+        return sqlCode.toString();
+    }
+
+    private String getSearchByAchievementIdSqlCode(List<Integer> selectedAchievementsIds) {
+        StringBuilder sqlCode = new StringBuilder();
+        for (int i = 0; i < selectedAchievementsIds.size(); i++) {
+            if (i > 0) {
+                sqlCode.append(" AND");
+            }
+            sqlCode.append(" e1.id IN (SELECT ae2.employeeId FROM achievements_employees ae2 " +
+                    "WHERE ae2.employeeId = e1.id AND ae2.achievementId = ");
+            sqlCode.append(selectedAchievementsIds.get(i));
+            sqlCode.append(")");
+        }
+        return sqlCode.toString();
     }
 }

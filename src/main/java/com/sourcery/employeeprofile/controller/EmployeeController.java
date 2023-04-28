@@ -36,21 +36,31 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping(value = "/search", params = {"name", "page", "size"}, produces = "application/json")
-    public ResponseEntity<SearchEmployeePageDto> searchByName(@RequestParam(value = "name", required = true) String name,
-                                                              @RequestParam(value = "page", required = false) Integer page,
-                                                              @RequestParam(value = "size", required = false) Integer size,
-                                                              @RequestParam(value = "isLimited", required = false) Boolean isLimited) {
+    @GetMapping(value = "/search", produces = "application/json")
+    public ResponseEntity<SearchEmployeePageDto> searchByNameSkillsAchievements(
+            @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "skills", required = false, defaultValue = "") List<Integer> selectedSkillsIds,
+            @RequestParam(value = "achievements", required = false, defaultValue = "") List<Integer> selectedAchievementsIds,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "isLimited", required = false) Boolean isLimited
+    ) {
         if (size == -1) size = DEFAULT_PAGE_SIZE;
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
         if (page == null || page < 0) page = 0;
         if (isLimited == null) isLimited = true;
 
-        List<SearchEmployeeDto> employees = employeeService.getEmployees(name, ++page, size, isLimited);
-        Integer employeeCount = employeeService.getEmployeeCountByName(name);
+        List<SearchEmployeeDto> employees = employeeService.getEmployees(
+                name,
+                selectedSkillsIds,
+                selectedAchievementsIds,
+                ++page,
+                size,
+                isLimited
+        );
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new SearchEmployeePageDto(employeeCount, employees));
+                .body(new SearchEmployeePageDto(employees.size(), employees));
     }
 
     @GetMapping(value = "/get/{id}", produces = "application/json")

@@ -61,7 +61,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .SELECT("p.id", "p.title", "p.startDate", "p.endDate", "p.description")
                 .FROM("projects p")
                 .WHERE("p.deleted = false")
-                .ORDER_BY("p.startDate ASC");
+                .ORDER_BY("p.startDate DESC");
         return sql.toString();
     }
 

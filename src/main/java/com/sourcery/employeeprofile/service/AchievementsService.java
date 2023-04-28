@@ -1,12 +1,17 @@
 package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.dto.*;
+import com.sourcery.employeeprofile.dto.AchievementDto;
+import com.sourcery.employeeprofile.dto.ChangedAchievementsDto;
+import com.sourcery.employeeprofile.dto.EmployeeAchievementDto;
+import com.sourcery.employeeprofile.dto.SearchAchievementDto;
 import com.sourcery.employeeprofile.model.Achievement;
 import com.sourcery.employeeprofile.repository.AchievementsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.sourcery.employeeprofile.mapper.AchievementMapper.mapModelsToDtos;
@@ -41,30 +46,27 @@ public class AchievementsService {
     }
 
     public List<SearchAchievementDto> getAchievementsCategories() {
-        Map<String, List<DropdownAchievementDto>> categoriesAndAchievementsMap = new TreeMap<>();
+        List<SearchAchievementDto> categoriesAndAchievements = new ArrayList<>();
         List<Achievement> achievementBottomCategories = achievementsRepository.getBottomCategories();
         achievementBottomCategories.forEach(achievementSubcategory -> {
             String category = getTopCategoryName(achievementSubcategory);
-            List<Achievement> achievements = achievementsRepository.getBottomAchievements(
-                    achievementSubcategory.getId()
-            );
-            List<DropdownAchievementDto> dropdownAchievements = new ArrayList<>();
-            achievements.forEach(achievement -> dropdownAchievements.add(new DropdownAchievementDto(
-                    achievement.getId(),
-                    achievement.getAchievementName()
-            )));
-            if (categoriesAndAchievementsMap.containsKey(category)) {
-                dropdownAchievements.addAll(categoriesAndAchievementsMap.get(category));
-                categoriesAndAchievementsMap.put(category, sortAchievementsList(dropdownAchievements));
-            } else {
-                categoriesAndAchievementsMap.put(category, sortAchievementsList(dropdownAchievements));
-            }
+            List<Achievement> achievements = achievementsRepository
+                    .getBottomAchievements(achievementSubcategory.getId());
+            achievements.forEach(achievement -> {
+                categoriesAndAchievements.add(new SearchAchievementDto(
+                        category,
+                        achievement.getId(),
+                        achievement.getAchievementName()
+                ));
+            });
         });
-        List<SearchAchievementDto> categoriesAndAchievements = new ArrayList<>();
-        categoriesAndAchievementsMap.forEach((category, achievements) -> {
-            categoriesAndAchievements.add(new SearchAchievementDto(category, achievements));
-        });
-        return categoriesAndAchievements;
+        return categoriesAndAchievements
+                .stream()
+                .sorted(Comparator
+                        .comparing(SearchAchievementDto::getCategory)
+                        .thenComparing(SearchAchievementDto::getAchievementName)
+                )
+                .collect(Collectors.toList());
     }
 
     private String getTopCategoryName(Achievement achievementCategory) {
@@ -74,12 +76,5 @@ public class AchievementsService {
             category = achievementCategory.getAchievementName();
         }
         return category;
-    }
-
-    private List<DropdownAchievementDto> sortAchievementsList(List<DropdownAchievementDto> unsortedAchievements) {
-        return unsortedAchievements
-                .stream()
-                .sorted(Comparator.comparing(DropdownAchievementDto::getAchievementName))
-                .collect(Collectors.toList());
     }
 }
