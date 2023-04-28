@@ -36,6 +36,12 @@ public interface ProjectRepository {
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByEmployeeId")
     List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId);
 
+    @SelectProvider(type = ProjectSqlProvider.class, method = "getByProjectIdAndEmployeeId")
+    ProjectEmployee getByProjectIdAndEmployeeId(
+            @Param("projectId") UUID projectId,
+            @Param("employeeId") UUID employeeId);
+
+
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") UUID id);
 
@@ -48,6 +54,13 @@ public interface ProjectRepository {
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
     void removeProjectEmployees(UUID id);
 
+    @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesResponsibilities")
+    int addProjectEmployeesResponsibilities(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("responsibilities") String responsibilities);
+
+//    @SelectProvider (type = ProjectSqlProvider.class, method = "findByProjectIdAndEmployeeId")
+//    ProjectEmployee findByProjectIdAndEmployeeId(String projectId, String employeeId);
+//    @UpdateProvider(type = ProjectSqlProvider.class, method = "updateMyResponsibility")
+//    void updateMyResponsibility(String responsibility);
 
 
 }

@@ -16,4 +16,5 @@ public class ProjectEmployee {
     private UUID projectId;
     private UUID employeeId;
     private String teamMemberStatus;
+    private String responsibilities;
 }

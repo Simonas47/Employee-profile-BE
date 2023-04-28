@@ -45,7 +45,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     public static String addProjectEmployeesTitle(@Param("projectId") UUID projectId,
                                                   @Param("employeeId") UUID employeeId,
                                                   @Param("titleId") UUID titleId
-                                                  ) {
+    ) {
 
         SQL sql = new SQL()
                 .UPDATE("projects_employees")
@@ -55,6 +55,21 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
+
+    public static String addProjectEmployeesResponsibilities(@Param("projectId") UUID projectId,
+                                                             @Param("employeeId") UUID employeeId,
+                                                             @Param("responsibilities") String responsibilities
+    ) {
+
+        SQL sql = new SQL()
+                .UPDATE("projects_employees")
+                .SET("responsibilities = #{responsibilities}")
+                .WHERE("employeeId = #{employeeId}")
+                .AND()
+                .WHERE("projectId = #{projectId}");
+        return sql.toString();
+    }
+
 
     public static String removeProjectEmployees(UUID projectId) {
         SQL sql = new SQL()
@@ -102,6 +117,18 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("projects_employees")
+                .WHERE("projects_employees.employeeId = #{employeeId}");
+        return sql.toString();
+    }
+
+    public static String getByProjectIdAndEmployeeId(@Param("projectId") UUID projectId,
+                                                     @Param("employeeId") UUID employeeId
+    ) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("projects_employees")
+                .WHERE("projects_employees.projectId = #{projectId}")
+                .AND()
                 .WHERE("projects_employees.employeeId = #{employeeId}");
         return sql.toString();
     }

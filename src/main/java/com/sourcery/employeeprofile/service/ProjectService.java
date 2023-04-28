@@ -2,6 +2,7 @@ package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
+import com.sourcery.employeeprofile.dto.ProjectsEmployeeResponsibilityDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -71,11 +72,40 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-    public int addProjectEmployeesTitle(UUID projectId, UUID employeeId, UUID titleId ) {
+    public int addProjectEmployeesTitle(UUID projectId, UUID employeeId, UUID titleId) {
         return projectRepository.addProjectEmployeesTitle(projectId, employeeId, titleId);
     }
+
     public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(UUID employeeId) {
         return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
     }
+    public List<ProjectEmployee> getProjectsRelationshipsByEmployeeId(UUID employeeId) {
+        return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
+    }
+
+    public int addProjectEmployeeResponsibilities(UUID projectId, UUID employeeId, String responsibilities){
+        return projectRepository.addProjectEmployeesResponsibilities(projectId, employeeId, responsibilities);
+    }
+
+    public String getProjectResponsibilitiesByProjectAndEmployee(UUID projectId, UUID employeeId) {
+        ProjectEmployee projectEmployee = projectRepository.getByProjectIdAndEmployeeId(projectId, employeeId);
+        if (projectEmployee == null){
+        return null;
+    }
+        return projectEmployee.getResponsibilities();
+    }
+
+//        public ProjectsEmployeeResponsibilityDto updateResponsibility(UUID projectId, UUID employeeId, String responsibility) {
+//        ProjectsEmployeeResponsibilityDto entity = projectRepository.findByProjectIdAndEmployeeId(projectId, employeeId);
+//        entity.setResponsibility(responsibility);
+//        projectRepository.updateMyResponsibility(entity.getResponsibility());
+//        return entity;
+//    }
+//    public ResponsibilityEntity updateResponsibility(String projectId, String employeeId, String responsibility) {
+//        ResponsibilityEntity entity = responsibilityRepository.findByProjectIdAndEmployeeId(projectId, employeeId);
+//        entity.setResponsibility(responsibility);
+//        responsibilityRepository.save(entity);
+//        return entity;
+//    }
 
 }
