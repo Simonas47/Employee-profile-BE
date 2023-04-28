@@ -1,3 +1,8 @@
+auth0:
+  audience: https://dev-0knqdj3ruz2l8l5k.us.auth0.com/api/v2/
+  domain: dev-0knqdj3ruz2l8l5k.us.auth0.com
+  clientId: xIyeMQEZSoYIlDwIuAksA9LJ3qXNF2RT
+  clientSecret: 9vXH95TOdg8em0v9EcGB4sewFx1J96WUPnPVgOLXtGSccnePjZ8Uz75l_8CaNcs7
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5455/db
@@ -6,3 +11,8 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 20000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-0knqdj3ruz2l8l5k.us.auth0.com
