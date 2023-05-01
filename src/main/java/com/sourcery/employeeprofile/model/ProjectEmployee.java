@@ -15,7 +15,6 @@ public class ProjectEmployee {
     private Integer id;
     private Integer projectId;
     private Integer employeeId;
-    private String projectEmployeeStatus;
     private Date projectEmployeeStartDate;
     private Date projectEmployeeEndDate;
 }
