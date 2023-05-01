@@ -104,4 +104,28 @@ public class ProjectController {
                 return ResponseEntity.badRequest().body("Unable to add title");
             }
         }
+    @PostMapping("/projects-employee-responsibilities")
+    public ResponseEntity<String> addResponsibilitiesToProjectEmployee(@RequestBody @NotNull Map<String, Object> requestBody) {
+        Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
+        Integer employeeId = Integer.valueOf((String) requestBody.get("employeeId"));
+        String responsibilities = String.valueOf((String) requestBody.get("responsibilities"));
+
+        int rowsAffected = projectService.addProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
+
+        if (rowsAffected == 1) {
+            return ResponseEntity.ok("Responsibilities added successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Unable to add responsibilities");
+        }
+    }
+    @GetMapping(value = "/responsibilities/{projectId}/{employeeId}", produces = "text/plain")
+    public ResponseEntity<String> getResponsibilitiesByProjectAndEmployee(
+            @PathVariable Integer projectId,
+            @PathVariable Integer employeeId) {
+        String responsibilities = projectService.getProjectResponsibilitiesByProjectAndEmployee(projectId, employeeId);
+        if (responsibilities == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(responsibilities);
+    }
     }
