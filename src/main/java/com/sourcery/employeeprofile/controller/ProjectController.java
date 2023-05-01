@@ -1,10 +1,9 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.EmployeeSkillDto;
+
 import com.sourcery.employeeprofile.dto.ProjectDto;
-import com.sourcery.employeeprofile.dto.ProjectsEmployeeResponsibilityDto;
+
 import com.sourcery.employeeprofile.model.ProjectEmployee;
-import com.sourcery.employeeprofile.repository.ProjectRepository;
 import com.sourcery.employeeprofile.service.ProjectService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -82,28 +80,28 @@ public class ProjectController {
                 .deleteProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
-    public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable UUID id) {
-        return projectService.deleteProjectById(id).map(projectDto -> ResponseEntity.ok(projectDto)).orElse(ResponseEntity.notFound().build());
-    }
+        }
 
 
-    @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId(@PathVariable UUID employeeId) {
-        return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
-    }
+        @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
+        public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId (@PathVariable Integer
+        employeeId){
+            return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
+        }
 
-    @PostMapping("/projects-employees")
-    public ResponseEntity<String> addTitleToProjectEmployee(@RequestBody @NotNull Map<String, Object> requestBody) {
-        UUID projectId = UUID.fromString((String) requestBody.get("projectId"));
-        UUID employeeId = UUID.fromString((String) requestBody.get("employeeId"));
-        UUID titleId = UUID.fromString((String) requestBody.get("titleId"));
+        @PostMapping("/projects-employees")
+        public ResponseEntity<String> addTitleToProjectEmployee
+        (@RequestBody @NotNull Map < String, Object > requestBody){
+            Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
+            Integer employeeId = Integer.valueOf((String) requestBody.get("employeeId"));
+            Integer titleId = Integer.valueOf((String) requestBody.get("titleId"));
 
-        int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId);
+            int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId);
 
-        if (rowsAffected == 1) {
-            return ResponseEntity.ok("Title added successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Unable to add title");
+            if (rowsAffected == 1) {
+                return ResponseEntity.ok("Title added successfully");
+            } else {
+                return ResponseEntity.badRequest().body("Unable to add title");
+            }
         }
     }
-}

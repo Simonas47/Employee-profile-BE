@@ -18,9 +18,6 @@ public class ProjectEmployee {
     private String projectEmployeeStatus;
     private Date projectEmployeeStartDate;
     private Date projectEmployeeEndDate;
-    private UUID id;
-    private UUID projectId;
-    private UUID employeeId;
     private String teamMemberStatus;
     private String responsibilities;
 }

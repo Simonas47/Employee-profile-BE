@@ -87,40 +87,23 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-    public int addProjectEmployeesTitle(UUID projectId, UUID employeeId, UUID titleId) {
+    public int addProjectEmployeesTitle(Integer projectId, Integer employeeId, Integer titleId) {
         return projectRepository.addProjectEmployeesTitle(projectId, employeeId, titleId);
     }
 
-    public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(UUID employeeId) {
-        return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
-    }
-    public List<ProjectEmployee> getProjectsRelationshipsByEmployeeId(UUID employeeId) {
+    public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(Integer employeeId) {
         return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
     }
 
-    public int addProjectEmployeeResponsibilities(UUID projectId, UUID employeeId, String responsibilities){
+    public int addProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities){
         return projectRepository.addProjectEmployeesResponsibilities(projectId, employeeId, responsibilities);
     }
 
-    public String getProjectResponsibilitiesByProjectAndEmployee(UUID projectId, UUID employeeId) {
+    public String getProjectResponsibilitiesByProjectAndEmployee(Integer projectId, Integer employeeId) {
         ProjectEmployee projectEmployee = projectRepository.getByProjectIdAndEmployeeId(projectId, employeeId);
         if (projectEmployee == null){
         return null;
     }
         return projectEmployee.getResponsibilities();
     }
-
-//        public ProjectsEmployeeResponsibilityDto updateResponsibility(UUID projectId, UUID employeeId, String responsibility) {
-//        ProjectsEmployeeResponsibilityDto entity = projectRepository.findByProjectIdAndEmployeeId(projectId, employeeId);
-//        entity.setResponsibility(responsibility);
-//        projectRepository.updateMyResponsibility(entity.getResponsibility());
-//        return entity;
-//    }
-//    public ResponsibilityEntity updateResponsibility(String projectId, String employeeId, String responsibility) {
-//        ResponsibilityEntity entity = responsibilityRepository.findByProjectIdAndEmployeeId(projectId, employeeId);
-//        entity.setResponsibility(responsibility);
-//        responsibilityRepository.save(entity);
-//        return entity;
-//    }
-
 }

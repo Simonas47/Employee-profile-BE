@@ -34,19 +34,19 @@ public interface ProjectRepository {
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByEmployeeId")
-    List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId);
+    List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getByProjectIdAndEmployeeId")
     ProjectEmployee getByProjectIdAndEmployeeId(
-            @Param("projectId") UUID projectId,
-            @Param("employeeId") UUID employeeId);
+            @Param("projectId") Integer projectId,
+            @Param("employeeId") Integer employeeId);
 
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") Integer id);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesTitle")
-    int addProjectEmployeesTitle(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("titleId") UUID titleId);
+    int addProjectEmployeesTitle(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("titleId") Integer titleId);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "updateProject")
     void updateProject(ProjectDto project);
@@ -54,10 +54,10 @@ public interface ProjectRepository {
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeEmployeesFromProject")
     void removeEmployeesFromProject(Integer id);
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
-    void removeProjectEmployees(UUID id);
+    void removeProjectEmployees(Integer id);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesResponsibilities")
-    int addProjectEmployeesResponsibilities(@Param("projectId") UUID projectId, @Param("employeeId") UUID employeeId, @Param("responsibilities") String responsibilities);
+    int addProjectEmployeesResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
 
 //    @SelectProvider (type = ProjectSqlProvider.class, method = "findByProjectIdAndEmployeeId")
 //    ProjectEmployee findByProjectIdAndEmployeeId(String projectId, String employeeId);

@@ -43,9 +43,14 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
     public static String removeEmployeesFromProject(Integer projectId) {
-    public static String addProjectEmployeesTitle(@Param("projectId") UUID projectId,
-                                                  @Param("employeeId") UUID employeeId,
-                                                  @Param("titleId") UUID titleId
+        SQL sql = new SQL()
+                .DELETE_FROM("projects_employees")
+                .WHERE("projectId = #{projectId}");
+        return sql.toString();
+    }
+    public static String addProjectEmployeesTitle(@Param("projectId") Integer projectId,
+                                                  @Param("employeeId") Integer employeeId,
+                                                  @Param("titleId") Integer titleId
     ) {
 
         SQL sql = new SQL()
@@ -57,9 +62,9 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String addProjectEmployeesResponsibilities(@Param("projectId") UUID projectId,
-                                                             @Param("employeeId") UUID employeeId,
-                                                             @Param("responsibilities") String responsibilities
+    public static String addProjectEmployeesResponsibilities(@Param("projectId") Integer projectId,
+                                                             @Param("employeeId") Integer employeeId,
+                                                             @Param("responsibilities") Integer responsibilities
     ) {
 
         SQL sql = new SQL()
@@ -72,7 +77,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
 
-    public static String removeProjectEmployees(UUID projectId) {
+    public static String removeProjectEmployees(Integer projectId) {
         SQL sql = new SQL()
                 .DELETE_FROM("projects_employees")
                 .WHERE("projectId = #{projectId}");
@@ -116,7 +121,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
 
-    public static String getProjectRelationshipsByEmployeeId(@Param("employeeId") UUID employeeId) {
+    public static String getProjectRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("projects_employees")
@@ -124,8 +129,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getByProjectIdAndEmployeeId(@Param("projectId") UUID projectId,
-                                                     @Param("employeeId") UUID employeeId
+    public static String getByProjectIdAndEmployeeId(@Param("projectId") Integer projectId,
+                                                     @Param("employeeId") Integer employeeId
     ) {
         SQL sql = new SQL()
                 .SELECT("*")
