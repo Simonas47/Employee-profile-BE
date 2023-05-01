@@ -15,7 +15,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://employee-profile.com/", "http://localhost:3000/")
                 .allowedHeaders(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE)
-                .allowedMethods(HttpMethod.GET.name())
+                .allowedMethods(HttpMethod.GET.name(), HttpMethod.PUT.name(), HttpMethod.OPTIONS.name(), HttpMethod.PATCH.name(), HttpMethod.POST.name(), HttpMethod.DELETE.name())
                 .maxAge(86400);
     }
 }

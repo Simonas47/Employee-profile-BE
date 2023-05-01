@@ -27,6 +27,7 @@ public class ResponseHeadersFilter implements Filter {
     ) throws IOException, ServletException {
         final var httpResponse = (HttpServletResponse) response;
 
+        httpResponse.setHeader("Access-Control-Allow-Methods", "*");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpResponse.setHeader("Access-Control-Allow-Headers", "*");
         httpResponse.setHeader("Authorization", "*");
