@@ -17,6 +17,7 @@ public class EmployeeDto {
     private String name;
     private String surname;
     private String middleName;
+    private String email;
     private String title;
     private String status;
     private List<EmploymentDate> employmentDates;

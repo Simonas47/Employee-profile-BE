@@ -21,6 +21,9 @@ public interface EmployeeRepository {
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getById")
     Optional<EmployeeDto> getById(@Param("id") Integer id);
 
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "getByEmail")
+    Optional<EmployeeDto> getByEmail(@Param("email") String email);
+
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployees")
     List<SearchEmployeeDto> getEmployees(@Param("name") String name,
                                          @Param("page") Integer page,

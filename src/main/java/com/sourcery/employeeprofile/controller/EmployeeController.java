@@ -19,7 +19,6 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/employee")
-@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
@@ -59,6 +58,14 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> getById(@PathVariable Integer id) {
         return employeeService
                 .getById(id)
+                .map(employeeDto -> ResponseEntity.ok(employeeDto))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(value = "/getByEmail/{email}", produces = "application/json")
+    public ResponseEntity<EmployeeDto> getByEmail(@PathVariable String email) {
+        return employeeService
+                .getByEmail(email)
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
     }
