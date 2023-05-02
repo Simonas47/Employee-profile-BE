@@ -4,8 +4,8 @@ VALUES('icon.png', 'image/octet-stream', 'iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAA
 
 INSERT INTO employees (name, surname, middleName, status, isManager, imageId, titleId)
 VALUES ('Markas', 'Markaitis', 'Markauskas', 'ACTIVE', true,
-(SELECT id FROM images WHERE name = 'icon.png'),
-(SELECT id FROM titles WHERE title = 'Test Engineer'));
+        (SELECT id FROM images WHERE name = 'icon.png'),
+        (SELECT id FROM titles WHERE title = 'Test Engineer'));
 
 INSERT INTO employment_dates (hiringDate, exitDate, employeeId) VALUES
 ('2019-03-11T14:35:46.000Z','2020-04-11T14:35:46.000Z', (SELECT id FROM employees WHERE surname = 'Markaitis')),
