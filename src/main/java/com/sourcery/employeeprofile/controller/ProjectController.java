@@ -80,30 +80,31 @@ public class ProjectController {
                 .deleteProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
+    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId(@PathVariable Integer
+                                                                                             employeeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
+    }
+
+    @PostMapping("/projects-employees")
+    public ResponseEntity<String> addTitleToProjectEmployee
+            (@RequestBody @NotNull Map<String, Object> requestBody) {
+        Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
+        Integer employeeId = Integer.valueOf((String) requestBody.get("employeeId"));
+        Integer titleId = Integer.valueOf((String) requestBody.get("titleId"));
+
+        int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId);
+
+        if (rowsAffected == 1) {
+            return ResponseEntity.ok("Title added successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Unable to add title");
         }
+    }
 
-
-        @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
-        public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId (@PathVariable Integer
-        employeeId){
-            return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
-        }
-
-        @PostMapping("/projects-employees")
-        public ResponseEntity<String> addTitleToProjectEmployee
-        (@RequestBody @NotNull Map < String, Object > requestBody){
-            Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
-            Integer employeeId = Integer.valueOf((String) requestBody.get("employeeId"));
-            Integer titleId = Integer.valueOf((String) requestBody.get("titleId"));
-
-            int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId);
-
-            if (rowsAffected == 1) {
-                return ResponseEntity.ok("Title added successfully");
-            } else {
-                return ResponseEntity.badRequest().body("Unable to add title");
-            }
-        }
     @PostMapping("/projects-employee-responsibilities")
     public ResponseEntity<String> addResponsibilitiesToProjectEmployee(@RequestBody @NotNull Map<String, Object> requestBody) {
         Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
@@ -118,6 +119,7 @@ public class ProjectController {
             return ResponseEntity.badRequest().body("Unable to add responsibilities");
         }
     }
+
     @GetMapping(value = "/responsibilities/{projectId}/{employeeId}", produces = "text/plain")
     public ResponseEntity<String> getResponsibilitiesByProjectAndEmployee(
             @PathVariable Integer projectId,
@@ -128,4 +130,4 @@ public class ProjectController {
         }
         return ResponseEntity.ok(responsibilities);
     }
-    }
+}
