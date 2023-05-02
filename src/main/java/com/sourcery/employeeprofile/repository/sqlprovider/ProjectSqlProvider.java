@@ -23,10 +23,10 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                                                @Param("projectEmployees") List<ProjectEmployeeDto> projectEmployees) {
         return "<script>" +
                 "INSERT INTO projects_employees" +
-                "(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate)" +
+                "(projectId, employeeId, projectEmployeeStartDate, projectEmployeeEndDate)" +
                 "VALUES" +
                 "<foreach item='projectEmployee' collection='projectEmployees' open='(' separator='),(' close=')'>" +
-                "#{projectId}, #{projectEmployee.id}, #{projectEmployee.projectEmployeeStatus}, #{projectEmployee.projectEmployeeStartDate}, #{projectEmployee.projectEmployeeEndDate}" +
+                "#{projectId}, #{projectEmployee.id}, #{projectEmployee.projectEmployeeStartDate}, #{projectEmployee.projectEmployeeEndDate}" +
                 "</foreach>" +
                 "</script>";
     }
@@ -71,7 +71,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .INSERT_INTO("projects_employees")
                 .VALUES("projectId", "#{projectId}")
                 .VALUES("employeeId", "#{employeeId}")
-                .VALUES("projectEmployeeStatus", "#{projectEmployeeStatus}")
                 .VALUES("projectEmployeeStartDate", "#{projectEmployeeStartDate}")
                 .VALUES("projectEmployeeEndDate", "projectEmployeeEndDate");
         return sql.toString();
