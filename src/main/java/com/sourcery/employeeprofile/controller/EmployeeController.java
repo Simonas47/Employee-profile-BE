@@ -61,12 +61,4 @@ public class EmployeeController {
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
     }
-
-    @GetMapping(value = "/getByEmail/{email}", produces = "application/json")
-    public ResponseEntity<EmployeeDto> getByEmail(@PathVariable String email) {
-        return employeeService
-                .getByEmail(email)
-                .map(employeeDto -> ResponseEntity.ok(employeeDto))
-                .orElse(ResponseEntity.notFound().build());
-    }
 }
