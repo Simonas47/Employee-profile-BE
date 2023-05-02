@@ -83,7 +83,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes",
-                        "pe.projectEmployeeStatus", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
+                        "e.status", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("projects_employees pe")
                 .INNER_JOIN("employees e ON pe.employeeId = e.id")
