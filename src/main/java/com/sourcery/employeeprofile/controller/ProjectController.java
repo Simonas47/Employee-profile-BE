@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.ProjectDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,14 @@ public class ProjectController {
     ProjectService projectService;
 
     @PostMapping()
-    public ResponseEntity<ProjectDto> createNewProject(@RequestBody ProjectDto project) {
+    public ResponseEntity<Object> createNewProject(@RequestBody ProjectDto project) {
+        List<ProjectEmployeeErrorDto> projectEmployeeErrors = projectService.validateProjectEmployees(project);
+        if (!projectEmployeeErrors.isEmpty()) {
+            return ResponseEntity.badRequest().body(projectEmployeeErrors);
+        }
         try {
-            return ResponseEntity.ok(projectService.createNewProject(project));
+            ProjectDto newProject = projectService.createNewProject(project);
+            return ResponseEntity.ok(newProject);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
@@ -32,12 +38,17 @@ public class ProjectController {
     }
 
     @PutMapping()
-    public ResponseEntity<ProjectDto> updateProject(@RequestBody ProjectDto project) {
+    public ResponseEntity<Object> updateProject(@RequestBody ProjectDto project) {
+        List<ProjectEmployeeErrorDto> projectEmployeeErrors = projectService.validateProjectEmployees(project);
+        if (!projectEmployeeErrors.isEmpty()) {
+            return ResponseEntity.badRequest().body(projectEmployeeErrors);
+        }
         try {
-            return ResponseEntity.ok(projectService.updateProject(project));
+            ProjectDto updatedProject = projectService.updateProject(project);
+            return ResponseEntity.ok(updatedProject);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 

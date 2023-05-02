@@ -12,7 +12,8 @@ public class EmploymentDateSqlProvider implements ProviderMethodResolver {
         SQL sql = new SQL()
                 .SELECT("hiringDate", "exitDate")
                 .FROM("employment_dates")
-                .WHERE("employeeId = #{employeeId}");
+                .WHERE("employeeId = #{employeeId}")
+                .ORDER_BY("hiringDate ASC");
         return sql.toString();
     }
 
