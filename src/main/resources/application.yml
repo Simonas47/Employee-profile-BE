@@ -1,3 +1,7 @@
+auth0:
+  audience: https://employee-profile.com/api
+  domain: dev-0knqdj3ruz2l8l5k.us.auth0.com
+  clientId: xIyeMQEZSoYIlDwIuAksA9LJ3qXNF2RT
 spring:
   datasource:
     url: jdbc:postgresql://pg-admin-service.pg-admin:5432/employee-profile
@@ -8,6 +12,13 @@ spring:
       connection-timeout: 20000
   flyway:
     locations: /db/migration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-0knqdj3ruz2l8l5k.us.auth0.com/
+          audiences:
+            - https://employee-profile.com/api
 mybatis:
   type-handlers-package: com.sourcery.employeeProfile.mybatis
   type-aliases-package: com.sourcery.employeeProfile.mybatis
