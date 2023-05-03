@@ -1,40 +1,27 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.model.User;
-import com.sourcery.employeeprofile.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
+import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
-@RequestMapping(value = BASE_URL + "/user")
-@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
+@RequestMapping(value = BASE_URL + "/users")
 public class UserController {
     @Autowired
-    UserService userService;
-
-    @PostMapping(value = "/get", produces = "application/json")
-    public ResponseEntity<Map<String, String>> getByEmailAndPassword(@RequestBody Map<String, String> payload,
-                                                                     HttpServletResponse response) throws IOException {
-        String email = payload.get("email");
-        String password = payload.get("password");
-        if (email == null || password == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<User> user = userService.getByEmailAndPassword(email, password);
-        if (user.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("redirectUrl", "/main");
-        return ResponseEntity.ok(responseBody);
-    }
+    EmployeeService employeeService;
+    @GetMapping(value = "/me", produces = "application/json")
+    public ResponseEntity<EmployeeDto> getCurrentUser(@AuthenticationPrincipal Jwt accessToken) {
+        Object emailFromToken = accessToken.getClaim("employee-profile.email");
+        return employeeService.getByEmail(emailFromToken.toString())
+                .map(employeeDto -> ResponseEntity.ok(employeeDto))
+                .orElse(ResponseEntity.notFound().build());
+    };
 }

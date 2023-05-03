@@ -14,7 +14,7 @@ public class AchievementSqlProvider {
     }
 
     public static String deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId,
-                                                             @Param("achievementId") Integer achievementId) {
+                                                                   @Param("achievementId") Integer achievementId) {
         SQL sql = new SQL()
                 .DELETE_FROM("achievements_employees")
                 .WHERE("achievements_employees.achievementId = #{achievementId}").AND()
