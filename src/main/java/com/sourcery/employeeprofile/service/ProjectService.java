@@ -45,36 +45,37 @@ public class ProjectService {
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
+    public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee, List<EmploymentDate> employmentDates) {
+        Date projectEmployeeStartDate = projectEmployee.getProjectEmployeeStartDate();
+        Date projectEmployeeEndDate = projectEmployee.getProjectEmployeeEndDate();
+
+        for (EmploymentDate employmentDate : employmentDates) {
+            Date hiringDate = employmentDate.getHiringDate();
+            Date exitDate = employmentDate.getExitDate();
+
+            if (exitDate == null) {
+                if (projectEmployeeStartDate.compareTo(hiringDate) >= 0) {
+                    return true;
+                }
+            } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 && 
+                       projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
+                       projectEmployeeEndDate != null &&
+                       projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
+                       projectEmployeeEndDate.compareTo(exitDate) <= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<ProjectEmployeeErrorDto> validateProjectEmployees(ProjectDto project) {
         List<ProjectEmployeeErrorDto> projectEmployeeErrors = new ArrayList<>();
+        
         for (ProjectEmployeeDto projectEmployee : project.getProjectEmployees()) {
             List<EmploymentDate> employmentDates = employmentDateRepository.getEmploymentDates(projectEmployee.getId());
-    
             String name = projectEmployee.getName() + " " + projectEmployee.getSurname();
-            Date projectEmployeeStartDate = projectEmployee.getProjectEmployeeStartDate();
-            Date projectEmployeeEndDate = projectEmployee.getProjectEmployeeEndDate();
-            boolean validProjectEmployeeDates = false;
 
-            for (EmploymentDate employmentDate : employmentDates) {
-                Date hiringDate = employmentDate.getHiringDate();
-                Date exitDate = employmentDate.getExitDate();
-
-                if (exitDate == null) {
-                    if (projectEmployeeStartDate.compareTo(hiringDate) >= 0) {
-                        validProjectEmployeeDates = true;
-                        break;
-                    }
-                } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 && 
-                           projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
-                           projectEmployeeEndDate != null &&
-                           projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
-                           projectEmployeeEndDate.compareTo(exitDate) <= 0) {
-                    validProjectEmployeeDates = true;
-                    break;
-                }
-            }
-    
-            if (!validProjectEmployeeDates) {
+            if (!validateProjectEmployeeDates(projectEmployee, employmentDates)) {
                 String message;
                 if (employmentDates.size() == 1) {
                     message = "Date should be within the employment period:";
