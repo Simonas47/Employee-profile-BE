@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
 
+import com.sourcery.employeeprofile.dto.AddProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 
 import com.sourcery.employeeprofile.model.ProjectEmployee;
@@ -89,7 +90,7 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
     }
 
-    @PostMapping("/projects-employees")
+    @PostMapping("/addTitleToProjectEmployee")
     public ResponseEntity<String> addTitleToProjectEmployee
             (@RequestBody @NotNull Map<String, Object> requestBody) {
         Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
@@ -105,19 +106,9 @@ public class ProjectController {
         }
     }
 
-    @PostMapping("/projects-employee-responsibilities")
-    public ResponseEntity<String> addResponsibilitiesToProjectEmployee(@RequestBody @NotNull Map<String, Object> requestBody) {
-        Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
-        Integer employeeId = Integer.valueOf((String) requestBody.get("employeeId"));
-        String responsibilities = String.valueOf((String) requestBody.get("responsibilities"));
-
-        int rowsAffected = projectService.addProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
-
-        if (rowsAffected == 1) {
-            return ResponseEntity.ok("Responsibilities added successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Unable to add responsibilities");
-        }
+    @PostMapping("/addResponsibilitiesToProjectEmployee")
+    public ResponseEntity<Integer> addResponsibilitiesToProjectEmployee(@RequestBody @NotNull AddProjectEmployeeResponsibilitiesDto requestDto) {
+        return ResponseEntity.ok(projectService.addProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
     }
 
     @GetMapping(value = "/responsibilities/{projectId}/{employeeId}", produces = "text/plain")

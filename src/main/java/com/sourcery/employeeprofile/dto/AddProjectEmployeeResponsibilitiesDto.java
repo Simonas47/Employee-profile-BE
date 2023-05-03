@@ -11,9 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
-public class ProjectsEmployeeResponsibilityDto {
-    private UUID projectId;
-    private UUID employeeId;
-    private String responsibility;
+public class AddProjectEmployeeResponsibilitiesDto {
+    private Integer projectId;
+    private Integer employeeId;
+    private String responsibilities;
 
 }
