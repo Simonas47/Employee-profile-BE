@@ -64,14 +64,13 @@ public class ProjectService {
                         validProjectEmployeeDates = true;
                         break;
                     }
-                } else {
-                    if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 && (projectEmployeeStartDate.compareTo(exitDate) <= 0)) {
-                        if (projectEmployeeEndDate != null && projectEmployeeEndDate.compareTo(hiringDate) >= 0
-                                && (projectEmployeeEndDate.compareTo(exitDate) <= 0)) {
-                            validProjectEmployeeDates = true;
-                            break;
-                        }
-                    }
+                } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 && 
+                           projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
+                           projectEmployeeEndDate != null &&
+                           projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
+                           projectEmployeeEndDate.compareTo(exitDate) <= 0) {
+                    validProjectEmployeeDates = true;
+                    break;
                 }
             }
     
