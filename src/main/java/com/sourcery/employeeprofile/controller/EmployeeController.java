@@ -1,8 +1,6 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.EmployeeDto;
-import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
-import com.sourcery.employeeprofile.dto.SearchEmployeePageDto;
+import com.sourcery.employeeprofile.dto.*;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;

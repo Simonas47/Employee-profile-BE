@@ -48,7 +48,9 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                                       String searchByAchievementIdSqlCode,
                                       @Param("page") Integer page,
                                       @Param("pageSize") Integer pageSize,
-                                      @Param("isLimited") Boolean isLimited) {
+                                      @Param("isLimited") Boolean isLimited,
+                                      String searchBySkillIdSqlCode,
+                                      String searchByAchievementIdSqlCode) {
         SQL sql = new SQL()
                 .SELECT("e1.id", "e1.name", "e1.surname", "e1.middleName", "e1.status", "e1.isManager",
                         "t1.title",
