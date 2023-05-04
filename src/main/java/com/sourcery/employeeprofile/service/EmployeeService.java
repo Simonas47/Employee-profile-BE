@@ -47,21 +47,21 @@ public class EmployeeService {
     }
 
     public List<SearchEmployeeDto> getEmployees(String searchValue,
+                                                List<SearchSkillDto> selectedSkills,
+                                                List<SearchAchievementDto> selectedAchievements,
                                                 Integer page,
                                                 Integer size,
-                                                Boolean isLimited,
-                                                List<SearchSkillDto> selectedSkills,
-                                                List<SearchAchievementDto> selectedAchievements) {
+                                                Boolean isLimited) {
         String nameLike = "%" + searchValue + "%";
         String searchBySkillIdSqlCode = getSearchBySkillIdSqlCode(selectedSkills);
         String searchByAchievementIdSqlCode = getSearchByAchievementIdSqlCode(selectedAchievements);
         return employeeRepository.getEmployees(
                 nameLike,
+                searchBySkillIdSqlCode,
+                searchByAchievementIdSqlCode,
                 page,
                 size,
-                isLimited,
-                searchBySkillIdSqlCode,
-                searchByAchievementIdSqlCode
+                isLimited
         );
     }
 

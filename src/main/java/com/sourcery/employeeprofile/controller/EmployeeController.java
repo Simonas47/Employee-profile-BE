@@ -40,11 +40,11 @@ public class EmployeeController {
             produces = "application/json")
     public ResponseEntity<SearchEmployeePageDto> searchByNameSkillsAchievements(
             @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "skills", required = true) List<SearchSkillDto> selectedSkills,
+            @RequestParam(value = "skills", required = true) List<SearchAchievementDto> selectedAchievements,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "isLimited", required = false) Boolean isLimited,
-            @RequestParam(value = "skills", required = true) List<SearchSkillDto> selectedSkills,
-            @RequestParam(value = "skills", required = true) List<SearchAchievementDto> selectedAchievements
+            @RequestParam(value = "isLimited", required = false) Boolean isLimited
     ) {
         if (size == -1) size = DEFAULT_PAGE_SIZE;
         else if (size == null || size < MINIMAL_PAGE_SIZE) size = MINIMAL_PAGE_SIZE;
@@ -53,11 +53,11 @@ public class EmployeeController {
 
         List<SearchEmployeeDto> employees = employeeService.getEmployees(
                 name,
+                selectedSkills,
+                selectedAchievements,
                 ++page,
                 size,
-                isLimited,
-                selectedSkills,
-                selectedAchievements
+                isLimited
         );
         return ResponseEntity
                 .status(HttpStatus.OK)

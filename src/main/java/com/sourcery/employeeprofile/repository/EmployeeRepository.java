@@ -23,11 +23,11 @@ public interface EmployeeRepository {
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployees")
     List<SearchEmployeeDto> getEmployees(@Param("name") String name,
+                                         String searchBySkillIdSqlCode,
+                                         String searchByAchievementIdSqlCode,
                                          @Param("page") Integer page,
                                          @Param("pageSize") Integer pageSize,
-                                         @Param("isLimited") Boolean isLimited,
-                                         String searchBySkillIdSqlCode,
-                                         String searchByAchievementIdSqlCode);
+                                         @Param("isLimited") Boolean isLimited);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getProjectEmployeesByProjectId")
     List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") Integer projectId);
