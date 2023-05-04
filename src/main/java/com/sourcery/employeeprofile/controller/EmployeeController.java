@@ -41,7 +41,7 @@ public class EmployeeController {
     public ResponseEntity<SearchEmployeePageDto> searchByNameSkillsAchievements(
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "skills", required = true) List<SearchSkillDto> selectedSkills,
-            @RequestParam(value = "skills", required = true) List<SearchAchievementDto> selectedAchievements,
+            @RequestParam(value = "achievements", required = true) List<SearchAchievementDto> selectedAchievements,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
             @RequestParam(value = "isLimited", required = false) Boolean isLimited
