@@ -2,8 +2,10 @@ package com.sourcery.employeeprofile.controller;
 
 
 import com.sourcery.employeeprofile.dto.AddProjectEmployeeResponsibilitiesDto;
+import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 
+import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
 import jakarta.validation.constraints.NotNull;
@@ -83,6 +85,11 @@ public class ProjectController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
+    @GetMapping(value = "/getProjectEmployeeBy/{id}", produces = "application/json")
+    public ResponseEntity<List<ProjectEmployeeResponsibilitiesDto>> getProjectEmployeeById(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectEmployeeById(id));
+    }
 
     @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
     public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId(@PathVariable Integer

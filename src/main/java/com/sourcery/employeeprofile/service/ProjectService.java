@@ -2,6 +2,7 @@ package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -94,15 +95,20 @@ public class ProjectService {
         return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
     }
 
-    public int addProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities){
+    public int addProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
         return projectRepository.addProjectEmployeesResponsibilities(projectId, employeeId, responsibilities);
     }
 
     public String getProjectResponsibilitiesByProjectAndEmployee(Integer projectId, Integer employeeId) {
         ProjectEmployee projectEmployee = projectRepository.getByProjectIdAndEmployeeId(projectId, employeeId);
-        if (projectEmployee == null){
-        return null;
-    }
+        if (projectEmployee == null) {
+            return null;
+        }
         return projectEmployee.getResponsibilities();
+    }
+
+    public List<ProjectEmployeeResponsibilitiesDto> getProjectEmployeeById(Integer id) {
+        List<ProjectEmployeeResponsibilitiesDto> employee = projectRepository.getProjectEmployeeById(id);
+        return employee;
     }
 }

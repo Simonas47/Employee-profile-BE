@@ -1,15 +1,19 @@
 package com.sourcery.employeeprofile.repository;
 
+import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
+import com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider;
 import com.sourcery.employeeprofile.repository.sqlprovider.ProjectSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Mapper
@@ -58,6 +62,9 @@ public interface ProjectRepository {
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesResponsibilities")
     int addProjectEmployeesResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
+
+    @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectEmployeeById")
+    List<ProjectEmployeeResponsibilitiesDto> getProjectEmployeeById(@Param("id") Integer id);
 
 //    @SelectProvider (type = ProjectSqlProvider.class, method = "findByProjectIdAndEmployeeId")
 //    ProjectEmployee findByProjectIdAndEmployeeId(String projectId, String employeeId);

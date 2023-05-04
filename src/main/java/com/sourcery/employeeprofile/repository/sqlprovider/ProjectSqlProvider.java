@@ -48,6 +48,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
+
     public static String addProjectEmployeesTitle(@Param("projectId") Integer projectId,
                                                   @Param("employeeId") Integer employeeId,
                                                   @Param("titleId") Integer titleId
@@ -126,6 +127,17 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .SELECT("*")
                 .FROM("projects_employees")
                 .WHERE("projects_employees.employeeId = #{employeeId}");
+        return sql.toString();
+    }
+
+    public static String getProjectEmployeeById(@Param("id") Integer id) {
+        SQL sql = new SQL()
+                .SELECT("p.id", "p.title", "p.description", "p.startDate", "p.endDate",
+                        "pe.projectId", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
+                        "pe.responsibilities")
+                .FROM("projects p")
+                .LEFT_OUTER_JOIN("projects_employees pe ON p.id = pe.projectId")
+                .WHERE("pe.employeeId = #{id}");
         return sql.toString();
     }
 
