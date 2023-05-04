@@ -36,7 +36,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/search",
-            params = {"name", "page", "size", "skills", "achievements"},
+            params = {"name", "skills", "achievements", "page", "size"},
             produces = "application/json")
     public ResponseEntity<SearchEmployeePageDto> searchByNameSkillsAchievements(
             @RequestParam(value = "name", required = true) String name,
