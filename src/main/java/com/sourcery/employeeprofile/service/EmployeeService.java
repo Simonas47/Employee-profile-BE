@@ -1,9 +1,7 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.EmployeeDto;
-import com.sourcery.employeeprofile.dto.SearchAchievementDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
-import com.sourcery.employeeprofile.dto.SearchSkillDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Image;
