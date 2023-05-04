@@ -1,6 +1,8 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.*;
+import com.sourcery.employeeprofile.dto.EmployeeDto;
+import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
+import com.sourcery.employeeprofile.dto.SearchEmployeePageDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,11 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping(value = "/search",
-            params = {"name", "skills", "achievements", "page", "size"},
-            produces = "application/json")
+    @GetMapping(value = "/search", produces = "application/json")
     public ResponseEntity<SearchEmployeePageDto> searchByNameSkillsAchievements(
             @RequestParam(value = "name", required = true) String name,
-            @RequestParam(value = "skills", required = true) List<SearchSkillDto> selectedSkills,
-            @RequestParam(value = "achievements", required = true) List<SearchAchievementDto> selectedAchievements,
+            @RequestParam(value = "skills", required = false, defaultValue = "") List<Integer> selectedSkillsIds,
+            @RequestParam(value = "achievements", required = false, defaultValue = "") List<Integer> selectedAchievementsIds,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
             @RequestParam(value = "isLimited", required = false) Boolean isLimited
@@ -53,8 +53,8 @@ public class EmployeeController {
 
         List<SearchEmployeeDto> employees = employeeService.getEmployees(
                 name,
-                selectedSkills,
-                selectedAchievements,
+                selectedSkillsIds,
+                selectedAchievementsIds,
                 ++page,
                 size,
                 isLimited
