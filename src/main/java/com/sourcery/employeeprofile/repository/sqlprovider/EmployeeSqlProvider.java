@@ -33,33 +33,33 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
     public static String getEmployees(@Param("name") String name,
                                       @Param("page") Integer page,
                                       @Param("pageSize") Integer pageSize,
-                                      @Param("isLimited") Boolean isLimited) {
+                                      @Param("isLimited") Boolean isLimited,
+                                      String searchBySkillIdSqlCode,
+                                      String searchByAchievementIdSqlCode) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
-                        "t.title",
-                        "i.type AS imageType", "i.bytes AS imageBytes")
-                .FROM("employees e")
-                .WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
-                .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
-                .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})")
-                .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
-                        "images i ON e.imageId = i.id")
-                .ORDER_BY("e.name ASC");
+                .SELECT("e1.id", "e1.name", "e1.surname", "e1.middleName", "e1.status", "e1.isManager",
+                        "t1.title",
+                        "i1.type AS imageType", "i1.bytes AS imageBytes")
+                .FROM("employees e1")
+                .LEFT_OUTER_JOIN("titles t1 ON e1.titleId = t1.id",
+                        "images i1 ON e1.imageId = i1.id")
+                .WHERE("e1.id IN " +
+                        "(SELECT e2.id FROM employees e2 " +
+                        "WHERE LOWER(e2.name) LIKE LOWER(#{name}) OR " +
+                        "LOWER(e2.surname) LIKE LOWER(#{name}) OR " +
+                        "LOWER(e2.middleName) LIKE LOWER(#{name}))");
+        if (!searchBySkillIdSqlCode.equals("")) {
+            sql.WHERE(searchBySkillIdSqlCode);
+        }
+        if (!searchByAchievementIdSqlCode.equals("")) {
+            sql.WHERE(searchByAchievementIdSqlCode);
+        }
+        sql.ORDER_BY("e1.name ASC, e1.surname ASC");
         if (isLimited) {
             sql
                     .LIMIT("#{pageSize}")
                     .OFFSET("#{page} * #{pageSize} - #{pageSize}");
         }
-        return sql.toString();
-    }
-
-    public static String getEmployeeCountByName(@Param("name") String name) {
-        SQL sql = new SQL()
-                .SELECT("COUNT(1)")
-                .FROM("employees e")
-                .WHERE("LOWER(e.name) LIKE LOWER(#{name})").OR()
-                .WHERE("LOWER(e.surname) LIKE LOWER(#{name})").OR()
-                .WHERE("LOWER(e.middleName) LIKE LOWER(#{name})");
         return sql.toString();
     }
 
@@ -75,7 +75,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
                         "images i ON e.imageId = i.id")
                 .WHERE("pe.projectId = #{projectId}")
-                .ORDER_BY("e.name ASC");
+                .ORDER_BY("e.name ASC, e.surname ASC");
         return sql.toString();
     }
 }

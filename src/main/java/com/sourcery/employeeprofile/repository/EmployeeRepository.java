@@ -25,10 +25,9 @@ public interface EmployeeRepository {
     List<SearchEmployeeDto> getEmployees(@Param("name") String name,
                                          @Param("page") Integer page,
                                          @Param("pageSize") Integer pageSize,
-                                         @Param("isLimited") Boolean isLimited);
-
-    @SelectProvider(type = EmployeeSqlProvider.class, method = "getEmployeeCountByName")
-    Integer getEmployeeCountByName(@Param("name") String name);
+                                         @Param("isLimited") Boolean isLimited,
+                                         String searchBySkillIdSqlCode,
+                                         String searchByAchievementIdSqlCode);
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getProjectEmployeesByProjectId")
     List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") Integer projectId);
