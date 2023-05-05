@@ -4,6 +4,7 @@ package com.sourcery.employeeprofile.controller;
 import com.sourcery.employeeprofile.dto.AddProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 
 import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
@@ -23,15 +24,19 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/project")
-@CrossOrigin(origins = {"http://localhost:3000", "https://employee-profile.devbstaging.com"})
 public class ProjectController {
     @Autowired
     ProjectService projectService;
 
     @PostMapping()
-    public ResponseEntity<ProjectDto> createNewProject(@RequestBody ProjectDto project) {
+    public ResponseEntity<Object> createNewProject(@RequestBody ProjectDto project) {
+        List<ProjectEmployeeErrorDto> projectEmployeeErrors = projectService.validateProjectEmployees(project);
+        if (!projectEmployeeErrors.isEmpty()) {
+            return ResponseEntity.badRequest().body(projectEmployeeErrors);
+        }
         try {
-            return ResponseEntity.ok(projectService.createNewProject(project));
+            ProjectDto newProject = projectService.createNewProject(project);
+            return ResponseEntity.ok(newProject);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
@@ -39,12 +44,17 @@ public class ProjectController {
     }
 
     @PutMapping()
-    public ResponseEntity<ProjectDto> updateProject(@RequestBody ProjectDto project) {
+    public ResponseEntity<Object> updateProject(@RequestBody ProjectDto project) {
+        List<ProjectEmployeeErrorDto> projectEmployeeErrors = projectService.validateProjectEmployees(project);
+        if (!projectEmployeeErrors.isEmpty()) {
+            return ResponseEntity.badRequest().body(projectEmployeeErrors);
+        }
         try {
-            return ResponseEntity.ok(projectService.updateProject(project));
+            ProjectDto updatedProject = projectService.updateProject(project);
+            return ResponseEntity.ok(updatedProject);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -64,10 +74,9 @@ public class ProjectController {
     @PostMapping(value = "/addEmployee")
     public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(@RequestPart("projectId") Integer projectId,
                                                                               @RequestPart("employeeId") Integer employeeId,
-                                                                              @RequestPart("projectEmployeeStatus") String projectEmployeeStatus,
                                                                               @RequestPart("projectEmployeeStartDate") Date projectEmployeeStartDate,
                                                                               @RequestPart("projectEmployeeEndDate") Date projectEmployeeEndDate) {
-        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, projectEmployeeStatus, projectEmployeeStartDate, projectEmployeeEndDate));
+        return ResponseEntity.ok(projectService.createNewProjectRelationship(projectId, employeeId, projectEmployeeStartDate, projectEmployeeEndDate));
     }
 
     @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")

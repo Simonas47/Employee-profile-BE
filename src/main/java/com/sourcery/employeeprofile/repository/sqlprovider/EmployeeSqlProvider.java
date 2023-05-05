@@ -15,19 +15,32 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .VALUES("titleId", "#{titleId}")
                 .VALUES("imageId", "#{imageId}")
                 .VALUES("status", "#{status}")
-                .VALUES("isManager", "#{isManager}");
+                .VALUES("isManager", "#{isManager}")
+                .VALUES("email", "#{email}");
         return sql.toString();
     }
 
     public static String getById(@Param("id") Integer id) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager", "e.email",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("employees e")
                 .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
                         "images i ON e.imageId = i.id")
                 .WHERE("e.id = #{id}");
+        return sql.toString();
+    }
+
+    public static String getByEmail(@Param("email") String email) {
+        SQL sql = new SQL()
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status", "e.isManager", "e.email",
+                        "t.title",
+                        "i.type AS imageType", "i.bytes AS imageBytes")
+                .FROM("employees e")
+                .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",
+                        "images i ON e.imageId = i.id")
+                .WHERE("e.email = #{email}");
         return sql.toString();
     }
 
@@ -70,7 +83,7 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .SELECT("e.id", "e.name", "e.surname", "e.middleName",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes",
-                        "pe.projectEmployeeStatus", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
+                        "e.status", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
                         "i.type AS imageType", "i.bytes AS imageBytes")
                 .FROM("projects_employees pe")
                 .INNER_JOIN("employees e ON pe.employeeId = e.id")

@@ -19,7 +19,7 @@ public class ProjectEmployeeDto {
     private String title;
     private String imageType;
     private String imageBytes;
-    private String projectEmployeeStatus;
+    private String status;
     private Date projectEmployeeStartDate;
     private Date projectEmployeeEndDate;
 }

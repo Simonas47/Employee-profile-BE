@@ -42,6 +42,11 @@ public class EmployeeService {
         return employee;
     }
 
+    public Optional<EmployeeDto> getByEmail(String email) {
+        Optional<EmployeeDto> employee = employeeRepository.getByEmail(email);
+        return employee;
+    }
+
     public List<SearchEmployeeDto> getEmployees(String searchValue, Integer page, Integer size, Boolean isLimited) {
         String nameLike = "%" + searchValue + "%";
         return employeeRepository.getEmployees(nameLike, page, size, isLimited);

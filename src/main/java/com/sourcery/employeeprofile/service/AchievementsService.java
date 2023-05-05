@@ -21,7 +21,7 @@ public class AchievementsService {
     }
 
     public void updateEmployeeAchievements(ChangedAchievementsDto changedAchievements) {
-        for (EmployeeAchievementDto employeeAchievement : changedAchievements.getChangedAchievements())  {
+        for (EmployeeAchievementDto employeeAchievement : changedAchievements.getChangedAchievements()) {
             achievementsRepository.deleteAchievementEmployeeRelationshipById(
                     employeeAchievement.getEmployeeId(),
                     employeeAchievement.getAchievementId()

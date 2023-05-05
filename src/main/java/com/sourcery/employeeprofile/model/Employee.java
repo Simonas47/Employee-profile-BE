@@ -16,6 +16,7 @@ public class Employee {
     private String name;
     private String surname;
     private String middleName;
+    private String email;
     private String status;
     private List<EmploymentDate> employmentDates;
     private Integer imageId;
