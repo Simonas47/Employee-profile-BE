@@ -125,7 +125,12 @@ public class ProjectService {
                                                               Integer employeeId,
                                                               Date projectEmployeeStartDate,
                                                               Date projectEmployeeEndDate) {
-        projectRepository.createNewProjectRelationship(projectId, employeeId, projectEmployeeStartDate, projectEmployeeEndDate);
+        projectRepository.createNewProjectRelationship(
+                projectId,
+                employeeId,
+                projectEmployeeStartDate,
+                projectEmployeeEndDate
+        );
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 

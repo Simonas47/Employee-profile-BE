@@ -11,7 +11,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
 public class GlobalErrorHandler {
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public ErrorMessage handleNotFound(final HttpServletRequest request, final Exception error) {
