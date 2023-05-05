@@ -17,7 +17,6 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationErrorHandler implements AuthenticationEntryPoint {
-
     private final ObjectMapper mapper;
 
     @Override

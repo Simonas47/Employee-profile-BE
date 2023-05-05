@@ -25,7 +25,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 "(projectId, employeeId, projectEmployeeStartDate, projectEmployeeEndDate)" +
                 "VALUES" +
                 "<foreach item='projectEmployee' collection='projectEmployees' open='(' separator='),(' close=')'>" +
-                "#{projectId}, #{projectEmployee.id}, #{projectEmployee.projectEmployeeStartDate}, #{projectEmployee.projectEmployeeEndDate}" +
+                "#{projectId}, #{projectEmployee.id}, " +
+                "#{projectEmployee.projectEmployeeStartDate}, #{projectEmployee.projectEmployeeEndDate}" +
                 "</foreach>" +
                 "</script>";
     }

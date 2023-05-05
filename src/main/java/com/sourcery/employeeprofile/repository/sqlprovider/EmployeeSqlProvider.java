@@ -78,11 +78,10 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
 
     public static String getProjectEmployeesByProjectId(@Param("projectId") Integer projectId) {
         SQL sql = new SQL()
-                .SELECT("e.id", "e.name", "e.surname", "e.middleName",
+                .SELECT("e.id", "e.name", "e.surname", "e.middleName", "e.status",
                         "t.title",
                         "i.type AS imageType", "i.bytes AS imageBytes",
-                        "e.status", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
-                        "i.type AS imageType", "i.bytes AS imageBytes")
+                        "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate")
                 .FROM("projects_employees pe")
                 .INNER_JOIN("employees e ON pe.employeeId = e.id")
                 .LEFT_OUTER_JOIN("titles t ON e.titleId = t.id",

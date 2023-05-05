@@ -17,11 +17,12 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 public class UserController {
     @Autowired
     EmployeeService employeeService;
+
     @GetMapping(value = "/me", produces = "application/json")
     public ResponseEntity<EmployeeDto> getCurrentUser(@AuthenticationPrincipal Jwt accessToken) {
         Object emailFromToken = accessToken.getClaim("employee-profile.email");
         return employeeService.getByEmail(emailFromToken.toString())
                 .map(employeeDto -> ResponseEntity.ok(employeeDto))
                 .orElse(ResponseEntity.notFound().build());
-    };
+    }
 }

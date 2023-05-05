@@ -25,7 +25,12 @@ public interface ProjectRepository {
     List<Project> getAllProjects();
 
     @InsertProvider(type = ProjectSqlProvider.class, method = "createNewProjectRelationship")
-    void createNewProjectRelationship(Integer projectId, Integer employeeId, Date projectEmployeeStartDate, Date projectEmployeeEndDate);
+    void createNewProjectRelationship(
+            Integer projectId,
+            Integer employeeId,
+            Date projectEmployeeStartDate,
+            Date projectEmployeeEndDate
+    );
 
     @InsertProvider(type = ProjectSqlProvider.class, method = "addEmployeesToProject")
     void addEmployeesToProject(@Param("projectId") Integer projectId,

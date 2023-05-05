@@ -21,7 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuerUri;
-
     @Value("${auth0.audience}")
     private String audience;
     @Value(value = "${auth0.domain}")
