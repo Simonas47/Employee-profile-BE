@@ -118,14 +118,4 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.addProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
     }
 
-    @GetMapping(value = "/responsibilities/{projectId}/{employeeId}", produces = "text/plain")
-    public ResponseEntity<String> getResponsibilitiesByProjectAndEmployee(
-            @PathVariable Integer projectId,
-            @PathVariable Integer employeeId) {
-        String responsibilities = projectService.getProjectResponsibilitiesByProjectAndEmployee(projectId, employeeId);
-        if (responsibilities == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(responsibilities);
-    }
 }
