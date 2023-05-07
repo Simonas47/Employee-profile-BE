@@ -29,6 +29,7 @@ public class ProjectService {
 
     public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
+
         if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
 
@@ -57,7 +58,7 @@ public class ProjectService {
                 if (projectEmployeeStartDate.compareTo(hiringDate) >= 0) {
                     return true;
                 }
-            } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 && 
+            } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 &&
                        projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
                        projectEmployeeEndDate != null &&
                        projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
@@ -70,7 +71,7 @@ public class ProjectService {
 
     public List<ProjectEmployeeErrorDto> validateProjectEmployees(ProjectDto project) {
         List<ProjectEmployeeErrorDto> projectEmployeeErrors = new ArrayList<>();
-        
+
         for (ProjectEmployeeDto projectEmployee : project.getProjectEmployees()) {
             List<EmploymentDate> employmentDates = employmentDateRepository.getEmploymentDates(projectEmployee.getId());
             String name = projectEmployee.getName() + " " + projectEmployee.getSurname();
@@ -80,7 +81,7 @@ public class ProjectService {
                 if (employmentDates.size() == 1) {
                     message = "Date should be within the employment period:";
                 } else {
-                    message = String.format("Date should be within the %s employment period:", name);          
+                    message = String.format("Date should be within the %s employment period:", name);
                 }
                 projectEmployeeErrors.add(new ProjectEmployeeErrorDto(projectEmployee.getId(), message, employmentDates));
             }
@@ -97,21 +98,25 @@ public class ProjectService {
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getDescription(),
-                projectEmployees));
+                projectEmployees)
+        );
     }
 
     public List<ProjectDto> getAllProjects() {
         List<Project> projects = projectRepository.getAllProjects();
         List<ProjectDto> projectsDto = new ArrayList<>();
         projects.forEach(project -> {
-            List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
+            List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(
+                    project.getId()
+            );
             projectsDto.add(new ProjectDto(
                     project.getId(),
                     project.getTitle(),
                     project.getStartDate(),
                     project.getEndDate(),
                     project.getDescription(),
-                    projectEmployees));
+                    projectEmployees)
+            );
         });
         return projectsDto;
     }
@@ -120,7 +125,12 @@ public class ProjectService {
                                                               Integer employeeId,
                                                               Date projectEmployeeStartDate,
                                                               Date projectEmployeeEndDate) {
-        projectRepository.createNewProjectRelationship(projectId, employeeId, projectEmployeeStartDate, projectEmployeeEndDate);
+        projectRepository.createNewProjectRelationship(
+                projectId,
+                employeeId,
+                projectEmployeeStartDate,
+                projectEmployeeEndDate
+        );
         return this.getProjectRelationshipsByProjectId(projectId);
     }
 
