@@ -2,6 +2,7 @@ package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.AchievementDto;
 import com.sourcery.employeeprofile.dto.ChangedAchievementsDto;
+import com.sourcery.employeeprofile.dto.SearchAchievementDto;
 import com.sourcery.employeeprofile.service.AchievementsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,10 @@ public class AchievementController {
     @PutMapping("/update")
     public void updateEmployeeAchievement(@RequestBody ChangedAchievementsDto changedAchievements) {
         achievementsService.updateEmployeeAchievements(changedAchievements);
+    }
+
+    @GetMapping("/getAchievementsCategories")
+    public List<SearchAchievementDto> getAchievementsCategories() {
+        return achievementsService.getAchievementsCategories();
     }
 }

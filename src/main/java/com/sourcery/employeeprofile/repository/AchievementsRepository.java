@@ -19,8 +19,21 @@ public interface AchievementsRepository {
     List<AchievementEmployee> getAchievementsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @DeleteProvider(type = AchievementSqlProvider.class, method = "deleteAchievementEmployeeRelationshipById")
-    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId, @Param("achievementId") Integer achievementId);
+    void deleteAchievementEmployeeRelationshipById(@Param("employeeId") Integer employeeId,
+                                                   @Param("achievementId") Integer achievementId);
 
     @InsertProvider(type = AchievementSqlProvider.class, method = "createNewAchievementEmployeeRelationship")
-    void createNewAchievementEmployeeRelationship(Integer achievementId, Date issueDate, Date expiringDate, Integer employeeId);
+    void createNewAchievementEmployeeRelationship(Integer achievementId,
+                                                  Date issueDate,
+                                                  Date expiringDate,
+                                                  Integer employeeId);
+
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getBottomCategories")
+    List<Achievement> getBottomCategories();
+
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getBottomAchievements")
+    List<Achievement> getBottomAchievements(@Param("parentId") Integer parentId);
+
+    @SelectProvider(type = AchievementSqlProvider.class, method = "getTopCategory")
+    Achievement getTopCategory(@Param("parentId") Integer parentId);
 }
