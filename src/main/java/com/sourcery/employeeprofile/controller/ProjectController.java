@@ -5,10 +5,9 @@ import com.sourcery.employeeprofile.dto.AddProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 
-import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -101,9 +99,9 @@ public class ProjectController {
     }
 
 
-    @GetMapping(value = "/getProjectEmployeeBy/{id}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployeeResponsibilitiesDto>> getProjectEmployeeById(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectEmployeeById(id));
+    @GetMapping(value = "/getMyProjectsByEmployee/{id}", produces = "application/json")
+    public ResponseEntity<List<MyProjectDto>> getMyProjectsByEmployeeId(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.getMyProjectsByEmployeeId(id));
     }
 
     @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
@@ -112,25 +110,9 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
     }
 
-    @PostMapping("/addTitleToProjectEmployee")
-    public ResponseEntity<String> addTitleToProjectEmployee
-            (@RequestBody @NotNull Map<String, Object> requestBody) {
-        Integer projectId = Integer.valueOf((String) requestBody.get("projectId"));
-        Integer employeeId = Integer.valueOf((String) requestBody.get("employeeId"));
-        Integer titleId = Integer.valueOf((String) requestBody.get("titleId"));
-
-        int rowsAffected = projectService.addProjectEmployeesTitle(projectId, employeeId, titleId);
-
-        if (rowsAffected == 1) {
-            return ResponseEntity.ok("Title added successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Unable to add title");
-        }
-    }
-
     @PostMapping("/addResponsibilitiesToProjectEmployee")
-    public ResponseEntity<Integer> addResponsibilitiesToProjectEmployee(@RequestBody @NotNull AddProjectEmployeeResponsibilitiesDto requestDto) {
-        return ResponseEntity.ok(projectService.addProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
+    public ResponseEntity<Integer> setProjectEmployeeResponsibilities   (@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {
+        return ResponseEntity.ok(projectService.setProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
     }
 
 }

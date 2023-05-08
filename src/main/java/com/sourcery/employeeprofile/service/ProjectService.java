@@ -4,7 +4,7 @@ import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 import com.sourcery.employeeprofile.model.EmploymentDate;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -144,16 +144,12 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-    public int addProjectEmployeesTitle(Integer projectId, Integer employeeId, Integer titleId) {
-        return projectRepository.addProjectEmployeesTitle(projectId, employeeId, titleId);
-    }
-
     public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(Integer employeeId) {
         return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
     }
 
-    public int addProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
-        return projectRepository.addProjectEmployeesResponsibilities(projectId, employeeId, responsibilities);
+    public int setProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
+        return projectRepository.setProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
     }
 
     public String getProjectResponsibilitiesByProjectAndEmployee(Integer projectId, Integer employeeId) {
@@ -164,8 +160,8 @@ public class ProjectService {
         return projectEmployee.getResponsibilities();
     }
 
-    public List<ProjectEmployeeResponsibilitiesDto> getProjectEmployeeById(Integer id) {
-        List<ProjectEmployeeResponsibilitiesDto> employee = projectRepository.getProjectEmployeeById(id);
+    public List<MyProjectDto> getMyProjectsByEmployeeId(Integer id) {
+        List<MyProjectDto> employee = projectRepository.getMyProjectsByEmployeeId(id);
         return employee;
     }
 }

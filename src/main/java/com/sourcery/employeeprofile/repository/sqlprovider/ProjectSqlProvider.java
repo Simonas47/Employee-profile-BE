@@ -50,21 +50,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String addProjectEmployeesTitle(@Param("projectId") Integer projectId,
-                                                  @Param("employeeId") Integer employeeId,
-                                                  @Param("titleId") Integer titleId
-    ) {
-
-        SQL sql = new SQL()
-                .UPDATE("projects_employees")
-                .SET("titleId = #{titleId}")
-                .WHERE("employeeId = #{employeeId}")
-                .AND()
-                .WHERE("projectId = #{projectId}");
-        return sql.toString();
-    }
-
-    public static String addProjectEmployeesResponsibilities(@Param("projectId") Integer projectId,
+    public static String setProjectEmployeesResponsibilities(@Param("projectId") Integer projectId,
                                                              @Param("employeeId") Integer employeeId,
                                                              @Param("responsibilities") String responsibilities
     ) {
@@ -130,7 +116,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String getProjectEmployeeById(@Param("id") Integer id) {
+    public static String getMyProjectsByEmployeeId(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.description", "p.startDate", "p.endDate",
                         "pe.projectId", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",

@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Data
-public class ProjectEmployeeResponsibilitiesDto {
+public class MyProjectDto {
 
     private Integer id;
     private Integer employeeId;

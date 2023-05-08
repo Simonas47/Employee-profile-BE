@@ -1,19 +1,16 @@
 package com.sourcery.employeeprofile.repository;
 
-import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeResponsibilitiesDto;
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
-import com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider;
 import com.sourcery.employeeprofile.repository.sqlprovider.ProjectSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @Mapper
@@ -55,9 +52,6 @@ public interface ProjectRepository {
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") Integer id);
 
-    @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesTitle")
-    int addProjectEmployeesTitle(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("titleId") Integer titleId);
-
     @UpdateProvider(type = ProjectSqlProvider.class, method = "updateProject")
     void updateProject(ProjectDto project);
 
@@ -66,16 +60,10 @@ public interface ProjectRepository {
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
     void removeProjectEmployees(Integer id);
 
-    @UpdateProvider(type = ProjectSqlProvider.class, method = "addProjectEmployeesResponsibilities")
-    int addProjectEmployeesResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
+    @UpdateProvider(type = ProjectSqlProvider.class, method = "setProjectEmployeesResponsibilities")
+    int setProjectEmployeeResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
 
-    @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectEmployeeById")
-    List<ProjectEmployeeResponsibilitiesDto> getProjectEmployeeById(@Param("id") Integer id);
-
-//    @SelectProvider (type = ProjectSqlProvider.class, method = "findByProjectIdAndEmployeeId")
-//    ProjectEmployee findByProjectIdAndEmployeeId(String projectId, String employeeId);
-//    @UpdateProvider(type = ProjectSqlProvider.class, method = "updateMyResponsibility")
-//    void updateMyResponsibility(String responsibility);
-
+    @SelectProvider(type = ProjectSqlProvider.class, method = "getMyProjectsByEmployeeId")
+    List<MyProjectDto> getMyProjectsByEmployeeId(@Param("id") Integer id);
 
 }
