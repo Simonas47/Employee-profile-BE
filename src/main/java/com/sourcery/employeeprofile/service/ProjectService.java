@@ -119,7 +119,6 @@ public class ProjectService {
 
     public List<ProjectEmployee> createNewProjectRelationship(Integer projectId,
                                                               Integer employeeId,
-                                                              String projectEmployeeStatus,
                                                               Date projectEmployeeStartDate,
                                                               Date projectEmployeeEndDate) {
         projectRepository.createNewProjectRelationship(projectId, employeeId, projectEmployeeStartDate, projectEmployeeEndDate);
