@@ -3,7 +3,6 @@ package com.sourcery.employeeprofile.repository.sqlprovider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
-
 public class SkillSqlProvider {
     public static String getSkillRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId) {
         SQL sql = new SQL()
@@ -35,6 +34,30 @@ public class SkillSqlProvider {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("skills");
+        return sql.toString();
+    }
+
+    public static String getBottomCategories() {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills")
+                .WHERE("skills.subItemsAreSkills = true");
+        return sql.toString();
+    }
+
+    public static String getBottomSkills(@Param("parentId") Integer parentId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills")
+                .WHERE("skills.parentId = #{parentId}");
+        return sql.toString();
+    }
+
+    public static String getTopCategory(@Param("parentId") Integer parentId) {
+        SQL sql = new SQL()
+                .SELECT("*")
+                .FROM("skills")
+                .WHERE("skills.id = #{parentId}");
         return sql.toString();
     }
 }
