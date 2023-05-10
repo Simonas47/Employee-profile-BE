@@ -110,8 +110,8 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
     }
 
-    @PostMapping("/setProjectEmployeeResponsibilities")
-    public ResponseEntity<Integer> setProjectEmployeeResponsibilities   (@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {
+    @PostMapping("/setMyProjectEmployeeResponsibilities")
+    public ResponseEntity<Integer> setMyProjectEmployeeResponsibilities   (@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {
         return ResponseEntity.ok(projectService.setMyProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
     }
 
