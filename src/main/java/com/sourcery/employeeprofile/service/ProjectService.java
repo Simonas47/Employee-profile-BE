@@ -148,20 +148,11 @@ public class ProjectService {
         return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
     }
 
-    public int setProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
-        return projectRepository.setProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
-    }
-
-    public String getProjectResponsibilitiesByProjectAndEmployee(Integer projectId, Integer employeeId) {
-        ProjectEmployee projectEmployee = projectRepository.getByProjectIdAndEmployeeId(projectId, employeeId);
-        if (projectEmployee == null) {
-            return null;
-        }
-        return projectEmployee.getResponsibilities();
+    public int setMyProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
+        return projectRepository.setMyProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
     }
 
     public List<MyProjectDto> getMyProjectsByEmployeeId(Integer id) {
-        List<MyProjectDto> employee = projectRepository.getMyProjectsByEmployeeId(id);
-        return employee;
+        return projectRepository.getMyProjectsByEmployeeId(id);
     }
 }

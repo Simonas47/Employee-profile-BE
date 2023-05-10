@@ -50,7 +50,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String setProjectEmployeesResponsibilities(@Param("projectId") Integer projectId,
+    public static String setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId,
                                                              @Param("employeeId") Integer employeeId,
                                                              @Param("responsibilities") String responsibilities
     ) {
@@ -60,14 +60,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .SET("responsibilities = #{responsibilities}")
                 .WHERE("employeeId = #{employeeId}")
                 .AND()
-                .WHERE("projectId = #{projectId}");
-        return sql.toString();
-    }
-
-
-    public static String removeProjectEmployees(Integer projectId) {
-        SQL sql = new SQL()
-                .DELETE_FROM("projects_employees")
                 .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
@@ -124,18 +116,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .FROM("projects p")
                 .LEFT_OUTER_JOIN("projects_employees pe ON p.id = pe.projectId")
                 .WHERE("pe.employeeId = #{id}");
-        return sql.toString();
-    }
-
-    public static String getByProjectIdAndEmployeeId(@Param("projectId") Integer projectId,
-                                                     @Param("employeeId") Integer employeeId
-    ) {
-        SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("projects_employees")
-                .WHERE("projects_employees.projectId = #{projectId}")
-                .AND()
-                .WHERE("projects_employees.employeeId = #{employeeId}");
         return sql.toString();
     }
 

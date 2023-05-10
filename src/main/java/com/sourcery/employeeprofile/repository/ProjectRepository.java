@@ -43,12 +43,6 @@ public interface ProjectRepository {
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByEmployeeId")
     List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId);
 
-    @SelectProvider(type = ProjectSqlProvider.class, method = "getByProjectIdAndEmployeeId")
-    ProjectEmployee getByProjectIdAndEmployeeId(
-            @Param("projectId") Integer projectId,
-            @Param("employeeId") Integer employeeId);
-
-
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") Integer id);
 
@@ -57,11 +51,9 @@ public interface ProjectRepository {
 
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeEmployeesFromProject")
     void removeEmployeesFromProject(Integer id);
-    @DeleteProvider(type = ProjectSqlProvider.class, method = "removeProjectEmployees")
-    void removeProjectEmployees(Integer id);
 
-    @UpdateProvider(type = ProjectSqlProvider.class, method = "setProjectEmployeesResponsibilities")
-    int setProjectEmployeeResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
+    @UpdateProvider(type = ProjectSqlProvider.class, method = "setMyProjectEmployeeResponsibilities")
+    int setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getMyProjectsByEmployeeId")
     List<MyProjectDto> getMyProjectsByEmployeeId(@Param("id") Integer id);
