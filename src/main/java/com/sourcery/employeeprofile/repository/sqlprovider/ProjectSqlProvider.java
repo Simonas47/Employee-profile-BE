@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
@@ -49,6 +50,20 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
+    public static String setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId,
+                                                             @Param("employeeId") Integer employeeId,
+                                                             @Param("responsibilities") String responsibilities
+    ) {
+
+        SQL sql = new SQL()
+                .UPDATE("projects_employees")
+                .SET("responsibilities = #{responsibilities}")
+                .WHERE("employeeId = #{employeeId}")
+                .AND()
+                .WHERE("projectId = #{projectId}");
+        return sql.toString();
+    }
+
     public static String getProjectById(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.startDate", "p.endDate", "p.description")
@@ -81,6 +96,17 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .SELECT("*")
                 .FROM("projects_employees")
                 .WHERE("projects_employees.projectId = #{projectId}");
+        return sql.toString();
+    }
+
+    public static String getMyProjectsByEmployeeId(@Param("id") Integer id) {
+        SQL sql = new SQL()
+                .SELECT("p.id", "p.title", "p.description", "p.startDate", "p.endDate",
+                        "pe.projectId", "pe.projectEmployeeStartDate", "pe.projectEmployeeEndDate",
+                        "pe.responsibilities")
+                .FROM("projects p")
+                .LEFT_OUTER_JOIN("projects_employees pe ON p.id = pe.projectId")
+                .WHERE("pe.employeeId = #{id}");
         return sql.toString();
     }
 
