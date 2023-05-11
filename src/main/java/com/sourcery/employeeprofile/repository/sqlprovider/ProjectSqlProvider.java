@@ -99,15 +99,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-
-    public static String getProjectRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId) {
-        SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("projects_employees")
-                .WHERE("projects_employees.employeeId = #{employeeId}");
-        return sql.toString();
-    }
-
     public static String getMyProjectsByEmployeeId(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.description", "p.startDate", "p.endDate",

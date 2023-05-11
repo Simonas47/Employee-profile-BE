@@ -144,9 +144,6 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-    public List<ProjectEmployee> getProjectRelationshipsByEmployeeId(Integer employeeId) {
-        return projectRepository.getProjectRelationshipsByEmployeeId(employeeId);
-    }
 
     public int setMyProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
         return projectRepository.setMyProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);

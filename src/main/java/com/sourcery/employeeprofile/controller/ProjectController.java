@@ -104,11 +104,6 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getMyProjectsByEmployeeId(id));
     }
 
-    @GetMapping(value = "/projectsByEmployeeId/{employeeId}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByEmployeeId(@PathVariable Integer
-                                                                                             employeeId) {
-        return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectRelationshipsByEmployeeId(employeeId));
-    }
 
     @PostMapping("/setMyProjectEmployeeResponsibilities")
     public ResponseEntity<Integer> setMyProjectEmployeeResponsibilities   (@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {

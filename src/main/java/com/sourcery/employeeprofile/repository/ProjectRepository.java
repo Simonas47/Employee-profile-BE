@@ -40,8 +40,6 @@ public interface ProjectRepository {
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId);
 
-    @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByEmployeeId")
-    List<ProjectEmployee> getProjectRelationshipsByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") Integer id);
