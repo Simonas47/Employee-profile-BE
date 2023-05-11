@@ -90,4 +90,12 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
                 .ORDER_BY("e.name ASC, e.surname ASC");
         return sql.toString();
     }
+
+    public static String checkIfEmailExists(@Param("email") String email) {
+        SQL sql = new SQL()
+                .SELECT("COUNT(*) > 0")
+                .FROM("employees")
+                .WHERE("email = #{email}");
+        return sql.toString();
+    }
 }

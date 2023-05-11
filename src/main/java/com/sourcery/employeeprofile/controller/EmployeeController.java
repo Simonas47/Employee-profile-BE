@@ -1,16 +1,14 @@
 package com.sourcery.employeeprofile.controller;
 
+import com.sourcery.employeeprofile.dto.CreateEmployeeDto;
 import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeePageDto;
-import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,11 +23,11 @@ public class EmployeeController {
     public static final int DEFAULT_PAGE_SIZE = 100;
     public static final int MINIMAL_PAGE_SIZE = 10;
 
-    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
-    public ResponseEntity<EmployeeDto> createNewEmployee(@RequestPart("employee") Employee employee,
-                                                         @RequestPart("image") MultipartFile image) {
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody CreateEmployeeDto employee) {
+        System.out.println(employee);
         try {
-            return ResponseEntity.ok(employeeService.createNewEmployee(employee, image));
+            return ResponseEntity.ok(employeeService.createNewEmployee(employee));
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();

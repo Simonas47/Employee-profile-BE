@@ -1,7 +1,9 @@
 package com.sourcery.employeeprofile.service;
 
+import com.sourcery.employeeprofile.dto.CreateEmployeeDto;
 import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
+import com.sourcery.employeeprofile.dto.ValidateEmailDto;
 import com.sourcery.employeeprofile.model.Employee;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Image;
@@ -9,7 +11,6 @@ import com.sourcery.employeeprofile.repository.EmployeeRepository;
 import com.sourcery.employeeprofile.repository.EmploymentDateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,9 +25,19 @@ public class EmployeeService {
     @Autowired
     ImageService imageService;
 
-    public EmployeeDto createNewEmployee(Employee employee, MultipartFile file) throws IOException {
-        Image newImage = imageService.createNewImage(file);
-        employee.setImageId(newImage.getId());
+    public EmployeeDto createNewEmployee(CreateEmployeeDto employeeDto) throws IOException {
+        Image newImage = imageService.createNewImage(employeeDto.getImage());
+        Employee employee = Employee.builder()
+                .name(employeeDto.getName())
+                .surname(employeeDto.getSurname())
+                .middleName(employeeDto.getMiddleName())
+                .email(employeeDto.getEmail())
+                .status(employeeDto.getStatus())
+                .imageId(newImage.getId())
+                .titleId(employeeDto.getTitleId())
+                .isManager(employeeDto.getIsManager())
+                .build();
+
         employeeRepository.createNewEmployee(employee);
 
         if (employee.getEmploymentDates() != null && employee.getEmploymentDates().size() > 0)
@@ -68,7 +79,7 @@ public class EmployeeService {
         );
     }
 
-    private String getSearchBySkillIdSqlCode(List<Integer> selectedSkillsIds) {
+    public String getSearchBySkillIdSqlCode(List<Integer> selectedSkillsIds) {
         StringBuilder sqlCode = new StringBuilder();
         for (int i = 0; i < selectedSkillsIds.size(); i++) {
             if (i > 0) {
@@ -94,5 +105,9 @@ public class EmployeeService {
             sqlCode.append(")");
         }
         return sqlCode.toString();
+    }
+
+    public boolean checkIfEmailExists (String email) {
+        return employeeRepository.checkIfEmailExists(email);
     }
 }

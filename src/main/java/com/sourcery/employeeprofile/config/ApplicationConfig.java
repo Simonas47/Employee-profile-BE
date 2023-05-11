@@ -14,15 +14,8 @@ public class ApplicationConfig implements WebMvcConfigurer {
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("https://employee-profile.devbstaging.com/", "http://localhost:3000/")
-                .allowedHeaders(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE)
-                .allowedMethods(
-                        HttpMethod.GET.name(),
-                        HttpMethod.PUT.name(),
-                        HttpMethod.OPTIONS.name(),
-                        HttpMethod.PATCH.name(),
-                        HttpMethod.POST.name(),
-                        HttpMethod.DELETE.name()
-                )
+                .allowedHeaders("*")
+                .allowedMethods("*")
                 .maxAge(86400);
     }
 }
