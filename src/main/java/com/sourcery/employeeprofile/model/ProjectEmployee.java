@@ -17,4 +17,5 @@ public class ProjectEmployee {
     private Integer employeeId;
     private Date projectEmployeeStartDate;
     private Date projectEmployeeEndDate;
+    private String responsibilities;
 }

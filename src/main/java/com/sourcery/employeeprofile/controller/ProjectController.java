@@ -1,7 +1,11 @@
 package com.sourcery.employeeprofile.controller;
 
+
+import com.sourcery.employeeprofile.dto.AddProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
+
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,4 +97,17 @@ public class ProjectController {
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+
+    @GetMapping(value = "/getMyProjectsByEmployee/{id}", produces = "application/json")
+    public ResponseEntity<List<MyProjectDto>> getMyProjectsByEmployeeId(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.getMyProjectsByEmployeeId(id));
+    }
+
+
+    @PostMapping("/setMyProjectEmployeeResponsibilities")
+    public ResponseEntity<Integer> setMyProjectEmployeeResponsibilities   (@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {
+        return ResponseEntity.ok(projectService.setMyProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
+    }
+
 }
