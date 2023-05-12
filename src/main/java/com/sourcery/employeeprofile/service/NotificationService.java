@@ -17,8 +17,14 @@ public class NotificationService {
 
     @Autowired
     NotificationRepository notificationRepository;
+    @Autowired
+    EmployeeService employeeService;
+
+    @Autowired
+    ProjectService projectService;
+
     public List<NotificationDto> getAllByEmployeeId(Integer employeeId) {
-        return mapModelsToDtos(notificationRepository.getAllByEmployeeId(employeeId));
+        return mapModelsToDtos(notificationRepository.getAllByEmployeeId(employeeId), employeeService, projectService);
     }
 
     public void setReadById(Integer id, boolean read) {

@@ -1,38 +1,37 @@
 package com.sourcery.employeeprofile.mapper;
 
+import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.NotificationDto;
+import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.service.EmployeeService;
 import com.sourcery.employeeprofile.service.ProjectService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static com.sourcery.employeeprofile.repository.sqlprovider.EmployeeSqlProvider.getById;
+import java.util.Optional;
 
 public class NotificationMapper {
 
-    public static List<NotificationDto> mapModelsToDtos(List<Notification> allEmployeeNotifications) {
+    public static List<NotificationDto> mapModelsToDtos(List<Notification> allEmployeeNotifications, EmployeeService employeeService, ProjectService projectService) {
         List<NotificationDto> outputList = new ArrayList<>();
         for (Notification employeeNotification : allEmployeeNotifications) {
             if (employeeNotification.isRead()) continue;
 
-//            List<Integer> ids = Arrays.asList(
-//                    employeeNotification.getEmployeeId(),
-//                    employeeNotification.getInitiatorEmployeeId()
-//            );
-//
-//            if (
-//                    ids.stream().anyMatch(id -> employeeService.getById(id).isEmpty()) ||
-//                    projectService.getProjectById(employeeNotification.getProjectId()).isEmpty()
-//            ) continue;
+            Optional<EmployeeDto> initiatorEmployee = employeeService.getById(employeeNotification.getInitiatorEmployeeId());
+            if (initiatorEmployee.isEmpty()) {
+                throw new RuntimeException("no 'initiatorEmployee' found.");
+            }
+            Optional<ProjectDto> project = projectService.getProjectById(employeeNotification.getProjectId());
+            if (project.isEmpty()) {
+                throw new RuntimeException("no 'project' found.");
+            }
 
             NotificationDto notificationDto = new NotificationDto(
                     employeeNotification.getId(),
                     employeeNotification.getEmployeeId(),
-                    employeeNotification.getProjectId(),
-                    employeeNotification.getInitiatorEmployeeId(),
+                    projectService.getProjectById(employeeNotification.getProjectId()).get(),
+                    employeeService.getById(employeeNotification.getInitiatorEmployeeId()).get(),
                     employeeNotification.getNotificationType(),
                     employeeNotification.getNotificationCreatedAt()
             );

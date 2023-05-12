@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class NotificationDto {
     private Integer id;
     private Integer employeeId;
-    private Integer projectId;
-    private Integer initiatorEmployeeId;
+    private ProjectDto project;
+    private EmployeeDto initiatorEmployee;
     private String notificationType;
     private LocalDateTime notificationCreatedAt;
 }
