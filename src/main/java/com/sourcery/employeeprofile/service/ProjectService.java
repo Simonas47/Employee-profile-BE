@@ -4,6 +4,7 @@ import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 import com.sourcery.employeeprofile.model.EmploymentDate;
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -141,5 +142,14 @@ public class ProjectService {
     public Optional<ProjectDto> deleteProjectById(Integer id) {
         projectRepository.deleteProjectById(id);
         return this.getProjectById(id);
+    }
+
+
+    public int setMyProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
+        return projectRepository.setMyProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
+    }
+
+    public List<MyProjectDto> getMyProjectsByEmployeeId(Integer id) {
+        return projectRepository.getMyProjectsByEmployeeId(id);
     }
 }

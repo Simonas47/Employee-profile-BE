@@ -2,6 +2,7 @@ package com.sourcery.employeeprofile.repository;
 
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.sqlprovider.ProjectSqlProvider;
@@ -39,6 +40,7 @@ public interface ProjectRepository {
     @SelectProvider(type = ProjectSqlProvider.class, method = "getProjectRelationshipsByProjectId")
     List<ProjectEmployee> getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId);
 
+
     @UpdateProvider(type = ProjectSqlProvider.class, method = "deleteProjectById")
     void deleteProjectById(@Param("id") Integer id);
 
@@ -47,4 +49,11 @@ public interface ProjectRepository {
 
     @DeleteProvider(type = ProjectSqlProvider.class, method = "removeEmployeesFromProject")
     void removeEmployeesFromProject(Integer id);
+
+    @UpdateProvider(type = ProjectSqlProvider.class, method = "setMyProjectEmployeeResponsibilities")
+    int setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId, @Param("employeeId") Integer employeeId, @Param("responsibilities") String responsibilities);
+
+    @SelectProvider(type = ProjectSqlProvider.class, method = "getMyProjectsByEmployeeId")
+    List<MyProjectDto> getMyProjectsByEmployeeId(@Param("id") Integer id);
+
 }
