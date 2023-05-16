@@ -12,7 +12,6 @@ import java.util.List;
 public interface NotificationRepository {
 
     @InsertProvider(type = NotificationSqlProvider.class, method = "createNotification")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     void createNotification(Notification notification);
     @SelectProvider(type = NotificationSqlProvider.class, method = "getAllByEmployeeId")
     List<Notification> getAllByEmployeeId(@Param("employeeId") Integer employeeId);
