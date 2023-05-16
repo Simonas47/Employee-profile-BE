@@ -51,8 +51,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
     public static String setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId,
-                                                             @Param("employeeId") Integer employeeId,
-                                                             @Param("responsibilities") String responsibilities
+                                                              @Param("employeeId") Integer employeeId,
+                                                              @Param("responsibilities") String responsibilities
     ) {
 
         SQL sql = new SQL()

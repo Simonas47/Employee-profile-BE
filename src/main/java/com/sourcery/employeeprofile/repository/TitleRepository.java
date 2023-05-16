@@ -1,4 +1,5 @@
 package com.sourcery.employeeprofile.repository;
+
 import com.sourcery.employeeprofile.model.Title;
 import com.sourcery.employeeprofile.repository.sqlprovider.TitleSqlProvider;
 import org.apache.ibatis.annotations.Mapper;

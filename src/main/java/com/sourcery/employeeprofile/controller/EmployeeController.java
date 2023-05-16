@@ -25,7 +25,6 @@ public class EmployeeController {
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody CreateEmployeeDto employee) {
-        System.out.println(employee);
         try {
             return ResponseEntity.ok(employeeService.createNewEmployee(employee));
         } catch (IOException e) {

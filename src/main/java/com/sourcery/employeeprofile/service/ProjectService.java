@@ -60,10 +60,10 @@ public class ProjectService {
                     return true;
                 }
             } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 &&
-                       projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
-                       projectEmployeeEndDate != null &&
-                       projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
-                       projectEmployeeEndDate.compareTo(exitDate) <= 0) {
+                    projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
+                    projectEmployeeEndDate != null &&
+                    projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
+                    projectEmployeeEndDate.compareTo(exitDate) <= 0) {
                 return true;
             }
         }
