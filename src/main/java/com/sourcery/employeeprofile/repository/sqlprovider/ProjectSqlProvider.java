@@ -109,7 +109,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                 .WHERE("pe.employeeId = #{id}")
                 .AND()
                 .WHERE("p.deleted = false")
-                .ORDER_BY("p.startDate DESC");
+                .ORDER_BY("pe.projectEmployeeStartDate DESC");
         return sql.toString();
     }
 
