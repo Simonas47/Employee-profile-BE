@@ -16,7 +16,6 @@ public class NotificationMapper {
     public static List<NotificationDto> mapModelsToDtos(List<Notification> allEmployeeNotifications, EmployeeService employeeService, ProjectService projectService) {
         List<NotificationDto> outputList = new ArrayList<>();
         for (Notification employeeNotification : allEmployeeNotifications) {
-            if (employeeNotification.isRead()) continue;
 
             Optional<EmployeeDto> initiatorEmployee = employeeService.getById(employeeNotification.getInitiatorEmployeeId());
             if (initiatorEmployee.isEmpty()) {
@@ -33,7 +32,8 @@ public class NotificationMapper {
                     projectService.getProjectById(employeeNotification.getProjectId()).get(),
                     employeeService.getById(employeeNotification.getInitiatorEmployeeId()).get(),
                     employeeNotification.getNotificationType(),
-                    employeeNotification.getNotificationCreatedAt()
+                    employeeNotification.getNotificationCreatedAt(),
+                    false
             );
             outputList.add(notificationDto);
         }

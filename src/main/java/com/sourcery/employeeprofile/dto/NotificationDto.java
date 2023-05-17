@@ -18,4 +18,5 @@ public class NotificationDto {
     private EmployeeDto initiatorEmployee;
     private String notificationType;
     private LocalDateTime notificationCreatedAt;
+    private boolean read;
 }

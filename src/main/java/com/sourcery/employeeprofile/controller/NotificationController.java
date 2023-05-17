@@ -22,8 +22,8 @@ public class NotificationController {
         return notificationService.getAllByEmployeeId(employeeId);
     }
 
-    @PutMapping("/setReadById/{id}")
-    public void setReadById(@PathVariable Integer id, @RequestBody boolean read) {
+    @PutMapping("/setReadById/{id}/{read}")
+    public void setReadById(@PathVariable Integer id, @PathVariable boolean read) {
         notificationService.setReadById(id, read);
     }
 
