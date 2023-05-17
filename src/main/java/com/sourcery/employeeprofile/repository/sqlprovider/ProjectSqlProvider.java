@@ -106,7 +106,10 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                         "pe.responsibilities")
                 .FROM("projects p")
                 .LEFT_OUTER_JOIN("projects_employees pe ON p.id = pe.projectId")
-                .WHERE("pe.employeeId = #{id}");
+                .WHERE("pe.employeeId = #{id}")
+                .AND()
+                .WHERE("p.deleted = false")
+                .ORDER_BY("p.startDate DESC");
         return sql.toString();
     }
 
