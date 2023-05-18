@@ -149,7 +149,6 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-
     public int updateMyProject(Integer projectId, Integer employeeId, String responsibilities) {
         return projectRepository.updateMyProject(projectId, employeeId, responsibilities);
     }
