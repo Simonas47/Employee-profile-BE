@@ -7,6 +7,7 @@ import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 
 import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
+import com.sourcery.employeeprofile.service.NotificationService;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 public class ProjectController {
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    NotificationService notificationService;
 
     @PostMapping()
     public ResponseEntity<Object> createNewProject(@RequestBody ProjectDto project) {
@@ -92,22 +96,21 @@ public class ProjectController {
 
     @PatchMapping(value = "/delete/{id}", produces = "application/json")
     public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable Integer id) {
-        return projectService
+        ResponseEntity<ProjectDto> deletedProject = projectService
                 .deleteProjectById(id)
                 .map(projectDto -> ResponseEntity.ok(projectDto))
                 .orElse(ResponseEntity.notFound().build());
+        notificationService.deleteByProjectId(id);
+        return deletedProject;
     }
-
 
     @GetMapping(value = "/getMyProjectsByEmployee/{id}", produces = "application/json")
     public ResponseEntity<List<MyProjectDto>> getMyProjectsByEmployeeId(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getMyProjectsByEmployeeId(id));
     }
 
-
     @PostMapping("/setMyProjectEmployeeResponsibilities")
     public ResponseEntity<Integer> setMyProjectEmployeeResponsibilities   (@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {
         return ResponseEntity.ok(projectService.setMyProjectEmployeeResponsibilities(requestDto.getProjectId(), requestDto.getEmployeeId(), requestDto.getResponsibilities()));
     }
-
 }

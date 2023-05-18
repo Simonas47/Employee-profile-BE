@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.NotificationDto;
+import com.sourcery.employeeprofile.dto.NotificationRequestDto;
 import com.sourcery.employeeprofile.mapper.NotificationMapper;
 import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.repository.NotificationRepository;
@@ -31,12 +32,24 @@ public class NotificationService {
         notificationRepository.setReadById(id, read);
     }
 
-    public void createNotification(Notification notification) {
-        notificationRepository.createNotification(notification);
+    public void createNotification(NotificationRequestDto notificationRequestDto) {
+        Notification notification = new Notification(
+                notificationRequestDto.getId(),
+                notificationRequestDto.getEmployeeId(),
+                notificationRequestDto.getProjectId(),
+                notificationRequestDto.getInitiatorEmployeeId(),
+                notificationRequestDto.getNotificationType(),
+                notificationRequestDto.isRead(),
+                notificationRequestDto.getNotificationCreatedAt());
+        for (Integer employeeId: notificationRequestDto.getEmployeeIds()) {
+            if (employeeId.equals(notification.getInitiatorEmployeeId())) continue;
+            notification.setEmployeeId(employeeId);
+            notificationRepository.createNotification(notification);
+        }
     }
 
 
-
-
-
+    public void deleteByProjectId(Integer projectId) {
+        notificationRepository.deleteByProjectId(projectId);
+    }
 }

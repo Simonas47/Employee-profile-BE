@@ -33,7 +33,7 @@ public class NotificationMapper {
                     employeeService.getById(employeeNotification.getInitiatorEmployeeId()).get(),
                     employeeNotification.getNotificationType(),
                     employeeNotification.getNotificationCreatedAt(),
-                    false
+                    employeeNotification.isRead()
             );
             outputList.add(notificationDto);
         }

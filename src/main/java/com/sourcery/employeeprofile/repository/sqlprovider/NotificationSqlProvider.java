@@ -8,7 +8,9 @@ public class NotificationSqlProvider {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("notifications")
-                .WHERE("notifications.employeeId = #{employeeId}");
+                .WHERE("notifications.employeeId = #{employeeId}")
+                .ORDER_BY("notificationCreatedAt DESC")
+                .LIMIT(10);
         return sql.toString();
     }
 
@@ -27,6 +29,13 @@ public class NotificationSqlProvider {
                 .VALUES("projectId", "#{projectId}")
                 .VALUES("initiatorEmployeeId", "#{initiatorEmployeeId}")
                 .VALUES("notificationType", "CAST(#{notificationType} AS NOTIFICATION_TYPE)");
+        return sql.toString();
+    }
+
+    public static String deleteByProjectId(@Param("projectId") Integer projectId) {
+        SQL sql = new SQL()
+                .DELETE_FROM("notifications")
+                .WHERE("projectId = #{projectId}");
         return sql.toString();
     }
 }

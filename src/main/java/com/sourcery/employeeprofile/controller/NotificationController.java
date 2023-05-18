@@ -1,6 +1,7 @@
 package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.NotificationDto;
+import com.sourcery.employeeprofile.dto.NotificationRequestDto;
 import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class NotificationController {
         notificationService.setReadById(id, read);
     }
 
-    @PostMapping("/createNotification")
-    public void createNotification(@RequestBody Notification notification) {
+    @PostMapping("/createNotifications")
+    public void createNotification(@RequestBody NotificationRequestDto notification) {
         notificationService.createNotification(notification);
     }
 }

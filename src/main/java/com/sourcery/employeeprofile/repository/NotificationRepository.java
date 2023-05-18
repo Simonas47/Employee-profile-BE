@@ -18,4 +18,7 @@ public interface NotificationRepository {
 
     @UpdateProvider(type = NotificationSqlProvider.class, method = "setReadById")
     void setReadById(@Param("id") Integer notificationId, @Param("read") boolean read);
+
+    @DeleteProvider(type = NotificationSqlProvider.class, method = "deleteByProjectId")
+    void deleteByProjectId(@Param("projectId") Integer projectId);
 }

@@ -1,16 +1,15 @@
 package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.dto.ProjectDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
+import com.sourcery.employeeprofile.dto.*;
+import com.sourcery.employeeprofile.enums.NotificationTypes;
 import com.sourcery.employeeprofile.model.EmploymentDate;
-import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
 import com.sourcery.employeeprofile.repository.EmploymentDateRepository;
 import com.sourcery.employeeprofile.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,21 +27,103 @@ public class ProjectService {
     @Autowired
     EmploymentDateRepository employmentDateRepository;
 
+    @Lazy
+    @Autowired
+    NotificationService notificationService;
+
     public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
 
-        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
+        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0) {
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
+
+            ArrayList<Integer> projectEmployeeIds = new ArrayList<>();
+            project.getProjectEmployees().forEach(projectEmployee -> {
+                    projectEmployeeIds.add(projectEmployee.getId());
+            });
+            List<Integer> projectEmployeeIdsList = projectEmployeeIds.stream().toList();
+            notificationService.createNotification(
+                            new NotificationRequestDto(
+                            projectEmployeeIdsList,
+                            null,
+                            null,
+                            project.getId(),
+                            project.getCreatorEmployeeId(),
+                            NotificationTypes.ADD_EMPLOYEE.name(),
+                            false,
+                            null));
+        }
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public ProjectDto updateProject(ProjectDto project) throws IOException {
+        List<ProjectEmployeeDto> oldProjectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
+//        1. Jeigu newly addintas employee tai nesiust
+//        2. Jeigu removintas employee tai nesiust
+
         projectRepository.updateProject(project);
         projectRepository.removeEmployeesFromProject(project.getId());
 
-        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
+        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0) {
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
+        }
+
+        List<Integer> newProjectEmployeeIds = new ArrayList<>();
+        project.getProjectEmployees().forEach(projectEmployee -> {
+            boolean isNew = oldProjectEmployees.stream()
+                    .noneMatch(oldProjectEmployee ->
+                            oldProjectEmployee.getId().equals(projectEmployee.getId()));
+            if (isNew) newProjectEmployeeIds.add(projectEmployee.getId());
+        });
+        notificationService.createNotification(
+                new NotificationRequestDto(
+                        newProjectEmployeeIds,
+                        null,
+                        null,
+                        project.getId(),
+                        project.getCreatorEmployeeId(),
+                        NotificationTypes.ADD_EMPLOYEE.name(),
+                        false,
+                        null));
+
+        List<Integer> removedProjectEmployeeIds = new ArrayList<>();
+        oldProjectEmployees.forEach(oldProjectEmployee -> {
+            boolean isRemoved = project.getProjectEmployees().stream().noneMatch(projectEmployee ->
+                    projectEmployee.getId().equals(oldProjectEmployee.getId()));
+            if (isRemoved) removedProjectEmployeeIds.add(oldProjectEmployee.getId());
+        });
+        notificationService.createNotification(
+                new NotificationRequestDto(
+                        removedProjectEmployeeIds,
+                        null,
+                        null,
+                        project.getId(),
+                        project.getCreatorEmployeeId(),
+                        NotificationTypes.REMOVE_EMPLOYEE.name(),
+                        false,
+                        null));
+
+        List<Integer> employeesToSendInformationUpdateNotificationsToIds = new ArrayList<>();
+        project.getProjectEmployees().forEach(projectEmployee -> {
+            if (newProjectEmployeeIds.stream().noneMatch(newProjectEmployeeId ->
+                    projectEmployee.getId().equals(newProjectEmployeeId))
+                    && removedProjectEmployeeIds.stream().noneMatch(removedProjectEmployeeId ->
+                    projectEmployee.getId().equals(removedProjectEmployeeId))) {
+                employeesToSendInformationUpdateNotificationsToIds.add(projectEmployee.getId());
+            }
+        });
+        System.out.println(employeesToSendInformationUpdateNotificationsToIds);
+        notificationService.createNotification(
+                new NotificationRequestDto(
+                        employeesToSendInformationUpdateNotificationsToIds,
+                        null,
+                        null,
+                        project.getId(),
+                        project.getCreatorEmployeeId(),
+                        NotificationTypes.UPDATE_PROJECT_INFORMATION.name(),
+                        false,
+                        null));
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
@@ -99,7 +180,8 @@ public class ProjectService {
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getDescription(),
-                projectEmployees)
+                projectEmployees,
+                null)
         );
     }
 
@@ -116,7 +198,8 @@ public class ProjectService {
                     project.getStartDate(),
                     project.getEndDate(),
                     project.getDescription(),
-                    projectEmployees)
+                    projectEmployees,
+                    null)
             );
         });
         return projectsDto;
