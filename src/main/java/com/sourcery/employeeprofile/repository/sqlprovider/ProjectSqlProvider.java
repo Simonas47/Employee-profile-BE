@@ -50,7 +50,7 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId,
+    public static String updateMyProject(@Param("projectId") Integer projectId,
                                                              @Param("employeeId") Integer employeeId,
                                                              @Param("responsibilities") String responsibilities
     ) {
