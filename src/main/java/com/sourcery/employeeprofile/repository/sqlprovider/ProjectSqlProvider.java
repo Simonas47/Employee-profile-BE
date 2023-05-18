@@ -53,7 +53,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                                          @Param("employeeId") Integer employeeId,
                                          @Param("responsibilities") String responsibilities
     ) {
-
         SQL sql = new SQL()
                 .UPDATE("projects_employees")
                 .SET("responsibilities = #{responsibilities}")

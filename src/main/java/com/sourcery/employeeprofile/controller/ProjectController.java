@@ -103,10 +103,6 @@ public class ProjectController {
 
     @PostMapping("/updateMyProject")
     public ResponseEntity<Integer> updateMyProject(@RequestBody AddProjectEmployeeResponsibilitiesDto requestDto) {
-        return ResponseEntity.ok(projectService.updateMyProject(
-                requestDto.getProjectId(),
-                requestDto.getEmployeeId(),
-                requestDto.getResponsibilities()
-        ));
+        return ResponseEntity.ok(projectService.updateMyProject(requestDto));
     }
 }

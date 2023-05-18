@@ -1,9 +1,6 @@
 package com.sourcery.employeeprofile.service;
 
-import com.sourcery.employeeprofile.dto.MyProjectDto;
-import com.sourcery.employeeprofile.dto.ProjectDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
+import com.sourcery.employeeprofile.dto.*;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
@@ -149,8 +146,12 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-    public int updateMyProject(Integer projectId, Integer employeeId, String responsibilities) {
-        return projectRepository.updateMyProject(projectId, employeeId, responsibilities);
+    public int updateMyProject(AddProjectEmployeeResponsibilitiesDto requestDto) {
+        return projectRepository.updateMyProject(
+                requestDto.getProjectId(),
+                requestDto.getEmployeeId(),
+                requestDto.getResponsibilities()
+        );
     }
 
     public List<MyProjectDto> getMyProjectsByEmployeeId(Integer id) {
