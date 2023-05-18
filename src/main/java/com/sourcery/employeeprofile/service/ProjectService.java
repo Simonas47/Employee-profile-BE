@@ -59,8 +59,6 @@ public class ProjectService {
 
     public ProjectDto updateProject(ProjectDto project) throws IOException {
         List<ProjectEmployeeDto> oldProjectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
-//        1. Jeigu newly addintas employee tai nesiust
-//        2. Jeigu removintas employee tai nesiust
 
         projectRepository.updateProject(project);
         projectRepository.removeEmployeesFromProject(project.getId());
@@ -113,7 +111,6 @@ public class ProjectService {
                 employeesToSendInformationUpdateNotificationsToIds.add(projectEmployee.getId());
             }
         });
-        System.out.println(employeesToSendInformationUpdateNotificationsToIds);
         notificationService.createNotification(
                 new NotificationRequestDto(
                         employeesToSendInformationUpdateNotificationsToIds,
@@ -203,23 +200,6 @@ public class ProjectService {
             );
         });
         return projectsDto;
-    }
-
-    public List<ProjectEmployee> createNewProjectRelationship(Integer projectId,
-                                                              Integer employeeId,
-                                                              Date projectEmployeeStartDate,
-                                                              Date projectEmployeeEndDate) {
-        projectRepository.createNewProjectRelationship(
-                projectId,
-                employeeId,
-                projectEmployeeStartDate,
-                projectEmployeeEndDate
-        );
-        return this.getProjectRelationshipsByProjectId(projectId);
-    }
-
-    public List<ProjectEmployee> getProjectRelationshipsByProjectId(Integer projectId) {
-        return projectRepository.getProjectRelationshipsByProjectId(projectId);
     }
 
     public Optional<ProjectDto> deleteProjectById(Integer id) {

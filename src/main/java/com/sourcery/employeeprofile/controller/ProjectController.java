@@ -59,39 +59,9 @@ public class ProjectController {
         }
     }
 
-    @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<ProjectDto> getProjectById(@PathVariable Integer id) {
-        return projectService
-                .getProjectById(id)
-                .map(projectDto -> ResponseEntity.ok(projectDto))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<List<ProjectDto>> getAllProjects() {
         return ResponseEntity.status(HttpStatus.OK).body(projectService.getAllProjects());
-    }
-
-    @PostMapping(value = "/addEmployee")
-    public ResponseEntity<List<ProjectEmployee>> createNewProjectRelationship(
-            @RequestPart("projectId") Integer projectId,
-            @RequestPart("employeeId") Integer employeeId,
-            @RequestPart("projectEmployeeStartDate") Date projectEmployeeStartDate,
-            @RequestPart("projectEmployeeEndDate") Date projectEmployeeEndDate
-    ) {
-        return ResponseEntity.ok(projectService.createNewProjectRelationship(
-                projectId,
-                employeeId,
-                projectEmployeeStartDate,
-                projectEmployeeEndDate
-        ));
-    }
-
-    @GetMapping(value = "/relationships/byProject/{projectId}", produces = "application/json")
-    public ResponseEntity<List<ProjectEmployee>> getProjectRelationshipsByProjectId(@PathVariable Integer projectId) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(projectService.getProjectRelationshipsByProjectId(projectId));
     }
 
     @PatchMapping(value = "/delete/{id}", produces = "application/json")
