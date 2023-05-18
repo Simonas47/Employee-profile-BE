@@ -22,7 +22,7 @@ public class TitleController {
     TitleService titleService;
 
     @GetMapping(value = "/all", produces = "application/json")
-    public ResponseEntity<List<Title>> getAllProjects() {
+    public ResponseEntity<List<Title>> getAllTitles() {
         return ResponseEntity.status(HttpStatus.OK).body(titleService.getAllTitles());
     }
 }

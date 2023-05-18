@@ -116,7 +116,7 @@ public class EmployeeService {
         }
     }
 
-    public String getSearchBySkillIdSqlCode(List<Integer> selectedSkillsIds) {
+    private String getSearchBySkillIdSqlCode(List<Integer> selectedSkillsIds) {
         StringBuilder sqlCode = new StringBuilder();
         for (int i = 0; i < selectedSkillsIds.size(); i++) {
             if (i > 0) {

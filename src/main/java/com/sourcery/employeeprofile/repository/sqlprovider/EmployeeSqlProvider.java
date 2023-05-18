@@ -92,10 +92,6 @@ public class EmployeeSqlProvider implements ProviderMethodResolver {
     }
 
     public static String checkIfEmailExists(@Param("email") String email) {
-        SQL sql = new SQL()
-                .SELECT("COUNT(*) > 0")
-                .FROM("employees")
-                .WHERE("email = #{email}");
-        return sql.toString();
+        return "SELECT EXISTS(SELECT 1 FROM employees WHERE email = #{email})";
     }
 }
