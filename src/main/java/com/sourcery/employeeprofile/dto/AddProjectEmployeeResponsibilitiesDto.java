@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -14,5 +13,4 @@ public class AddProjectEmployeeResponsibilitiesDto {
     private Integer projectId;
     private Integer employeeId;
     private String responsibilities;
-
 }

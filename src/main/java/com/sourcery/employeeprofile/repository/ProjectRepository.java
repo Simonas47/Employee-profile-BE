@@ -1,8 +1,8 @@
 package com.sourcery.employeeprofile.repository;
 
+import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.sqlprovider.ProjectSqlProvider;
@@ -55,5 +55,4 @@ public interface ProjectRepository {
 
     @SelectProvider(type = ProjectSqlProvider.class, method = "getMyProjectsByEmployeeId")
     List<MyProjectDto> getMyProjectsByEmployeeId(@Param("id") Integer id);
-
 }
