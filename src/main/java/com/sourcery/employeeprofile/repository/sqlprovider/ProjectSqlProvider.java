@@ -1,7 +1,6 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
@@ -51,8 +50,8 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
     public static String setMyProjectEmployeeResponsibilities(@Param("projectId") Integer projectId,
-                                                             @Param("employeeId") Integer employeeId,
-                                                             @Param("responsibilities") String responsibilities
+                                                              @Param("employeeId") Integer employeeId,
+                                                              @Param("responsibilities") String responsibilities
     ) {
 
         SQL sql = new SQL()

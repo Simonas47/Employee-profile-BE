@@ -1,4 +1,3 @@
-
 package com.sourcery.employeeprofile.dto;
 
 import lombok.AllArgsConstructor;
@@ -8,13 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class MyProjectDto {
-
     private Integer id;
     private Integer employeeId;
     private Integer projectId;
@@ -25,5 +22,4 @@ public class MyProjectDto {
     private Date projectEmployeeStartDate;
     private Date projectEmployeeEndDate;
     private String responsibilities;
-
 }
