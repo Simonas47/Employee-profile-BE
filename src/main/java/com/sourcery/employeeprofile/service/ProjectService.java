@@ -145,8 +145,8 @@ public class ProjectService {
     }
 
 
-    public int setMyProjectEmployeeResponsibilities(Integer projectId, Integer employeeId, String responsibilities) {
-        return projectRepository.setMyProjectEmployeeResponsibilities(projectId, employeeId, responsibilities);
+    public int updateMyProject(Integer projectId, Integer employeeId, String responsibilities) {
+        return projectRepository.updateMyProject(projectId, employeeId, responsibilities);
     }
 
     public List<MyProjectDto> getMyProjectsByEmployeeId(Integer id) {
