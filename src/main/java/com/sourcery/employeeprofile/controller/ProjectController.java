@@ -98,7 +98,7 @@ public class ProjectController {
     public ResponseEntity<ProjectDto> deleteProjectById(@PathVariable Integer id) {
         ResponseEntity<ProjectDto> deletedProject = projectService
                 .deleteProjectById(id)
-                .map(projectDto -> ResponseEntity.ok(projectDto))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
         notificationService.deleteByProjectId(id);
         return deletedProject;
