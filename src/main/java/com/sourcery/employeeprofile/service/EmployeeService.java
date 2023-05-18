@@ -45,8 +45,7 @@ public class EmployeeService {
     }
 
     public Optional<EmployeeDto> getByEmail(String email) {
-        Optional<EmployeeDto> employee = employeeRepository.getByEmail(email);
-        return employee;
+        return employeeRepository.getByEmail(email);
     }
 
     public List<SearchEmployeeDto> getEmployees(String searchValue,
