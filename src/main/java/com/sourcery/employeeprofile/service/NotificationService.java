@@ -35,14 +35,15 @@ public class NotificationService {
         notificationRepository.setIsReadByEmployeeId(employeeId, isRead);
     }
     public void createNotification(NotificationRequestDto notificationRequestDto) {
-        Notification notification = new Notification(
-                notificationRequestDto.getId(),
-                notificationRequestDto.getEmployeeId(),
-                notificationRequestDto.getProjectId(),
-                notificationRequestDto.getInitiatorEmployeeId(),
-                notificationRequestDto.getNotificationType(),
-                notificationRequestDto.isRead(),
-                notificationRequestDto.getNotificationCreatedAt());
+        Notification notification = Notification.builder()
+                .id(notificationRequestDto.getId())
+                .employeeId(notificationRequestDto.getEmployeeId())
+                .projectId(notificationRequestDto.getProjectId())
+                .initiatorEmployeeId(notificationRequestDto.getInitiatorEmployeeId())
+                .notificationType(notificationRequestDto.getNotificationType())
+                .isRead(notificationRequestDto.isRead())
+                .notificationCreatedAt(notificationRequestDto.getNotificationCreatedAt())
+                .build();
         for (Integer employeeId: notificationRequestDto.getEmployeeIds()) {
             if (employeeId.equals(notification.getInitiatorEmployeeId())) continue;
             notification.setEmployeeId(employeeId);

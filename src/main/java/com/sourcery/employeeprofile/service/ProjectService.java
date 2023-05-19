@@ -45,15 +45,13 @@ public class ProjectService {
                     projectEmployeeIds.add(projectEmployee.getId()));
             List<Integer> projectEmployeeIdsList = projectEmployeeIds.stream().toList();
             notificationService.createNotification(
-                            new NotificationRequestDto(
-                            projectEmployeeIdsList,
-                            null,
-                            null,
-                            project.getId(),
-                            project.getCreatorEmployeeId(),
-                            NotificationTypes.ADD_EMPLOYEE,
-                            false,
-                            null));
+                    NotificationRequestDto.builder()
+                            .employeeIds(projectEmployeeIdsList)
+                            .projectId(project.getId())
+                            .initiatorEmployeeId(project.getCreatorEmployeeId())
+                            .notificationType(NotificationTypes.ADD_EMPLOYEE)
+                            .build()
+            );
         }
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
@@ -83,15 +81,12 @@ public class ProjectService {
             if (isNew) newProjectEmployeesIds.add(projectEmployee.getId());
         });
         notificationService.createNotification(
-                new NotificationRequestDto(
-                        newProjectEmployeesIds,
-                        null,
-                        null,
-                        project.getId(),
-                        project.getCreatorEmployeeId(),
-                        NotificationTypes.ADD_EMPLOYEE,
-                        false,
-                        null));
+                NotificationRequestDto.builder()
+                        .employeeIds(newProjectEmployeesIds)
+                        .projectId(project.getId())
+                        .initiatorEmployeeId(project.getCreatorEmployeeId())
+                        .notificationType(NotificationTypes.ADD_EMPLOYEE)
+                        .build());
 
         List<Integer> removedProjectEmployeesIds = new ArrayList<>();
         oldProjectDto.getProjectEmployees().forEach(oldProjectEmployee -> {
@@ -100,15 +95,12 @@ public class ProjectService {
             if (isRemoved) removedProjectEmployeesIds.add(oldProjectEmployee.getId());
         });
         notificationService.createNotification(
-                new NotificationRequestDto(
-                        removedProjectEmployeesIds,
-                        null,
-                        null,
-                        project.getId(),
-                        project.getCreatorEmployeeId(),
-                        NotificationTypes.REMOVE_EMPLOYEE,
-                        false,
-                        null));
+                NotificationRequestDto.builder()
+                        .employeeIds(removedProjectEmployeesIds)
+                        .projectId(project.getId())
+                        .initiatorEmployeeId(project.getCreatorEmployeeId())
+                        .notificationType(NotificationTypes.REMOVE_EMPLOYEE)
+                        .build());
 
         List<Integer> employeesToSendInformationUpdateNotificationsToIds = new ArrayList<>();
         project.getProjectEmployees().forEach(projectEmployee -> {
@@ -120,16 +112,12 @@ public class ProjectService {
             }
         });
         notificationService.createNotification(
-                new NotificationRequestDto(
-                        employeesToSendInformationUpdateNotificationsToIds,
-                        null,
-                        null,
-                        project.getId(),
-                        project.getCreatorEmployeeId(),
-                        NotificationTypes.UPDATE_PROJECT_INFORMATION,
-                        false,
-                        null));
-
+                NotificationRequestDto.builder()
+                        .employeeIds(employeesToSendInformationUpdateNotificationsToIds)
+                        .projectId(project.getId())
+                        .initiatorEmployeeId(project.getCreatorEmployeeId())
+                        .notificationType(NotificationTypes.UPDATE_PROJECT_INFORMATION)
+                        .build());
     }
 
     public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee,
