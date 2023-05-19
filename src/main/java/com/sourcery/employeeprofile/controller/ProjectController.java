@@ -4,7 +4,6 @@ import com.sourcery.employeeprofile.dto.AddProjectEmployeeResponsibilitiesDto;
 import com.sourcery.employeeprofile.dto.MyProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
-import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.service.NotificationService;
 import com.sourcery.employeeprofile.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
