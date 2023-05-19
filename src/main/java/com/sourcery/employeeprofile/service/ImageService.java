@@ -14,15 +14,9 @@ public class ImageService {
     @Autowired
     ImageRepository imageRepository;
 
-    public Image createNewImage(MultipartFile file) throws IOException {
-        Image imageModel = Image
-                .builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .bytes(Base64.getEncoder().encodeToString(file.getBytes()))
-                .build();
-        imageRepository.createNewImage(imageModel);
-        return imageRepository.getById(imageModel.getId());
+    public Image createNewImage(Image image) throws IOException {
+        imageRepository.createNewImage(image);
+        return imageRepository.getById(image.getId());
     }
 
     public Image getById(Integer id) {

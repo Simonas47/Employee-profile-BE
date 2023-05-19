@@ -34,4 +34,7 @@ public interface EmployeeRepository {
 
     @SelectProvider(type = EmployeeSqlProvider.class, method = "getProjectEmployeesByProjectId")
     List<ProjectEmployeeDto> getProjectEmployeesByProjectId(@Param("projectId") Integer projectId);
+
+    @SelectProvider(type = EmployeeSqlProvider.class, method = "checkIfEmailExists")
+    boolean checkIfEmailExists(@Param("email") String email);
 }
