@@ -4,7 +4,6 @@ import com.sourcery.employeeprofile.dto.*;
 import com.sourcery.employeeprofile.enums.NotificationTypes;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Project;
-import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
 import com.sourcery.employeeprofile.repository.EmploymentDateRepository;
 import com.sourcery.employeeprofile.repository.ProjectRepository;
@@ -58,25 +57,31 @@ public class ProjectService {
     }
 
     public ProjectDto updateProject(ProjectDto project) throws IOException {
-        List<ProjectEmployeeDto> oldProjectEmployees = employeeRepository.getProjectEmployeesByProjectId(project.getId());
+        Optional<ProjectDto> oldProjectDtoOptional = getProjectById(project.getId());
+        if (oldProjectDtoOptional.isEmpty()) throw new RuntimeException("Project with the provided id is not found");
 
         projectRepository.updateProject(project);
         projectRepository.removeEmployeesFromProject(project.getId());
 
-        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0) {
+        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
-        }
 
-        List<Integer> newProjectEmployeeIds = new ArrayList<>();
+        createNotificationsForProjects(oldProjectDtoOptional.get(), project);
+
+        return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
+    }
+
+    private void createNotificationsForProjects(ProjectDto oldProjectDto, ProjectDto project) {
+        List<Integer> newProjectEmployeesIds = new ArrayList<>();
         project.getProjectEmployees().forEach(projectEmployee -> {
-            boolean isNew = oldProjectEmployees.stream()
+            boolean isNew = oldProjectDto.getProjectEmployees().stream()
                     .noneMatch(oldProjectEmployee ->
                             oldProjectEmployee.getId().equals(projectEmployee.getId()));
-            if (isNew) newProjectEmployeeIds.add(projectEmployee.getId());
+            if (isNew) newProjectEmployeesIds.add(projectEmployee.getId());
         });
         notificationService.createNotification(
                 new NotificationRequestDto(
-                        newProjectEmployeeIds,
+                        newProjectEmployeesIds,
                         null,
                         null,
                         project.getId(),
@@ -85,15 +90,15 @@ public class ProjectService {
                         false,
                         null));
 
-        List<Integer> removedProjectEmployeeIds = new ArrayList<>();
-        oldProjectEmployees.forEach(oldProjectEmployee -> {
+        List<Integer> removedProjectEmployeesIds = new ArrayList<>();
+        oldProjectDto.getProjectEmployees().forEach(oldProjectEmployee -> {
             boolean isRemoved = project.getProjectEmployees().stream().noneMatch(projectEmployee ->
                     projectEmployee.getId().equals(oldProjectEmployee.getId()));
-            if (isRemoved) removedProjectEmployeeIds.add(oldProjectEmployee.getId());
+            if (isRemoved) removedProjectEmployeesIds.add(oldProjectEmployee.getId());
         });
         notificationService.createNotification(
                 new NotificationRequestDto(
-                        removedProjectEmployeeIds,
+                        removedProjectEmployeesIds,
                         null,
                         null,
                         project.getId(),
@@ -104,9 +109,9 @@ public class ProjectService {
 
         List<Integer> employeesToSendInformationUpdateNotificationsToIds = new ArrayList<>();
         project.getProjectEmployees().forEach(projectEmployee -> {
-            if (newProjectEmployeeIds.stream().noneMatch(newProjectEmployeeId ->
+            if (newProjectEmployeesIds.stream().noneMatch(newProjectEmployeeId ->
                     projectEmployee.getId().equals(newProjectEmployeeId))
-                    && removedProjectEmployeeIds.stream().noneMatch(removedProjectEmployeeId ->
+                    && removedProjectEmployeesIds.stream().noneMatch(removedProjectEmployeeId ->
                     projectEmployee.getId().equals(removedProjectEmployeeId))) {
                 employeesToSendInformationUpdateNotificationsToIds.add(projectEmployee.getId());
             }
@@ -122,7 +127,6 @@ public class ProjectService {
                         false,
                         null));
 
-        return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee, List<EmploymentDate> employmentDates) {

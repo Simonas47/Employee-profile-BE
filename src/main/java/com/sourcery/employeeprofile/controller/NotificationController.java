@@ -5,6 +5,7 @@ import com.sourcery.employeeprofile.dto.NotificationRequestDto;
 import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +29,14 @@ public class NotificationController {
         notificationService.setReadById(id, read);
     }
 
+    @PutMapping("/setReadByEmployeeId/{employeeId}/{read}")
+    public void setReadByEmployeeId(@PathVariable Integer employeeId, @PathVariable boolean read) {
+        notificationService.setReadByEmployeeId(employeeId, read);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createNotifications")
-    public void createNotification(@RequestBody NotificationRequestDto notification) {
-        notificationService.createNotification(notification);
+    public void createNotification(@RequestBody NotificationRequestDto notificationRequestDto) {
+        notificationService.createNotification(notificationRequestDto);
     }
 }

@@ -22,6 +22,15 @@ public class NotificationSqlProvider {
         return sql.toString();
     }
 
+    public static String setReadByEmployeeId(@Param("employeeId") Integer employeeId, @Param("read") boolean read) {
+        SQL sql = new SQL()
+                .UPDATE("notifications")
+                .SET("read = #{read}")
+                .WHERE("employeeId = #{employeeId}");
+        return sql.toString();
+    }
+
+
     public static String createNotification() {
         SQL sql = new SQL()
                 .INSERT_INTO("notifications")

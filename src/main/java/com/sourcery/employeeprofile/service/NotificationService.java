@@ -32,6 +32,9 @@ public class NotificationService {
         notificationRepository.setReadById(id, read);
     }
 
+    public void setReadByEmployeeId(Integer employeeId, boolean read) {
+        notificationRepository.setReadByEmployeeId(employeeId, read);
+    }
     public void createNotification(NotificationRequestDto notificationRequestDto) {
         Notification notification = new Notification(
                 notificationRequestDto.getId(),
@@ -47,7 +50,6 @@ public class NotificationService {
             notificationRepository.createNotification(notification);
         }
     }
-
 
     public void deleteByProjectId(Integer projectId) {
         notificationRepository.deleteByProjectId(projectId);
