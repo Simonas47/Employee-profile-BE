@@ -1,6 +1,12 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.*;
+import com.sourcery.employeeprofile.dto.*;
+import com.sourcery.employeeprofile.enums.NotificationTypes;
+import com.sourcery.employeeprofile.dto.NotificationRequestDto;
+import com.sourcery.employeeprofile.dto.ProjectDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
+import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 import com.sourcery.employeeprofile.enums.NotificationTypes;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Project;
@@ -129,7 +135,8 @@ public class ProjectService {
 
     }
 
-    public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee, List<EmploymentDate> employmentDates) {
+    public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee,
+                                                List<EmploymentDate> employmentDates) {
         Date projectEmployeeStartDate = projectEmployee.getProjectEmployeeStartDate();
         Date projectEmployeeEndDate = projectEmployee.getProjectEmployeeEndDate();
 
@@ -142,10 +149,10 @@ public class ProjectService {
                     return true;
                 }
             } else if (projectEmployeeStartDate.compareTo(hiringDate) >= 0 &&
-                       projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
-                       projectEmployeeEndDate != null &&
-                       projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
-                       projectEmployeeEndDate.compareTo(exitDate) <= 0) {
+                    projectEmployeeStartDate.compareTo(exitDate) <= 0 &&
+                    projectEmployeeEndDate != null &&
+                    projectEmployeeEndDate.compareTo(hiringDate) >= 0 &&
+                    projectEmployeeEndDate.compareTo(exitDate) <= 0) {
                 return true;
             }
         }
@@ -166,7 +173,11 @@ public class ProjectService {
                 } else {
                     message = String.format("Date should be within the %s employment period:", name);
                 }
-                projectEmployeeErrors.add(new ProjectEmployeeErrorDto(projectEmployee.getId(), message, employmentDates));
+                projectEmployeeErrors.add(new ProjectEmployeeErrorDto(
+                        projectEmployee.getId(),
+                        message,
+                        employmentDates
+                ));
             }
         }
         return projectEmployeeErrors;
@@ -211,9 +222,12 @@ public class ProjectService {
         return this.getProjectById(id);
     }
 
-
-    public int updateMyProject(Integer projectId, Integer employeeId, String responsibilities) {
-        return projectRepository.updateMyProject(projectId, employeeId, responsibilities);
+    public int updateMyProject(AddProjectEmployeeResponsibilitiesDto requestDto) {
+        return projectRepository.updateMyProject(
+                requestDto.getProjectId(),
+                requestDto.getEmployeeId(),
+                requestDto.getResponsibilities()
+        );
     }
 
     public List<MyProjectDto> getMyProjectsByEmployeeId(Integer id) {
