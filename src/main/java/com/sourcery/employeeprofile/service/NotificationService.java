@@ -2,7 +2,6 @@ package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.NotificationDto;
 import com.sourcery.employeeprofile.dto.NotificationRequestDto;
-import com.sourcery.employeeprofile.mapper.NotificationMapper;
 import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +27,12 @@ public class NotificationService {
         return mapModelsToDtos(notificationRepository.getAllByEmployeeId(employeeId), employeeService, projectService);
     }
 
-    public void setReadById(Integer id, boolean read) {
-        notificationRepository.setReadById(id, read);
+    public void setIsReadById(Integer id, boolean isRead) {
+        notificationRepository.setIsReadById(id, isRead);
     }
 
-    public void setReadByEmployeeId(Integer employeeId, boolean read) {
-        notificationRepository.setReadByEmployeeId(employeeId, read);
+    public void setIsReadByEmployeeId(Integer employeeId, boolean isRead) {
+        notificationRepository.setIsReadByEmployeeId(employeeId, isRead);
     }
     public void createNotification(NotificationRequestDto notificationRequestDto) {
         Notification notification = new Notification(

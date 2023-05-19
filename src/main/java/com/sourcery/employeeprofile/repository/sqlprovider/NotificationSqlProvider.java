@@ -9,23 +9,23 @@ public class NotificationSqlProvider {
                 .SELECT("*")
                 .FROM("notifications")
                 .WHERE("notifications.employeeId = #{employeeId}")
-                .ORDER_BY("notificationCreatedAt DESC")
+                .ORDER_BY("isRead ASC, notificationCreatedAt DESC")
                 .LIMIT(10);
         return sql.toString();
     }
 
-    public static String setReadById(@Param("id") Integer id, @Param("read") boolean read) {
+    public static String setIsReadById(@Param("id") Integer id, @Param("isRead") boolean isRead) {
         SQL sql = new SQL()
                 .UPDATE("notifications")
-                .SET("read = #{read}")
+                .SET("isRead = #{isRead}")
                 .WHERE("id = #{id}");
         return sql.toString();
     }
 
-    public static String setReadByEmployeeId(@Param("employeeId") Integer employeeId, @Param("read") boolean read) {
+    public static String setIsReadByEmployeeId(@Param("employeeId") Integer employeeId, @Param("isRead") boolean isRead) {
         SQL sql = new SQL()
                 .UPDATE("notifications")
-                .SET("read = #{read}")
+                .SET("isRead = #{isRead}")
                 .WHERE("employeeId = #{employeeId}");
         return sql.toString();
     }

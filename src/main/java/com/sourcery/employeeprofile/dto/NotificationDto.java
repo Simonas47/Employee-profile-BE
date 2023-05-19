@@ -1,5 +1,6 @@
 package com.sourcery.employeeprofile.dto;
 
+import com.sourcery.employeeprofile.enums.NotificationTypes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class NotificationDto {
     private Integer employeeId;
     private ProjectDto project;
     private EmployeeDto initiatorEmployee;
-    private String notificationType;
+    private NotificationTypes notificationType;
     private LocalDateTime notificationCreatedAt;
-    private boolean read;
+    private boolean isRead;
 }

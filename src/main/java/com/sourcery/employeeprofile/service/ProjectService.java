@@ -1,13 +1,11 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.*;
-import com.sourcery.employeeprofile.dto.*;
 import com.sourcery.employeeprofile.enums.NotificationTypes;
 import com.sourcery.employeeprofile.dto.NotificationRequestDto;
 import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
 import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
-import com.sourcery.employeeprofile.enums.NotificationTypes;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -43,9 +41,8 @@ public class ProjectService {
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
 
             ArrayList<Integer> projectEmployeeIds = new ArrayList<>();
-            project.getProjectEmployees().forEach(projectEmployee -> {
-                    projectEmployeeIds.add(projectEmployee.getId());
-            });
+            project.getProjectEmployees().forEach(projectEmployee ->
+                    projectEmployeeIds.add(projectEmployee.getId()));
             List<Integer> projectEmployeeIdsList = projectEmployeeIds.stream().toList();
             notificationService.createNotification(
                             new NotificationRequestDto(
@@ -54,7 +51,7 @@ public class ProjectService {
                             null,
                             project.getId(),
                             project.getCreatorEmployeeId(),
-                            NotificationTypes.ADD_EMPLOYEE.name(),
+                            NotificationTypes.ADD_EMPLOYEE,
                             false,
                             null));
         }
@@ -92,7 +89,7 @@ public class ProjectService {
                         null,
                         project.getId(),
                         project.getCreatorEmployeeId(),
-                        NotificationTypes.ADD_EMPLOYEE.name(),
+                        NotificationTypes.ADD_EMPLOYEE,
                         false,
                         null));
 
@@ -109,7 +106,7 @@ public class ProjectService {
                         null,
                         project.getId(),
                         project.getCreatorEmployeeId(),
-                        NotificationTypes.REMOVE_EMPLOYEE.name(),
+                        NotificationTypes.REMOVE_EMPLOYEE,
                         false,
                         null));
 
@@ -129,7 +126,7 @@ public class ProjectService {
                         null,
                         project.getId(),
                         project.getCreatorEmployeeId(),
-                        NotificationTypes.UPDATE_PROJECT_INFORMATION.name(),
+                        NotificationTypes.UPDATE_PROJECT_INFORMATION,
                         false,
                         null));
 

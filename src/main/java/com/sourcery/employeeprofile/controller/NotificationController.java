@@ -2,7 +2,6 @@ package com.sourcery.employeeprofile.controller;
 
 import com.sourcery.employeeprofile.dto.NotificationDto;
 import com.sourcery.employeeprofile.dto.NotificationRequestDto;
-import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,14 +23,14 @@ public class NotificationController {
         return notificationService.getAllByEmployeeId(employeeId);
     }
 
-    @PutMapping("/setReadById/{id}/{read}")
-    public void setReadById(@PathVariable Integer id, @PathVariable boolean read) {
-        notificationService.setReadById(id, read);
+    @PutMapping("/setIsReadById/{id}/{isRead}")
+    public void setIsReadById(@PathVariable Integer id, @PathVariable boolean isRead) {
+        notificationService.setIsReadById(id, isRead);
     }
 
-    @PutMapping("/setReadByEmployeeId/{employeeId}/{read}")
-    public void setReadByEmployeeId(@PathVariable Integer employeeId, @PathVariable boolean read) {
-        notificationService.setReadByEmployeeId(employeeId, read);
+    @PutMapping("/setIsReadByEmployeeId/{employeeId}/{isRead}")
+    public void setIsReadByEmployeeId(@PathVariable Integer employeeId, @PathVariable boolean isRead) {
+        notificationService.setIsReadByEmployeeId(employeeId, isRead);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

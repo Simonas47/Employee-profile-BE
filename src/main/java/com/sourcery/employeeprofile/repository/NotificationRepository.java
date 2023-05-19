@@ -4,7 +4,6 @@ import com.sourcery.employeeprofile.model.Notification;
 import com.sourcery.employeeprofile.repository.sqlprovider.NotificationSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -17,11 +16,11 @@ public interface NotificationRepository {
     @SelectProvider(type = NotificationSqlProvider.class, method = "getAllByEmployeeId")
     List<Notification> getAllByEmployeeId(@Param("employeeId") Integer employeeId);
 
-    @UpdateProvider(type = NotificationSqlProvider.class, method = "setReadById")
-    void setReadById(@Param("id") Integer notificationId, @Param("read") boolean read);
+    @UpdateProvider(type = NotificationSqlProvider.class, method = "setIsReadById")
+    void setIsReadById(@Param("id") Integer id, @Param("isRead") boolean isRead);
 
-    @UpdateProvider(type = NotificationSqlProvider.class, method = "setReadByEmployeeId")
-    void setReadByEmployeeId(@Param("employeeId") Integer employeeId, @Param("read") boolean read);
+    @UpdateProvider(type = NotificationSqlProvider.class, method = "setIsReadByEmployeeId")
+    void setIsReadByEmployeeId(@Param("employeeId") Integer employeeId, @Param("isRead") boolean isRead);
 
     @DeleteProvider(type = NotificationSqlProvider.class, method = "deleteByProjectId")
     void deleteByProjectId(@Param("projectId") Integer projectId);

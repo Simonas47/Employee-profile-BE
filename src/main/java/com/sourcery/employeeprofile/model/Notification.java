@@ -1,16 +1,15 @@
 package com.sourcery.employeeprofile.model;
 
+import com.sourcery.employeeprofile.enums.NotificationTypes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 @Builder
 @Data
 public class Notification {
@@ -18,7 +17,7 @@ public class Notification {
     private Integer employeeId;
     private Integer projectId;
     private Integer initiatorEmployeeId;
-    private String notificationType;
-    private boolean read;
+    private NotificationTypes notificationType;
+    private boolean isRead;
     private LocalDateTime notificationCreatedAt;
 }
