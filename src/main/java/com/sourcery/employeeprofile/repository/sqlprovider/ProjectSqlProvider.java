@@ -79,24 +79,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String createNewProjectRelationship() {
-        SQL sql = new SQL()
-                .INSERT_INTO("projects_employees")
-                .VALUES("projectId", "#{projectId}")
-                .VALUES("employeeId", "#{employeeId}")
-                .VALUES("projectEmployeeStartDate", "#{projectEmployeeStartDate}")
-                .VALUES("projectEmployeeEndDate", "projectEmployeeEndDate");
-        return sql.toString();
-    }
-
-    public static String getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId) {
-        SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("projects_employees")
-                .WHERE("projects_employees.projectId = #{projectId}");
-        return sql.toString();
-    }
-
     public static String getMyProjectsByEmployeeId(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.description", "p.startDate", "p.endDate",

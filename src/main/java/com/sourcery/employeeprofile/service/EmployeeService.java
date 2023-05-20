@@ -1,8 +1,8 @@
 package com.sourcery.employeeprofile.service;
 
+import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.HttpResponse;
 import com.sourcery.employeeprofile.dto.CreateEmployeeDto;
 import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
@@ -53,7 +53,7 @@ public class EmployeeService {
             //Set the first date to today, if no dates exist.
             if (employee.getEmploymentDates() == null || employee.getEmploymentDates().size() == 0) {
                 List<EmploymentDate> dates = new ArrayList<>();
-                dates.add(new EmploymentDate().builder().hiringDate(new Date()).build());
+                dates.add(EmploymentDate.builder().hiringDate(new Date()).build());
                 employee.setEmploymentDates(dates);
             }
             employmentDateRepository.setEmploymentDates(employee.getId(), employee.getEmploymentDates());
@@ -111,8 +111,7 @@ public class EmployeeService {
                     .asJson();
             return response.toString();
         } catch (Exception e) {
-            String error = e.getMessage();
-            return error;
+            return e.getMessage();
         }
     }
 
@@ -143,5 +142,4 @@ public class EmployeeService {
         }
         return sqlCode.toString();
     }
-
 }

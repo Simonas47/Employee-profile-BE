@@ -1,13 +1,14 @@
 package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.*;
+import com.sourcery.employeeprofile.enums.NotificationTypes;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Project;
-import com.sourcery.employeeprofile.model.ProjectEmployee;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
 import com.sourcery.employeeprofile.repository.EmploymentDateRepository;
 import com.sourcery.employeeprofile.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,24 +25,98 @@ public class ProjectService {
     EmployeeRepository employeeRepository;
     @Autowired
     EmploymentDateRepository employmentDateRepository;
+    @Lazy
+    @Autowired
+    NotificationService notificationService;
 
     public ProjectDto createNewProject(ProjectDto project) throws IOException {
         projectRepository.createNewProject(project);
 
-        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
+        if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0) {
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
+
+            ArrayList<Integer> projectEmployeeIds = new ArrayList<>();
+            project.getProjectEmployees().forEach(projectEmployee ->
+                    projectEmployeeIds.add(projectEmployee.getId()));
+            List<Integer> projectEmployeeIdsList = projectEmployeeIds.stream().toList();
+            notificationService.createNotification(
+                    NotificationRequestDto.builder()
+                            .employeeIds(projectEmployeeIdsList)
+                            .projectId(project.getId())
+                            .initiatorEmployeeId(project.getCreatorEmployeeId())
+                            .notificationType(NotificationTypes.ADD_EMPLOYEE)
+                            .build()
+            );
+        }
 
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
     }
 
     public ProjectDto updateProject(ProjectDto project) throws IOException {
+        Optional<ProjectDto> oldProjectDtoOptional = getProjectById(project.getId());
+        if (oldProjectDtoOptional.isEmpty()) throw new RuntimeException("Project with the provided id is not found");
+
         projectRepository.updateProject(project);
         projectRepository.removeEmployeesFromProject(project.getId());
 
         if (project.getProjectEmployees() != null && project.getProjectEmployees().size() > 0)
             projectRepository.addEmployeesToProject(project.getId(), project.getProjectEmployees());
 
+        createNotificationsForProjects(oldProjectDtoOptional.get(), project);
+
         return this.getProjectById(project.getId()).orElseThrow(IllegalStateException::new);
+    }
+
+    private void createNotificationsForProjects(ProjectDto oldProjectDto, ProjectDto project) {
+        List<Integer> newProjectEmployeesIds = new ArrayList<>();
+        project.getProjectEmployees().forEach(projectEmployee -> {
+            boolean isNew = oldProjectDto.getProjectEmployees()
+                    .stream()
+                    .noneMatch(oldProjectEmployee ->
+                            oldProjectEmployee.getId().equals(projectEmployee.getId()));
+            if (isNew) newProjectEmployeesIds.add(projectEmployee.getId());
+        });
+        notificationService.createNotification(
+                NotificationRequestDto.builder()
+                        .employeeIds(newProjectEmployeesIds)
+                        .projectId(project.getId())
+                        .initiatorEmployeeId(project.getCreatorEmployeeId())
+                        .notificationType(NotificationTypes.ADD_EMPLOYEE)
+                        .build()
+        );
+
+        List<Integer> removedProjectEmployeesIds = new ArrayList<>();
+        oldProjectDto.getProjectEmployees().forEach(oldProjectEmployee -> {
+            boolean isRemoved = project.getProjectEmployees().stream().noneMatch(projectEmployee ->
+                    projectEmployee.getId().equals(oldProjectEmployee.getId()));
+            if (isRemoved) removedProjectEmployeesIds.add(oldProjectEmployee.getId());
+        });
+        notificationService.createNotification(
+                NotificationRequestDto.builder()
+                        .employeeIds(removedProjectEmployeesIds)
+                        .projectId(project.getId())
+                        .initiatorEmployeeId(project.getCreatorEmployeeId())
+                        .notificationType(NotificationTypes.REMOVE_EMPLOYEE)
+                        .build()
+        );
+
+        List<Integer> employeesToSendInformationUpdateNotificationsToIds = new ArrayList<>();
+        project.getProjectEmployees().forEach(projectEmployee -> {
+            if (newProjectEmployeesIds.stream().noneMatch(newProjectEmployeeId ->
+                    projectEmployee.getId().equals(newProjectEmployeeId))
+                    && removedProjectEmployeesIds.stream().noneMatch(removedProjectEmployeeId ->
+                    projectEmployee.getId().equals(removedProjectEmployeeId))) {
+                employeesToSendInformationUpdateNotificationsToIds.add(projectEmployee.getId());
+            }
+        });
+        notificationService.createNotification(
+                NotificationRequestDto.builder()
+                        .employeeIds(employeesToSendInformationUpdateNotificationsToIds)
+                        .projectId(project.getId())
+                        .initiatorEmployeeId(project.getCreatorEmployeeId())
+                        .notificationType(NotificationTypes.UPDATE_PROJECT_INFORMATION)
+                        .build()
+        );
     }
 
     public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee,
@@ -95,13 +170,16 @@ public class ProjectService {
     public Optional<ProjectDto> getProjectById(Integer id) {
         Project project = projectRepository.getProjectById(id);
         List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(id);
-        return Optional.of(new ProjectDto(
-                project.getId(),
-                project.getTitle(),
-                project.getStartDate(),
-                project.getEndDate(),
-                project.getDescription(),
-                projectEmployees)
+        return Optional.of(
+                ProjectDto.builder()
+                        .id(project.getId())
+                        .title(project.getTitle())
+                        .startDate(project.getStartDate())
+                        .endDate(project.getEndDate())
+                        .description(project.getDescription())
+                        .projectEmployees(projectEmployees)
+                        .creatorEmployeeId(null)
+                        .build()
         );
     }
 
@@ -112,33 +190,19 @@ public class ProjectService {
             List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(
                     project.getId()
             );
-            projectsDto.add(new ProjectDto(
-                    project.getId(),
-                    project.getTitle(),
-                    project.getStartDate(),
-                    project.getEndDate(),
-                    project.getDescription(),
-                    projectEmployees)
+            projectsDto.add(
+                    ProjectDto.builder()
+                            .id(project.getId())
+                            .title(project.getTitle())
+                            .startDate(project.getStartDate())
+                            .endDate(project.getEndDate())
+                            .description(project.getDescription())
+                            .projectEmployees(projectEmployees)
+                            .creatorEmployeeId(null)
+                            .build()
             );
         });
         return projectsDto;
-    }
-
-    public List<ProjectEmployee> createNewProjectRelationship(Integer projectId,
-                                                              Integer employeeId,
-                                                              Date projectEmployeeStartDate,
-                                                              Date projectEmployeeEndDate) {
-        projectRepository.createNewProjectRelationship(
-                projectId,
-                employeeId,
-                projectEmployeeStartDate,
-                projectEmployeeEndDate
-        );
-        return this.getProjectRelationshipsByProjectId(projectId);
-    }
-
-    public List<ProjectEmployee> getProjectRelationshipsByProjectId(Integer projectId) {
-        return projectRepository.getProjectRelationshipsByProjectId(projectId);
     }
 
     public Optional<ProjectDto> deleteProjectById(Integer id) {

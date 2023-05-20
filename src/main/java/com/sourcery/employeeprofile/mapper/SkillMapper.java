@@ -13,17 +13,17 @@ public class SkillMapper {
         Integer counter = 0;
         List<SkillDto> outputList = new ArrayList<>();
         for (Skill skill : skillModelList) {
-            SkillDto skillDto = new SkillDto(
-                    skill.getId(),
-                    skill.getSkillName(),
-                    isChecked(skill, skillEmployeeList),
-                    getSkillLevel(skill, skillEmployeeList),
-                    skill.isSubItemsAreSkills(),
-                    getIndent(skill, counter, skillModelList),
-                    skill.getParentId(),
-                    skill.isLanguage(),
-                    isCategory(skill, skillModelList)
-            );
+            SkillDto skillDto = SkillDto.builder()
+                    .skillId(skill.getId())
+                    .skillName(skill.getSkillName())
+                    .checked(isChecked(skill, skillEmployeeList))
+                    .skillLevel(getSkillLevel(skill, skillEmployeeList))
+                    .subItemsAreSkills(skill.isSubItemsAreSkills())
+                    .indent(getIndent(skill, counter, skillModelList))
+                    .parentSkillId(skill.getParentId())
+                    .isLanguage(skill.isLanguage())
+                    .isCategory(isCategory(skill, skillModelList))
+                    .build();
             outputList.add(skillDto);
         }
         return outputList;

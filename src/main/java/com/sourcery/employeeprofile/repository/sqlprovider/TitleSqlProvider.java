@@ -9,6 +9,5 @@ public class TitleSqlProvider implements ProviderMethodResolver {
                 .SELECT("id", "title")
                 .FROM("titles");
         return sql.toString();
-
     }
 }

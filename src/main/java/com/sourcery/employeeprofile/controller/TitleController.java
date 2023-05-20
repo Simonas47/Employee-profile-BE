@@ -1,8 +1,6 @@
 package com.sourcery.employeeprofile.controller;
 
-import com.sourcery.employeeprofile.dto.ProjectDto;
 import com.sourcery.employeeprofile.model.Title;
-import com.sourcery.employeeprofile.service.ProjectService;
 import com.sourcery.employeeprofile.service.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
