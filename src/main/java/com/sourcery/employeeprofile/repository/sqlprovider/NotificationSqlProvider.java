@@ -4,13 +4,13 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 public class NotificationSqlProvider {
-    public static String getAllByEmployeeId(@Param("employeeId") Integer employeeId) {
+    public static String getAllByEmployeeId(@Param("employeeId") Integer employeeId, Integer notificationLimit) {
         SQL sql = new SQL()
                 .SELECT("*")
                 .FROM("notifications")
                 .WHERE("notifications.employeeId = #{employeeId}")
                 .ORDER_BY("isRead ASC, notificationCreatedAt DESC")
-                .LIMIT(10);
+                .LIMIT("#{notificationLimit}");
         return sql.toString();
     }
 
@@ -22,14 +22,14 @@ public class NotificationSqlProvider {
         return sql.toString();
     }
 
-    public static String setIsReadByEmployeeId(@Param("employeeId") Integer employeeId, @Param("isRead") boolean isRead) {
+    public static String setIsReadByEmployeeId(@Param("employeeId") Integer employeeId,
+                                               @Param("isRead") boolean isRead) {
         SQL sql = new SQL()
                 .UPDATE("notifications")
                 .SET("isRead = #{isRead}")
                 .WHERE("employeeId = #{employeeId}");
         return sql.toString();
     }
-
 
     public static String createNotification() {
         SQL sql = new SQL()

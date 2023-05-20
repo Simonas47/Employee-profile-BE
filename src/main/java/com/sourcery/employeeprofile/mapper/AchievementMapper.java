@@ -14,17 +14,17 @@ public class AchievementMapper {
         Integer counter = 0;
         List<AchievementDto> outputList = new ArrayList<>();
         for (Achievement achievement : achievementModelList) {
-            AchievementDto achievementDto = new AchievementDto(
-                    achievement.getId(),
-                    achievement.getAchievementName(),
-                    isChecked(achievement, achievementEmployeeList),
-                    getIssueDate(achievement, achievementEmployeeList),
-                    getExpiringDate(achievement, achievementEmployeeList),
-                    achievement.isSubItemsAreAchievements(),
-                    getIndent(achievement, counter, achievementModelList),
-                    achievement.getParentId(),
-                    isCategory(achievement, achievementModelList)
-            );
+            AchievementDto achievementDto = AchievementDto.builder()
+                    .achievementId(achievement.getId())
+                    .achievementName(achievement.getAchievementName())
+                    .checked(isChecked(achievement, achievementEmployeeList))
+                    .issueDate(getIssueDate(achievement, achievementEmployeeList))
+                    .expiringDate(getExpiringDate(achievement, achievementEmployeeList))
+                    .subItemsAreAchievements(achievement.isSubItemsAreAchievements())
+                    .indent(getIndent(achievement, counter, achievementModelList))
+                    .parentAchievementId(achievement.getParentId())
+                    .isCategory(isCategory(achievement, achievementModelList))
+                    .build();
             outputList.add(achievementDto);
         }
         return outputList;

@@ -53,11 +53,12 @@ public class AchievementsService {
             List<Achievement> achievements = achievementsRepository
                     .getBottomAchievements(achievementSubcategory.getId());
             achievements.forEach(achievement -> {
-                categoriesAndAchievements.add(new SearchAchievementDto(
-                        category,
-                        achievement.getId(),
-                        achievement.getAchievementName()
-                ));
+                categoriesAndAchievements.add(SearchAchievementDto.builder()
+                        .category(category)
+                        .achievementId(achievement.getId())
+                        .achievementName(achievement.getAchievementName())
+                        .build()
+                );
             });
         });
         return categoriesAndAchievements

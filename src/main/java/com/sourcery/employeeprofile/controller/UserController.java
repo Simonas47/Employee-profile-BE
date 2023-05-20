@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 
@@ -29,7 +32,10 @@ public class UserController {
     @GetMapping(value = "/validateEmail/{email}", produces = "application/json")
     public ResponseEntity<ValidateEmailDto> validateEmail(@PathVariable String email) {
         boolean exists = employeeService.checkIfEmailExists(email);
-        ValidateEmailDto response = new ValidateEmailDto(exists, email);
+        ValidateEmailDto response = ValidateEmailDto.builder()
+                .exists(exists)
+                .email(email)
+                .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

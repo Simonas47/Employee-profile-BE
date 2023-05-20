@@ -13,5 +13,4 @@ import java.util.List;
 public interface TitleRepository {
     @SelectProvider(type = TitleSqlProvider.class, method = "getAllTitles")
     List<Title> getAllTitles();
-
 }

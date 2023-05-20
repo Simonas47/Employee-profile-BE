@@ -14,7 +14,6 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 @RestController
 @RequestMapping(value = BASE_URL + "/notifications")
 public class NotificationController {
-
     @Autowired
     NotificationService notificationService;
 

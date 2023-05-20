@@ -21,7 +21,6 @@ import static com.sourcery.employeeprofile.EmployeeProfileApplication.BASE_URL;
 public class ProjectController {
     @Autowired
     ProjectService projectService;
-
     @Autowired
     NotificationService notificationService;
 

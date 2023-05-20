@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 @Mapper
 public interface NotificationRepository {
-
     @InsertProvider(type = NotificationSqlProvider.class, method = "createNotification")
     void createNotification(Notification notification);
+
     @SelectProvider(type = NotificationSqlProvider.class, method = "getAllByEmployeeId")
-    List<Notification> getAllByEmployeeId(@Param("employeeId") Integer employeeId);
+    List<Notification> getAllByEmployeeId(@Param("employeeId") Integer employeeId, Integer notificationLimit);
 
     @UpdateProvider(type = NotificationSqlProvider.class, method = "setIsReadById")
     void setIsReadById(@Param("id") Integer id, @Param("isRead") boolean isRead);

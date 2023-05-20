@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class NotificationMapper {
-
-    public static List<NotificationDto> mapModelsToDtos(List<Notification> allEmployeeNotifications, EmployeeService employeeService, ProjectService projectService) {
+    public static List<NotificationDto> mapModelsToDtos(List<Notification> allEmployeeNotifications,
+                                                        EmployeeService employeeService,
+                                                        ProjectService projectService) {
         List<NotificationDto> outputList = new ArrayList<>();
         for (Notification employeeNotification : allEmployeeNotifications) {
-
-            Optional<EmployeeDto> initiatorEmployee = employeeService.getById(employeeNotification.getInitiatorEmployeeId());
+            Optional<EmployeeDto> initiatorEmployee = employeeService
+                    .getById(employeeNotification.getInitiatorEmployeeId());
             if (initiatorEmployee.isEmpty()) {
                 throw new RuntimeException("no 'initiatorEmployee' found.");
             }
@@ -26,15 +27,15 @@ public class NotificationMapper {
                 throw new RuntimeException("no 'project' found.");
             }
 
-            NotificationDto notificationDto = new NotificationDto(
-                    employeeNotification.getId(),
-                    employeeNotification.getEmployeeId(),
-                    projectService.getProjectById(employeeNotification.getProjectId()).get(),
-                    employeeService.getById(employeeNotification.getInitiatorEmployeeId()).get(),
-                    employeeNotification.getNotificationType(),
-                    employeeNotification.getNotificationCreatedAt(),
-                    employeeNotification.isRead()
-            );
+            NotificationDto notificationDto = NotificationDto.builder()
+                    .id(employeeNotification.getId())
+                    .employeeId(employeeNotification.getEmployeeId())
+                    .project(projectService.getProjectById(employeeNotification.getProjectId()).get())
+                    .initiatorEmployee(employeeService.getById(employeeNotification.getInitiatorEmployeeId()).get())
+                    .notificationType(employeeNotification.getNotificationType())
+                    .isRead(employeeNotification.isRead())
+                    .notificationCreatedAt(employeeNotification.getNotificationCreatedAt())
+                    .build();
             outputList.add(notificationDto);
         }
         return outputList;

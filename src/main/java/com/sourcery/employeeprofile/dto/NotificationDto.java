@@ -18,6 +18,6 @@ public class NotificationDto {
     private ProjectDto project;
     private EmployeeDto initiatorEmployee;
     private NotificationTypes notificationType;
-    private LocalDateTime notificationCreatedAt;
     private boolean isRead;
+    private LocalDateTime notificationCreatedAt;
 }

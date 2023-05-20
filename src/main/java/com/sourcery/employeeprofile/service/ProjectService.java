@@ -2,10 +2,6 @@ package com.sourcery.employeeprofile.service;
 
 import com.sourcery.employeeprofile.dto.*;
 import com.sourcery.employeeprofile.enums.NotificationTypes;
-import com.sourcery.employeeprofile.dto.NotificationRequestDto;
-import com.sourcery.employeeprofile.dto.ProjectDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-import com.sourcery.employeeprofile.dto.ProjectEmployeeErrorDto;
 import com.sourcery.employeeprofile.model.EmploymentDate;
 import com.sourcery.employeeprofile.model.Project;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
@@ -29,7 +25,6 @@ public class ProjectService {
     EmployeeRepository employeeRepository;
     @Autowired
     EmploymentDateRepository employmentDateRepository;
-
     @Lazy
     @Autowired
     NotificationService notificationService;
@@ -75,7 +70,8 @@ public class ProjectService {
     private void createNotificationsForProjects(ProjectDto oldProjectDto, ProjectDto project) {
         List<Integer> newProjectEmployeesIds = new ArrayList<>();
         project.getProjectEmployees().forEach(projectEmployee -> {
-            boolean isNew = oldProjectDto.getProjectEmployees().stream()
+            boolean isNew = oldProjectDto.getProjectEmployees()
+                    .stream()
                     .noneMatch(oldProjectEmployee ->
                             oldProjectEmployee.getId().equals(projectEmployee.getId()));
             if (isNew) newProjectEmployeesIds.add(projectEmployee.getId());
@@ -86,7 +82,8 @@ public class ProjectService {
                         .projectId(project.getId())
                         .initiatorEmployeeId(project.getCreatorEmployeeId())
                         .notificationType(NotificationTypes.ADD_EMPLOYEE)
-                        .build());
+                        .build()
+        );
 
         List<Integer> removedProjectEmployeesIds = new ArrayList<>();
         oldProjectDto.getProjectEmployees().forEach(oldProjectEmployee -> {
@@ -100,7 +97,8 @@ public class ProjectService {
                         .projectId(project.getId())
                         .initiatorEmployeeId(project.getCreatorEmployeeId())
                         .notificationType(NotificationTypes.REMOVE_EMPLOYEE)
-                        .build());
+                        .build()
+        );
 
         List<Integer> employeesToSendInformationUpdateNotificationsToIds = new ArrayList<>();
         project.getProjectEmployees().forEach(projectEmployee -> {
@@ -117,7 +115,8 @@ public class ProjectService {
                         .projectId(project.getId())
                         .initiatorEmployeeId(project.getCreatorEmployeeId())
                         .notificationType(NotificationTypes.UPDATE_PROJECT_INFORMATION)
-                        .build());
+                        .build()
+        );
     }
 
     public Boolean validateProjectEmployeeDates(ProjectEmployeeDto projectEmployee,
@@ -171,14 +170,16 @@ public class ProjectService {
     public Optional<ProjectDto> getProjectById(Integer id) {
         Project project = projectRepository.getProjectById(id);
         List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(id);
-        return Optional.of(new ProjectDto(
-                project.getId(),
-                project.getTitle(),
-                project.getStartDate(),
-                project.getEndDate(),
-                project.getDescription(),
-                projectEmployees,
-                null)
+        return Optional.of(
+                ProjectDto.builder()
+                        .id(project.getId())
+                        .title(project.getTitle())
+                        .startDate(project.getStartDate())
+                        .endDate(project.getEndDate())
+                        .description(project.getDescription())
+                        .projectEmployees(projectEmployees)
+                        .creatorEmployeeId(null)
+                        .build()
         );
     }
 
@@ -189,14 +190,16 @@ public class ProjectService {
             List<ProjectEmployeeDto> projectEmployees = employeeRepository.getProjectEmployeesByProjectId(
                     project.getId()
             );
-            projectsDto.add(new ProjectDto(
-                    project.getId(),
-                    project.getTitle(),
-                    project.getStartDate(),
-                    project.getEndDate(),
-                    project.getDescription(),
-                    projectEmployees,
-                    null)
+            projectsDto.add(
+                    ProjectDto.builder()
+                            .id(project.getId())
+                            .title(project.getTitle())
+                            .startDate(project.getStartDate())
+                            .endDate(project.getEndDate())
+                            .description(project.getDescription())
+                            .projectEmployees(projectEmployees)
+                            .creatorEmployeeId(null)
+                            .build()
             );
         });
         return projectsDto;

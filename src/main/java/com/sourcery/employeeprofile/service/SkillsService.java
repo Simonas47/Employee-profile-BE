@@ -48,7 +48,13 @@ public class SkillsService {
             String category = getTopCategoryName(skillSubcategory);
             List<Skill> skills = skillsRepository.getBottomSkills(skillSubcategory.getId());
             skills.forEach(skill -> {
-                categoriesAndSkills.add(new SearchSkillDto(category, skill.getId(), skill.getSkillName()));
+                categoriesAndSkills.add(
+                        SearchSkillDto.builder()
+                                .category(category)
+                                .skillId(skill.getId())
+                                .skillName(skill.getSkillName())
+                                .build()
+                );
             });
         });
         return categoriesAndSkills
