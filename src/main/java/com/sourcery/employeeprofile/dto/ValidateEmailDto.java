@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class AddProjectEmployeeResponsibilitiesDto {
-    private Integer projectId;
-    private Integer employeeId;
-    private String responsibilities;
+public class ValidateEmailDto {
+    private boolean exists;
+    private String email;
 }

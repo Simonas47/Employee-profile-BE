@@ -28,8 +28,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain httpSecurity(final HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests()
-                .requestMatchers("/api/employee").authenticated()
+        return http
+                .authorizeHttpRequests()
                 .anyRequest().authenticated()
                 .and()
                 .cors()

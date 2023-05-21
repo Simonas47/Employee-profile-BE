@@ -1,7 +1,6 @@
 package com.sourcery.employeeprofile.repository.sqlprovider;
 
 import com.sourcery.employeeprofile.dto.ProjectEmployeeDto;
-
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
@@ -51,10 +50,9 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
     }
 
     public static String updateMyProject(@Param("projectId") Integer projectId,
-                                                             @Param("employeeId") Integer employeeId,
-                                                             @Param("responsibilities") String responsibilities
+                                         @Param("employeeId") Integer employeeId,
+                                         @Param("responsibilities") String responsibilities
     ) {
-
         SQL sql = new SQL()
                 .UPDATE("projects_employees")
                 .SET("responsibilities = #{responsibilities}")
@@ -81,24 +79,6 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
         return sql.toString();
     }
 
-    public static String createNewProjectRelationship() {
-        SQL sql = new SQL()
-                .INSERT_INTO("projects_employees")
-                .VALUES("projectId", "#{projectId}")
-                .VALUES("employeeId", "#{employeeId}")
-                .VALUES("projectEmployeeStartDate", "#{projectEmployeeStartDate}")
-                .VALUES("projectEmployeeEndDate", "projectEmployeeEndDate");
-        return sql.toString();
-    }
-
-    public static String getProjectRelationshipsByProjectId(@Param("projectId") Integer projectId) {
-        SQL sql = new SQL()
-                .SELECT("*")
-                .FROM("projects_employees")
-                .WHERE("projects_employees.projectId = #{projectId}");
-        return sql.toString();
-    }
-
     public static String getMyProjectsByEmployeeId(@Param("id") Integer id) {
         SQL sql = new SQL()
                 .SELECT("p.id", "p.title", "p.description", "p.startDate", "p.endDate",
@@ -106,7 +86,10 @@ public class ProjectSqlProvider implements ProviderMethodResolver {
                         "pe.responsibilities")
                 .FROM("projects p")
                 .LEFT_OUTER_JOIN("projects_employees pe ON p.id = pe.projectId")
-                .WHERE("pe.employeeId = #{id}");
+                .WHERE("pe.employeeId = #{id}")
+                .AND()
+                .WHERE("p.deleted = false")
+                .ORDER_BY("pe.projectEmployeeStartDate DESC");
         return sql.toString();
     }
 

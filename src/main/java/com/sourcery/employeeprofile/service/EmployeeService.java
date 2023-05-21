@@ -1,5 +1,9 @@
 package com.sourcery.employeeprofile.service;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.sourcery.employeeprofile.dto.CreateEmployeeDto;
 import com.sourcery.employeeprofile.dto.EmployeeDto;
 import com.sourcery.employeeprofile.dto.SearchEmployeeDto;
 import com.sourcery.employeeprofile.model.Employee;
@@ -8,10 +12,12 @@ import com.sourcery.employeeprofile.model.Image;
 import com.sourcery.employeeprofile.repository.EmployeeRepository;
 import com.sourcery.employeeprofile.repository.EmploymentDateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,14 +29,35 @@ public class EmployeeService {
     EmploymentDateRepository employmentDateRepository;
     @Autowired
     ImageService imageService;
+    @Value(value = "${auth0.domain}")
+    private String domain;
 
-    public EmployeeDto createNewEmployee(Employee employee, MultipartFile file) throws IOException {
-        Image newImage = imageService.createNewImage(file);
-        employee.setImageId(newImage.getId());
-        employeeRepository.createNewEmployee(employee);
+    public EmployeeDto createNewEmployee(CreateEmployeeDto employeeDto) throws IOException {
+        Image newImage = imageService.createNewImage(employeeDto.getImage());
+        Employee employee = Employee.builder()
+                .name(employeeDto.getName())
+                .surname(employeeDto.getSurname())
+                .middleName(employeeDto.getMiddleName())
+                .email(employeeDto.getEmail())
+                .status(employeeDto.getStatus())
+                .imageId(newImage.getId())
+                .titleId(employeeDto.getTitleId())
+                .isManager(employeeDto.getIsManager())
+                .build();
 
-        if (employee.getEmploymentDates() != null && employee.getEmploymentDates().size() > 0)
+        String auth0User = createAuth0User(employeeDto.getEmail(), employeeDto.getPassword());
+
+        if (auth0User != null) {
+            employeeRepository.createNewEmployee(employee);
+
+            //Set the first date to today, if no dates exist.
+            if (employee.getEmploymentDates() == null || employee.getEmploymentDates().size() == 0) {
+                List<EmploymentDate> dates = new ArrayList<>();
+                dates.add(EmploymentDate.builder().hiringDate(new Date()).build());
+                employee.setEmploymentDates(dates);
+            }
             employmentDateRepository.setEmploymentDates(employee.getId(), employee.getEmploymentDates());
+        }
 
         return this.getById(employee.getId()).orElseThrow(IllegalStateException::new);
     }
@@ -45,8 +72,7 @@ public class EmployeeService {
     }
 
     public Optional<EmployeeDto> getByEmail(String email) {
-        Optional<EmployeeDto> employee = employeeRepository.getByEmail(email);
-        return employee;
+        return employeeRepository.getByEmail(email);
     }
 
     public List<SearchEmployeeDto> getEmployees(String searchValue,
@@ -66,6 +92,27 @@ public class EmployeeService {
                 size,
                 isLimited
         );
+    }
+
+    public boolean checkIfEmailExists(String email) {
+        return employeeRepository.checkIfEmailExists(email);
+    }
+
+    private String createAuth0User(String email, String password) {
+        try {
+            HttpResponse<JsonNode> token = Unirest.post("https://" + domain + "/oauth/token")
+                    .header("content-type", "application/json")
+                    .body("{\"client_id\":\"p87WIifjISfh2ZC0RxKrOL10O9A7HlWF\",\"client_secret\":\"BDLTELXa1ZLKUOM7t4PYE98wuqvyx0OLU4s1BqDrGaUTKcYsM2OklGWW3PlKCX5O\",\"audience\":\"https://dev-0knqdj3ruz2l8l5k.us.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}")
+                    .asJson();
+            HttpResponse<JsonNode> response = Unirest.post("https://" + domain + "/api/v2/users")
+                    .header("content-type", "application/json")
+                    .header("authorization", "Bearer " + token.getBody().getObject().get("access_token"))
+                    .body(String.format("{\"email\":\"%s\", \"password\":\"%s\", \"connection\":\"Username-Password-Authentication\"}", email, password))
+                    .asJson();
+            return response.toString();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     private String getSearchBySkillIdSqlCode(List<Integer> selectedSkillsIds) {

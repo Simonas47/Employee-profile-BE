@@ -19,4 +19,5 @@ public class ProjectDto {
     private Date endDate;
     private String description;
     private List<ProjectEmployeeDto> projectEmployees;
+    private Integer creatorEmployeeId;
 }
